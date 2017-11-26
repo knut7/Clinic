@@ -1,0 +1,46 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Helpers\vardump\Vardump;
+
+/**
+ * Date: 2016/02/14
+ * Time: 11:13 AM
+ */
+?>
+<div id="features-wrapper">
+
+    <section id="features" class="container">
+        <div class="breadcrumb text-center">
+            <?php foreach ($this->categoryByNameTitle as $key => $values) : ?>
+            <strong><a href="<?php echo URL; ?>categorias">CATEGORIAS</a></strong> /<i> <?php echo $values['nome']; ?></i>
+            <?php endforeach; ?>
+
+        </div>
+        <div class="row ">
+
+            <?php foreach ($this->category as $key => $value) : ?>
+                <div class="col-lg-4 ">
+                    <h4><?php echo $value['title']; ?></h4>
+                    <p><?php echo $value['excerpt']; ?></p>
+                <div class="group">
+                    <a href="<?php echo URL; ?>article/art_pre_post/<?php echo $value['id_article']; ?>" class="button icon fa-file">Ler Mais</a>
+                </div>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+    </section>
+</div>

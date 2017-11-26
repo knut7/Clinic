@@ -1,0 +1,142 @@
+
+<div id="features-wrapper">
+
+    <!-- Features -->
+        <section id="features" class="container">
+            <header>
+                <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum soluta,</h2>
+            </header>
+            <div class="row">
+                <?php foreach ($this->Allcat as $key => $value) : ?>
+
+                    <div class="4u 12u(mobile)">
+
+                    <!-- Feature -->
+                    <section>
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php  echo $value['path']; ?>" >
+                        <header>
+                            <h3><?php echo $value['nome']; ?></h3>
+                        </header>
+                        <p><?php echo $value['description']; ?></p>
+                    </section>
+
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <ul class="actions">
+                <li><a href="<?php echo URL;?>categorias" class="button icon fa-file">Ver Mais Postagens</a></li>
+            </ul>
+        </section>
+
+    <!-- Banner -->
+    <div id="banner-wrapper">
+        <div class="inner">
+            <section id="banner" class="container">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum soluta,</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div id="main-wrapper">
+        <div id="main" class="container">
+            <div class="row">
+
+                <!-- Content -->
+                <div id="content" class="8u 12u(mobile)">
+
+                    <?php foreach ($this->public as $key => $value) : ?>
+
+                        <!-- Post -->
+                    <article class="box post">
+                        <header>
+                            <h2><?php echo $value['cote'];?><strong></strong> ...<br /></h2>
+                        </header>
+                        <a href="#" class="image featured"><img src="<?php echo URL;?>Public/clinica/images/pic04.jpg" alt="" /></a>
+                        <h3><?php echo $value['title']; ?></h3>
+
+                        <p><?php echo $value['excerpt']; ?></p>
+                        <ul class="actions">
+                            <li><a href="article/art_pre_post/<?php echo $value['id_article']; ?>" class="button icon fa-file">Continue a Ler</a></li>
+                        </ul>
+                    </article>
+
+                   <?php endforeach; ?>
+
+                </div>
+
+                <!-- Sidebar -->
+                <div id="sidebar" class="4u 12u(mobile)">
+
+                    <!-- Excerpts -->
+                    <section>
+                        <ul class="divided">
+                            <?php foreach ($this->public as $key => $value) : ?>
+
+                            <li>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <header>
+                                        <span class="date"><?php echo $value['post_date']; ?></span>
+                                        <h3><?php echo $value['title']; ?></h3>
+                                    </header>
+                                    <p><?php echo $value['excerpt']; ?></p>
+
+                                </article>
+
+                            </li>
+                            <?php endforeach; ?>
+
+                        </ul>
+                    </section>
+
+                    <!-- Highlights -->
+                    <section>
+                        <ul class="divided">
+                            <li>
+
+                                <!-- Highlight -->
+                                <article class="box highlight">
+                                    <header>
+                                        <h3><a href="#">Something of note</a></h3>
+                                    </header>
+                                    <a href="#" class="image left"><img src="<?php echo URL;?>Public/clinica/images/pic06.jpg" alt="" /></a>
+                                    <p>Phasellus  sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
+                                        viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
+                                        convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
+                                        facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
+                                    <ul class="actions">
+                                        <li><a href="#" class="button icon fa-file">Learn More</a></li>
+                                    </ul>
+                                </article>
+
+                            </li>
+                            <li>
+
+                                <!-- Highlight -->
+                                <article class="box highlight">
+                                    <header>
+                                        <h3><a href="#">Something of less note</a></h3>
+                                    </header>
+                                    <a href="#" class="image left"><img src="<?php echo URL;?>Public/clinica/images/pic07.jpg" alt="" /></a>
+                                    <p>Phasellus  sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
+                                        viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
+                                        convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
+                                        facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
+                                    <ul class="actions">
+                                        <li><a href="#" class="button icon fa-file">Learn More</a></li>
+                                    </ul>
+                                </article>
+
+                            </li>
+                        </ul>
+                    </section>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

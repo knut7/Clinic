@@ -1,0 +1,20 @@
+
+
+
+
+<div class="container">
+    <section> 
+
+        <td><?php
+            foreach ($this->UserInfo as $key => $value) {
+
+                var_dump($value);
+            }
+            ?>
+
+            <?php if (!FWAP\Library\Session::exist()): ?>
+                <h2><a href="<?php echo URL; ?>Deshboard" class="btn btn-danger">Voltar para Pesquisar</a></h2>
+            <?php endif; ?>
+
+
+            </div>

@@ -1,0 +1,24 @@
+
+<?php
+
+use FWAP\Library\Timestamp;
+use \FWAP\Helpers\Security\Session;
+?>
+
+<div id="main-wrapper">
+
+    <section id="features" class="container">
+        <div class="row ">
+            <?php foreach ($this->public as $key => $value) : ?>
+                <div class="col-lg-4 ">
+                    <h4><?php echo $value['title']; ?></h4>
+                    <footer><?php echo $value['post_date']; ?></footer>
+                    <p><?php echo $value['excerpt']; ?></p>
+                    <div class="group">
+                        <a href="Article/art_pre_post/<?php echo $value['id_article']; ?>"class="button icon fa-file"> ler mais </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+</div>

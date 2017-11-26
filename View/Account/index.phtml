@@ -1,0 +1,68 @@
+
+
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F(tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  APWEB  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.0
+ */
+
+use Ballybran\Helpers\Security\Session;
+?>
+
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+        <strong>Lista de Usuarios</strong>
+    </div>
+    <div class="row ">
+        <?php foreach ($this->users as $key => $value) : ?>
+
+        <div class="col-lg-4 4u 12u(mobile)">
+                <table>
+                    <thead>
+                    <tr>
+                        <?php if ($value['status'] == true) : ?>
+                            <strong style='color: #2ca02c;'>online</strong>
+                            <?php  ?>
+
+
+                            <?php
+                        elseif ($value['status'] == false) :?>
+                            <strong style='color: #bd4147;'>ofline</strong>
+
+                        <?php  endif;  ?>
+
+
+                        <a href="<?php echo URL ?>account/profile/<?php echo $value['usuarios_id']; ?>/"> <?php echo $value['firstname']; ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+
+                                <img class="img-responsive thumbnail col-lg-7" src="<?php  echo $value['path']; ?>" >
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+
+
+

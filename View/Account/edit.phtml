@@ -1,0 +1,199 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Helpers\Security\Session;
+use Ballybran\Library\Form;
+use Module\menu\Sub_Menu;
+
+Sub_Menu::getSubMenu();
+?>
+
+<div class="col-sm-12">
+
+    <section>
+        <div class="container">
+            <section>
+                <div class="page-header btn-default text-center" id="contact">
+                    <!--  <?php
+                    foreach ($this->breadcrumbs as $key => $value) {
+
+                        echo $value;
+                    }
+                    ?> -->
+                </div> <!-- End Page Header -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>My Account</h1>
+
+                        <small>Your Personal Details</small>
+                        <hr>
+
+                        <?php
+                        echo Form::open(['method' => 'post', 'action'=> URL .'account/updates', 'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+                        ?>
+
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">First Name</label>
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'firstname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['firstname']]);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Last Name</label>
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'lastname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['lastname']]);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">User Name</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'username', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['username']]);
+                            ?>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">E-mail</label>
+
+                            <?php
+                            echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['email']]);
+                            ?>
+
+                        </div>
+                        <small>Your Address</small>
+                        <hr>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Telephone</label>
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'telephone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['telephone']]);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Company</label>
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'company', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['company']]);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Address 1</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'address_1', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['address_1']]);
+                            ?>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Address 2</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'address_2', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['address_2']]);
+                            ?>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Post Code</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'postcode', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['postcode']]);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">City</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'city', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['city']]);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Country</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'country_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['country_id']]);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="input-firstname">Region/State</label>
+
+                            <?php
+                            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone_id']]);
+                            ?>
+
+                        </div>
+                        <?php
+                        echo Form::input(['type' => 'hidden', 'name' => 'id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['id']]);
+                        ?>
+
+
+                        <div class="form-group">
+                            <br/>
+                            <button class="btn btn-primary btn-inverse btn-default" onclick="updateUser(<?php echo $this->UserData['id']; ?>)" ><p class="glyphicon glyphicon-refresh "></p></button>
+                            <a class="btn btn-danger deletar" href="<?php echo URL ?>account/deletes/<?php echo $this->UserData['id']; ?>"><p class="glyphicon glyphicon-trash "></p></a>
+
+                        </div>
+
+
+                        <?php
+                        echo Form::close();
+                        ?>
+
+
+
+
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="row">
+                            <div  class="col-lg-6">
+
+                                <?php if (!empty($this->UserPhoto['path'])) { ?>
+                                    <p><img  src="<?php echo URL . $this->UserPhoto['path']; ?>" 
+                                             class="image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['path']; ?>">
+                                    </p>
+
+                                    <?php
+                                    if (Session::exist()) {
+                                        if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+                                            ?>
+                                            <a href="galery/delete/<?php echo $this->UserPhoto['id']; ?>"  class="glyphicon glyphicon-remove" ></a>
+                                            <?php
+                                        }
+                                    }
+                                } else {
+                                    echo "nao tem imagem";
+                                }
+                                ?>
+                                <p><a href="<?php echo URL; ?>Account/imageUser">Update Your Photo picture</a></p>
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <h3>Outras Informações</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis neque, assumenda, soluta atque temporibus explicabo officiis sint ea dolorum id consequatur deserunt cum cumque! Consequuntur quam pariatur, cupiditate dolor beatae!</p>
+                    </div>
+                </div>
+
+
+            </section>
+
+
+

@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Module\menu\Sub_Menu;
+
+Sub_Menu::getSubMenu();
+?>
+
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+    </div>
+    <div class="row ">
+
+        <div class="col-lg-3 4u 12u(mobile)">
+
+            <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                <?php
+                if (Session::exist()) {
+                    ?>
+                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                    <?php
+
+                }
+            } else {
+                echo "nao tem imagem";
+            } ?>
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Contacto</h3>
+
+            <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
+            <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
+            <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Endereço</h3>
+
+            <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
+            <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
+            <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
+            <strong>País: </strong><?php echo  $this->user['country_id']; ?><br>
+        </div>
+
+    </div>
+</div>
+
+
+
+

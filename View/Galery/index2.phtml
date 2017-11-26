@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use FWAP\Library\Session;
+?>
+
+<div class="col-sm-12">
+
+    <div class="container">
+        <section>
+
+
+            <div class="page-header btn-default text-center" id="contact">
+                <h2>GALERIA<small></small></h2>
+            </div> <!-- End Page Header -->
+
+            <div class="page-header" id="gallery">
+                <h2>Gallery.<small> Verifica a saida do nosso Gallery</small></h2>
+            </div><!-- End page header -->
+
+            <div class="carousel slide" id="screenshot-carousel " data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#screenshot-carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#screenshot-carousel" data-slide-to="1"></li>
+                    <li data-target="#screenshot-carousel" data-slide-to="2"></li>
+                    <li data-target="#screenshot-carousel" data-slide-to="3"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="Public/images/banner5.jpg" alt=" Texto para esta imagem">
+                        <div class="carousel-caption">
+                            <h3>imagem cabeçaho</h3>
+                            <p>Esta é um subtitulo</p>
+                        </div>
+                    </div>
+                    <?php foreach ($this->galery as $key => $value) { ?>
+
+                        <div class="item">
+                            <img src="<?php echo URL . $value['path']; ?>" alt="<?php echo $value['path']; ?>">
+                            <div class="carousel-caption">
+                                <h3><?php echo $value['legenda']; ?></h3>
+                                <p>Esta é um subtitulo</p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                </div><!-- End Carousel inner-->
+                <a href="#screenshot-carousel" class="left carousel-control" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a href="#screenshot-carousel" class="right carousel-control" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div> <!-- End Carousel -->
+            <div class="row">
+                <?php foreach ($this->galery as $key => $value) { ?>
+                    <div id="ver"  class="col-lg-4">
+
+                        <h3><?php echo $value['legenda']; ?></h3>
+                        <p><img  src="<?php echo URL . $value['path']; ?>" 
+                                 class="img-responsive img-polaroid img-dimension" alt="<?php echo $value['path']; ?>">
+                        </p>
+                        <?php
+                        // unlink($value['path']);
+                        if (Session::exist()) {
+                            if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+                                ?>
+                                <a href="galery/delete/<?php echo $value['id']; ?>"  class="glyphicon glyphicon-remove" ></a>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+
+                <?php } ?>
+            </div>
+
+            <div class="row">
+        </section>             
+    </div>
+
+    <script>
+//                 var varGalery = $('h3');
+//                 var Galery = $('.carousel');
+//                 varGalery.click(function(){
+//                        $('h3').removeClass('carousel');
+//                 });
+    </script>
+

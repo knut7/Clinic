@@ -1,0 +1,82 @@
+
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: artphotografie
+ * Date: 2016/02/14
+ * Time: 11:11 AM
+ */
+use Ballybran\Library\Form;
+
+?>
+
+
+<section id="features" class="container">
+
+    <div class="row">
+        <div class="4u 12u(mobile)">
+
+            <!-- Feature -->
+            <section>
+<!--                <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>-->
+                <header>
+                    <h3>Login</h3>
+                </header>
+                <p>If you already have an account with us, please login at the </p>
+
+                <a href="<?php echo URL; ?>user" class="form-button-submit button">continue</a>
+            </section>
+
+        </div>
+        <div class="4u 12u(mobile)">
+
+            <!-- Feature -->
+            <section>
+
+                <header>
+                    <h3> Register Account</h3>
+                </header>
+
+                <?php
+                echo Form::open(['method' => 'post', 'action' => URL . 'User/signUp', 'files' => 'enctype=multipart/form-data', 'name' => 'signUp',  'style' => 'margin-left:30%;']);
+                ?>
+
+                    <label class="control-label" for="input-firstname">First Name</label>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'firstname', 'id' => 'user-name', 'placeholder' => 'First Name']);
+                    ?>
+                    <label class="control-label" for="input-firstname">Last Name</label>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'lastname', 'id' => 'user-name', 'placeholder' => 'Last Name']);
+                    ?>
+                    <label class="control-label" for="input-firstname">User Name</label>
+
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'username', 'id' => 'user-name', 'placeholder' => 'User Name']);
+                    ?>
+
+                    <label class="control-label" for="input-firstname">Email</label>
+
+                    <?php
+                    echo Form::input(['type' => 'email', 'name' => 'email', 'id' => 'user-name', 'placeholder' => 'email']);
+                    ?>
+
+                    <label class="control-label" for="input-firstname">Password</label>
+
+                    <?php
+                    echo Form::input(['type' => 'password', 'name' => 'password', 'id' => 'user-name', 'placeholder' => 'Password']);
+//                    echo Form::input(['type' => 'text', 'name' => 'create_time', 'id' => 'user-name', 'value' => new DateTime() ]);
+                    ?>
+
+                 <?php
+                    echo Form::button(['type' => 'submit', 'class' => 'form-button-submit button', 'id' => 'send_request', 'value' => 'Cadastrar']);
+                    ?>
+
+                <?php
+                echo Form::close();
+                ?>
+
+
+        </div>
+</section>

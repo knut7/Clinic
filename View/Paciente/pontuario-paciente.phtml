@@ -1,0 +1,129 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+        <strong>Dados do Paciente</strong>
+
+    </div>
+    <div class="row ">
+
+        <div class="col-lg-3 4u 12u(mobile)">
+
+            <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                <?php
+                if (Session::exist()) {
+                    ?>
+                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                    <?php
+
+                }
+            } else {
+                echo "nao tem imagem";
+            } ?>
+        </div>
+
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Contacto</h3>
+            <?php foreach ($this->paciente as $kye => $value) : ?>
+                <strong>Nome: </strong><?php echo  $value['firstname'] . "\t" .  $value['lastname']; ?><br>
+            <strong>Telefone: </strong><?php echo  $value['telephone']; ?><br>
+            <strong>Email: </strong><?php echo  $value['email']; ?><br>
+
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Endereço</h3>
+
+            <strong>Endereço 1: </strong><?php echo  $value['address_1'] ?><br>
+            <strong>Endereço 2: </strong><?php echo  $value['address_2']; ?><br>
+            <strong>Cidade: </strong><?php echo  $value['city']; ?><br>
+            <strong>País: </strong><?php echo  $value['country_id']; ?><br>
+        </div>
+        <?php endforeach; ?>
+
+
+    </div>
+
+    <div class="col-lg-9 4u 12u(mobile)">
+
+        <table class="table table-black table-bordered">
+            <h3>Exames</h3>
+
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Resultado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getExame as $k => $va) {?>
+
+                <tr>
+                    <td scope="row"><?php echo $k + 1; ?></td>
+                    <td> <?php echo $va['nome']; ?></td>
+                    <td> <?php echo $va['data']; ?></td>
+                    <td> <?php echo $va['resultado']; ?></td>
+                </tr>
+
+            <?php } ?>
+
+            </tbody>
+        </table>
+
+        <table class="table  table-black table-bordered">
+            <h3>Medicação</h3>
+            <thead>
+            <tr>
+                <th>Nome Generico</th>
+                <th>Nome Comercial</th>
+                <th>Dose</th>
+                <th>Via de Administração</th>
+                <th>Data de Início</th>
+                <th>Data do Fim</th>
+                <th>Intervalo</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->medical as $item => $value) {?>
+                <tr>
+                    <td><?php echo $value["generico"]; ?></td>
+                    <td><?php echo $value["comercial"]; ?></td>
+                    <td><?php echo $value["dose"]; ?></td>
+                    <td><?php echo $value["via_admin"]; ?></td>
+                    <td><?php echo $value["inicio"]; ?></td>
+                    <td><?php echo $value["final"]; ?></td>
+                    <td><?php echo $value["interval"]; ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

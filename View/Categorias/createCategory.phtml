@@ -1,0 +1,120 @@
+
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: artphotografie
+ * Date: 2016/02/14
+ * Time: 11:11 AM
+ */
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+
+
+
+
+<div id="features-wrapper">
+
+    <section id="features" class="container">
+        <h2>Register Categoria</h2>
+
+        <div id="content" class="col-sm-6">
+
+                <?php
+                echo Form::open(['method' => 'post', 'action' => URL . 'Categorias/insertCategory', 'files'=>"enctype='multipart/form-data", 'name' => 'signUp', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+                ?>
+
+                <div class="form-group">
+                    <label class="control-label" for="input-firstname">Nome</label>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'nome', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Nome da Categoria']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="input-firstname">Descricao</label>
+                    <?php
+                    echo Form::textBox(['name' => 'description', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Descrição da Categoria']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="input-firstname">Image</label>
+                    <?php
+                    echo Form::input(['type' => 'file', 'name' => 'archive[]']);
+                    ?>
+                </div>
+
+                <div class="form-group">
+                    <?php
+                    echo Form::button(['type' => 'submit', 'class' => 'button ', 'id' => 'send_request', 'value' => 'Registrar']);
+                    ?>
+
+                </div>
+
+
+                <?php
+                echo Form::close();
+                ?>
+
+        </div> <!-- end contend and col-sm-6 -->
+        <div id="content pull-right" class="col-sm-6">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php foreach ($this->delete as $key => $delete) { ?>
+
+                            <tr>
+                                <td><?php echo $delete['nome']; ?> </td>
+                                <td ><a href="<?php echo URL; ?>Categorias/deleteCategory/<?php echo $delete['id_cat']; ?>"><i class="glyphicon glyphicon-trash"></i></a></td>
+
+                            </tr>
+                        <?php }
+                        ?>
+                    <a class="button" href="<?php echo URL; ?>article/publish">Publicar Artigo</a>
+
+                    </tbody>
+                </table>
+
+        </div> <!-- end contend and col-sm-6 -->
+
+    </section>
+</div>
+
+<script>
+//    $(function () {
+//
+//        $('#send_request').click(function (e) {
+//            e.preventDefault();
+//            insertCategory();
+//        });
+//
+//    });
+//
+//    function insertCategory() {
+//        var name = $('form[name=signUp] input[name=nome]')[0].value;
+//        var description = $('form[name=signUp] textarea[name=description]')[0].value;
+//
+//        $.ajax({
+//            type: 'POST',
+//            url: '<?php //echo URL; ?>//Categorias/insertCategory',
+//            data: {name: name, description: description}
+//        }).done(function (resposta) {
+//            if (resposta) {
+//                alert(" inserido");
+//                document.location = '<?php //echo URL; ?>//Categorias/createCategory';
+//
+//            } else {
+//                alert("nada inserido");
+//            }
+//        });
+//
+//    }
+</script>

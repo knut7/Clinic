@@ -1,0 +1,60 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Helpers\Security\Session;
+
+/**
+ * Created by PhpStorm.
+ * User: artphotografie
+ * Date: 2016/02/14
+ * Time: 12:35 PM
+ */
+?>
+
+
+<!--	FAQ -->
+<div class="container">
+    <section>
+        <div class="page-header" id="features">
+            <h2>FAQ.<small>Perguntas Mais Frequentes</small></h2>
+        </div><!-- End page header -->
+        <?php foreach ($this->faque as $key => $value) : ?>
+
+            <div class="panel-group text-left" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a href="#collapse-<?php echo $value['id'] ?>"  data-toggle="collapse" data-parent="#accordion" >
+                               <strong><?php echo $value['quest']; ?></strong>
+                                <?php  if( Session::exist() ) :
+                                        if( Session::get('role') == 'owner' || Session::get('role') == 'admin') : ?>
+                                        <a  href="<?php echo URL; ?>faq/delete/<?php echo $value['id']; ?>"><p class="btn btn-outline-primary   btn-default">deletar</a>
+                                        <?php endif; endif; ?>
+
+
+                            </a>
+                        </div><!-- End panel Title -->
+                        <div id="collapse-<?php echo $value['id'] ?>" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <?php echo $value['respo']; ?>
+                            </div>
+                        </div><!-- End panel collapse -->
+                    </div>
+                </div>
+            </div><!-- End Panel Goup -->
+        <?php endforeach; ?>
+    </section>
+</div><!-- End Container -->
+

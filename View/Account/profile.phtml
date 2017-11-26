@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+
+?>
+
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+        <strong>GERAL</strong>
+    </div>
+    <div class="row ">
+
+        <div class="col-lg-4 4u 12u(mobile)">
+
+            <img class=" col-lg-7 img-responsive thumbnail " src="<?php echo $this->UserPhoto['path']; ?>" >
+
+
+            <ul class="actions">
+                <li><a href="#" class="button icon fa-file">Contacta-me</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-4 4u 12u(mobile)">
+            <h3> Dados</h3>
+            <h5><strong>Nome: </strong><small><?php echo $this->UserPhoto['firstname'] . "\t" .$this->UserPhoto['lastname'];?></small> </h5>
+            <h5><strong>E-mail: </strong><small>  <?php echo $this->UserPhoto['email'];?></small> </h5>
+            <h5><strong>Telefone: </strong><small>  <?php echo $this->UserPhoto['telephone'];?></small> </h5>
+
+        </div>
+        <div class="col-lg-4 4u 12u(mobile) ">
+            <h3>Endereço</h3>
+            <h5><strong>Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1'];?></small> </h5>
+            <h5><strong>Outro Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1'];?></small> </h5>
+            <h5><strong>Cidade: </strong><small>  <?php echo $this->UserPhoto['city'];?></small> </h5>
+            <h5><strong>País: </strong> <small> <?php echo $this->UserPhoto['country_id'];?></small> </h5>
+
+        </div>
+    </div>
+</div>
+
+
+
+

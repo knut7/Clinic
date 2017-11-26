@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Library\Form;
+
+\Module\menu\Sub_Menu::getSubMenu();
+?>
+
+
+<div id="main-wrapper">
+
+    <section id="features" class="container">
+        <div class="page-header text-center" id="contact " >
+            <h2>POSTAGEM DE ARTIGO<small></small></h2>
+        </div> <!-- End Page Header -->
+
+        <div class="row">
+
+            <div class="col-lg-8 4u 12u(mobile)">
+
+                    <?php
+                    echo Form::open(['action' => "insertArticle", 'class' => 'form-horizontal', 'method' => 'post', 'files' => 'multipart/form-data']);
+                    ?>
+                        <?php
+                        echo Form::input(['type' => 'text', 'name' => 'title', 'style'=>'background:#ffffff;', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Titulo']);
+                        ?>
+
+                        <?php
+                        echo Form::input(['type' => 'text', 'name' => 'cote', 'style'=>'background:#ffffff;', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Uma Frase para o Texto']);
+                        ?>
+
+                            <?php
+                            echo Form::input(['type' => 'datime', 'name' => 'post_date', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Data']);
+                            ?>
+                        <label for="pic" class=" control-label">Imagem para a descrição</label>
+                            <?php
+                            echo Form::input(['type' => 'file', 'name' => 'archive[]']);
+                            ?>
+
+                        <?php
+                        echo Form::textBox(['name' => 'excerpt', 'id' => 'user-name', 'class' => 'form-control', 'cols' => '20', 'rows' => '5', 'placeholder' => 'Postagem Resumida']);
+                        ?>
+
+                        <?php
+                        echo Form::textBox(['name' => 'content', 'id' => 'elm1', 'class' => 'form-control', 'cols' => '20', 'rows' => '10', 'placeholder' => 'Postagem']);
+                        ?>
+                        <div>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').show();
+                                    return false;">[Show]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').hide();
+                                    return false;">[Hide]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceAddEditor', false, 'elm1');
+                                    return false;">[Add]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').remove();
+                                    return false;">[Remove]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').execCommand('Bold');
+                                    return false;">[Bold]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').getContent());
+                                    return false;">[Get contents]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').getContent({format: 'raw'}));
+                                    return false;">[Get raw]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getContent());
+                                    return false;">[Get selected HTML]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getContent({format: 'text'}));
+                                    return false;">[Get selected text]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getNode().nodeName);
+                                    return false;">[Get selected element]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceInsertContent', false, '<b>Hello world!!</b>');
+                                    return false;">[Insert HTML]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceReplaceContent', false, '<b>{$selection}</b>');
+                                    return false;">[Replace selection]</a>
+                        </div>
+
+            </div>
+            <div class="col-lg-4 4u 12u(mobile) ">
+                <label >Lista de Artigos:</label>
+
+                <select class="form-control">
+                    <?php foreach ($this->delete as $key => $delete) {?>
+                    <option><a href="<?php echo URL; ?>article/deleteArticle/<?php echo $delete['id_article']; ?>"><i class="glyphicon glyphicon-trash"></i><?php echo $delete['title']; ?></a></option>
+                    <?php }?>
+
+                </select>
+
+
+
+            </div>
+            <br><br>
+            <br><br>
+            <div class="col-lg-4 4u 12u(mobile) ">
+                <label>Escolhe uma Categoria:</label>
+                <select name="id_cat" id="" class="form-control">
+                    <?php
+                    $contrato = $this->cate;
+
+                    foreach ($contrato as $key => $value) :
+                        ?>
+
+                        <option value="<?php echo $value['id_cat']; ?>"><?php echo $value['nome']; ?></option>
+
+                    <?php endforeach; ?>
+                </select>
+                <label>Ou<br>Cria uma Nova Categoria:</label>
+
+                <a class="button" href="<?php echo URL; ?>categorias/createCategory">Nova Categoria</a>
+
+            </div>
+
+        </div>
+            <?php
+            echo Form::button(['class' => 'button', 'type' => 'submit', 'data-toggle' => 'collapse', 'data-target' => '#collapseExample', 'aria-expanded' => 'false', 'aria-controls' => 'ollapseExample', 'value' => 'Puplicar']);
+            ?>
+            <?php
+            echo Form::close();
+            ?>
+    </section>
+</div>
+
+
+<script>
+
+
+    /**
+     * Comment
+     */
+    $(function () {
+        $('#e').click(function (e) {
+            $('body').options();
+        });
+    });
+
+
+
+</script>
