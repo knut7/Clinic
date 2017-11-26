@@ -1,0 +1,135 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+/**
+ *
+ * Tinymce styple
+ *
+ * */
+use Ballybran\Helpers\Copyright\Copyright;
+use Ballybran\Helpers\System;
+
+?>
+<br><br>
+
+
+
+    <!-- Footer -->
+        <div id="footer" class="container">
+            <header>
+                <h2>Questões ou Perguntas? <strong>Entre em Contacto:</strong></h2>
+            </header>
+            <div class="row">
+                <div class="6u 12u(mobile)">
+                    <section>
+                        <form method="post" action="#">
+                            <div class="row 50%">
+                                <div class="6u 12u(mobile)">
+                                    <input name="name" placeholder="Nome" type="text" />
+                                </div>
+                                <div class="6u 12u(mobile)">
+                                    <input name="email" placeholder="Email" type="text" />
+                                </div>
+                            </div>
+                            <div class="row 50%">
+                                <div class="12u">
+                                    <textarea name="message" placeholder="Messagem"></textarea>
+                                </div>
+                            </div>
+                            <div class="row 50%">
+                                <div class="12u">
+                                    <a href="#" class="form-button-submit button icon fa-envelope">Enviar Messagem</a>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+                <div class="6u 12u(mobile)">
+                    <section>
+                        <p>Erat lorem ipsum veroeros consequat magna tempus lorem ipsum consequat Phaselamet
+                            mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique. Curabitur
+                            leo nibh, rutrum eu malesuada.</p>
+                        <div class="row">
+                            <div class="6u 12u(mobile)">
+                                <ul class="icons">
+                                    <li class="icon fa-home">
+                                        Lubango, Huila<br />
+                                        Rua Deolinda Rodrigues<br />
+                                        Angola
+                                    </li>
+                                    <li class="icon fa-phone">
+                                        (+244) 913 750 140
+                                    </li>
+                                    <li class="icon fa-envelope">
+                                        <a href="#">info@knut7.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="6u 12u(mobile)">
+                                <ul class="icons">
+                                    <li class="icon fa-twitter">
+                                        <a href="#">@knut7</a>
+                                    </li>
+                                    <li class="icon fa-instagram">
+                                        <a href="#">instagram.com/knut7</a>
+                                    </li>
+                                    <li class="icon fa-dribbble">
+                                        <a href="#">dribbble.com/knut7</a>
+                                    </li>
+                                    <li class="icon fa-facebook">
+                                        <a href="#">facebook.com/knut7</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    <div id="copyright" class="container">
+        <ul class="links">
+            <li>&copy; Knut7. All rights reserved.</li>
+        </ul>
+    </div>
+
+</div> <!-- page-wraper -->
+
+<footer class="footer panel-footer text-center ">
+    <?php echo  Copyright::copyright(null, 'KNUT 7 FRAMWORK') . '<br>';
+    echo System::time_start();
+    echo System::http_user_agent();
+    echo \Ballybran\Helpers\Time\Timestamp::dataTime();
+
+ ?>
+</footer>
+
+<!-- Scripts -->
+
+<script src="<?php echo URL; ?>Publicc/bootstrap-4/js/jquery-3.2.1.js"></script>
+<script src="<?php echo URL; ?>Public/bootstrap/jQuery.js"></script>
+<script src="<?php echo URL;?>Public/clinica/assets/js/jquery.dropotron.min.js"></script>
+<script src="<?php echo URL;?>Public/clinica/assets/js/skel.min.js"></script>
+<script src="<?php echo URL;?>Public/clinica/assets/js/skel-viewport.min.js"></script>
+<script src="<?php echo URL;?>Public/js/tether.js"></script>
+<script src="<?php echo URL;?>Public/clinica/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="<?php echo URL;?>Public/clinica/assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="<?php echo URL;?>Public/clinica/assets/js/main.js"></script>
+
+
+
+</body>
+</html>
+

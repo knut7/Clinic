@@ -1,0 +1,172 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+<div class="container">
+    <section>
+
+        <div class="page-header text-center btn-default">
+
+        </div>
+        <div class="pull-right">
+
+            <a href="<?php echo URL; ?>Dashboard/customers" data-toggle="tooltip" title class="btn btn-info" data-original-title="Add Noew" ><i class="glyphicon  glyphicon-repeat"></i></a>
+        </div>
+        <h2>Atualizar dados do Usuarios</h2>
+
+
+        <?php
+        echo Form::open(['method' => 'post','action' => URL.'dashboard/updates',  'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+        ?>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Privilegio</label>
+
+            <select name="role">
+                <option value="owner" <?php if ($this->UserData['role'] == 'owner') echo 'selected' ?>>Owner</option>
+                <option value="admin" <?php if ($this->UserData['role'] == 'admin') echo 'selected' ?>>Admin</option>
+                <option value="secretaria" <?php if ($this->UserData['role'] == 'secretaria') echo 'selected' ?>>Secretaria</option>
+                <option value="funcionario" <?php if ($this->UserData['role'] == 'funcionario') echo 'selected' ?>>Funcionario</option>
+                <option value="laboratorio" <?php if ($this->UserData['role'] == 'laboratorio') echo 'selected' ?>>Laboratorio</option>
+            </select>
+
+
+
+        </div>    
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">First Name</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'firstname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['firstname']]);
+            ?>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Last Name</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'lastname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['lastname']]);
+            ?>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">User Name</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'username', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['username']]);
+            ?>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">E-mail</label>
+
+            <?php
+            echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['email']]);
+            ?>
+
+        </div>
+        <small>Your Address</small>
+        <hr>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Telephone</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'telephone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['telephone']]);
+            ?>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Company</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'company', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['company']]);
+            ?>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Address 1</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'address_1', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['address_1']]);
+            ?>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Address 2</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'address_2', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['address_2']]);
+            ?>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Post Code</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'postcode', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['postcode']]);
+            ?>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">City</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'city', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['city']]);
+            ?>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Country</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'country_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['country_id']]);
+            ?>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Region/State</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone_id']]);
+            echo Form::input(['type' => 'hidden', 'name' => 'id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['id']]);
+            ?>
+            <button class="btn aler-this  btn-info glyphicon glyphicon-floppy-save" ></button>
+
+        </div>
+
+
+        <?php
+        echo Form::close();
+        ?>
+
+
+
+    </section>
+</div>
+
+<script>
+
+    $(document).ready(function (e) {
+        $('.aler-this').click(function () {
+
+            alert("você vai Alualizar os dados... tem a certeza?");
+
+        });
+
+
+
+    });
+
+
+</script>
+
+

@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Module\menu\Sub_Menu;
+use Ballybran\Library\Form;
+Sub_Menu::getSubMenu();
+?>
+
+
+
+<div class="container" id="features" >
+    <div class="breadcrumb " id="features">
+        <strong> <h3>Prontuário do paciente</h3></strong>
+    </div>
+    <div class="row ">
+
+        <div class="col-lg-3 4u 12u(mobile) text-left">
+            <h3>Dados do Paciente</h3>
+            <?php foreach ($this->paciente as $key => $value) {?>
+
+                <strong>Nome: </strong><?php echo  $value['firstname'] . "\t" .  $value['lastname']; ?><br>
+                <strong>Telefone: </strong><?php echo  $value['telephone']; ?><br>
+                <strong>Email: </strong><?php echo  $value['email']; ?><br>
+                <strong>Informação: </strong><br><textarea cols="40" rows="10 " disabled="disabled"><?php echo  $value['info']; ?></textarea><br>
+            <?php  } ?>
+            <ul class="actions">
+                <li><a href="#" class="button icon fa-file">Contacta-me</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-9 4u 12u(mobile)">
+
+            <table class="table table-black table-bordered">
+                <h3>Exames</h3>
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Data</th>
+                    <th>Resultado</th>
+                    <th>Inserir Resultado</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php foreach ($this->getExame as $k => $va) {?>
+                        <?php   echo Form::open(['action'=>URL. 'laboratorio/updateExame', 'method'=> 'post']);?>
+                        <td scope="row"><?php echo $k + 1; ?></td>
+                        <td> <?php echo $va['nome']; ?></td>
+                        <td> <?php echo $va['data']; ?></td>
+                        <?php echo Form::input(['type'=> 'hidden', 'name'=> 'id_ex', 'value'=> $va['id_ex'], 'style'=> 'color:#000000' ]); ?>
+                        <td> <?php echo Form::input(['type'=> 'text', 'name'=> 'resultado', 'value'=> $va['resultado'], 'style'=> 'color:#000000' ]); ?></td>
+                        <td><?php echo Form::submit(['type'=>'submit', 'value'=>'Inserir']);?> </td>
+                        <?php echo Form::close(); ?>
+                    </tr>
+
+                <?php } ?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

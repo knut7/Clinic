@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+<section>
+    <div class="container col-sm-12">
+        <div class="breadcrumb text-center" id="features">
+           <h2><strong>Gerir todos Usuarios do sistema</strong></h2>
+        </div>
+        <div class="pull-right">
+            <a href="<?php echo URL; ?>dashboard/add" data-toggle="tooltip" title class="btn btn-info" data-original-title="Add Noew" ><i class="glyphicon glyphicon-plus"></i></a>
+        </div>
+
+        <table class="col-lg-12 table table-black table-bordered table-responsive pull-right">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Privilegio</th>
+                    <th>Satus</th>
+                    <th>editar</th>
+                    <th>deletar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->user as $key => $value) { ?>
+                    <tr>
+                        <td><?php echo $value['firstname'] . "\n" . $value['lastname']; ?></td>
+                        <td><?php echo $value['username']; ?></td>
+                        <td><?php echo $value['email']; ?></td>
+                        <td><?php echo $value['role']; ?></td>
+                        <td><?php echo $value['status'] == 1 ? "Online" : "Ofline"; ?></td>
+                        </td>
+                        <td> <a class="btn btn-success glyphicon glyphicon-edit" id="edita" href="<?php echo URL; ?>dashboard/edit/<?php echo $value['id']; ?>"></a></td>
+                        <td><a class="btn btn-danger" href="<?php echo URL ?>dashboard/deletes/<?php echo $value['id']; ?>"><i class="glyphicon glyphicon-trash "></i></td>
+
+
+
+                    </tr>
+                <?php } ?>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div><!-- End Well -->
+</section><!-- Call to action -->
+
+
+
+

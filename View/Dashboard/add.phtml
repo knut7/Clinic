@@ -1,0 +1,79 @@
+
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: artphotografie
+ * Date: 2016/02/14
+ * Time: 11:11 AM
+ */
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+<div class="container">
+    <section>
+
+        <div class="page-header text-center btn-default">
+
+        </div>
+        <div class="pull-right">
+
+            <a href="<?php echo URL; ?>Dashboard/customers" data-toggle="tooltip" title class="btn btn-info" data-original-title="Add Noew" ><i class="glyphicon  glyphicon-repeat"></i></a>
+        </div>
+        <h2>Register New User</h2>
+
+
+        <?php
+        echo Form::open(['method' => 'post', 'action' => URL . 'User/signUp', 'files' => 'enctype=multipart/form-data', 'name' => 'signUp', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+        ?>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Nome</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'firstname', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Nome Completo']);
+            ?>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Nome</label>
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'lastname', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Nome Completo']);
+            ?>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Username</label>
+
+            <?php
+            echo Form::input(['type' => 'text', 'name' => 'username', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'user name']);
+            ?>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Email</label>
+
+            <?php
+            echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'email']);
+            ?>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Password</label>
+
+            <?php
+            echo Form::input(['type' => 'password', 'name' => 'password', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Password']);
+            ?>
+        </div>
+
+        <?php
+        echo Form::button(['type' => 'submit', 'class' => 'form-button-submit button', 'id' => 'send_request', 'value' => 'Cadastrar']);
+        ?>
+
+        <?php
+        echo Form::close();
+        ?>
+
+
+    </section>
+</div>

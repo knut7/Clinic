@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use FWAP\Library\Form;
+
+?>
+
+
+<div class="container">
+    <section>
+        <div class="page-header text-center" id="contact " >
+            <h2>POSTAGEM DE ARTIGO<small></small></h2>
+        </div> <!-- End Page Header -->
+
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <?php
+                echo Form::open(['name' => 'perfil', 'class' => 'form-horizontal', 'method' => 'post', 'enctype' => 'multipart/form-data']);
+                ?>
+                <div class="form-group">
+                    <label for="user-name" class="col-lg-2 control-label">Titulo</label>
+                    <div class="col-lg-10">
+                        <?php
+                        echo Form::input(['type' => 'text', 'name' => 'title', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->publico['title']]);
+                        ?>
+                    </div>
+                </div><!-- End Group -->
+
+                <div class="form-group">
+                    <label for="user-name" class="col-lg-2 control-label">Data</label>
+                    <div class="col-lg-2">
+                        <?php
+                        echo Form::input(['type' => 'datime', 'name' => 'post_date', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->publico['post_date']]);
+                        ?>
+                    </div>
+                </div><!-- End Group -->
+
+                <div class="form-group">
+                    <label for="user-message" class="col-lg-2 control-label">Postagem Resumida</label>
+                    <div class="col-lg-10">
+                        <?php
+                        echo Form::textBox(['name' => 'excerpt', 'id' => 'user-name', 'class' => 'form-control', 'cols' => '20', 'rows' => '5', 'value' => $this->publico['excerpt']]);
+                        ?>
+                    </div>
+                </div><!-- End Group -->
+
+                <div class="form-group">
+                    <label for="user-message" class="col-lg-2 control-label">Postagem</label>
+                    <div class="col-lg-10">
+                        <?php
+                        echo Form::textBox(['name' => 'content', 'id' => 'elm1', 'class' => 'form-control', 'cols' => '20', 'rows' => '10', 'value' => $this->publico['content']]);
+                        ?>
+                        <div>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').show();
+                                    return false;">[Show]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').hide();
+                                    return false;">[Hide]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceAddEditor', false, 'elm1');
+                                    return false;">[Add]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').remove();
+                                    return false;">[Remove]</a>
+                            <a href="javascript:;" onclick="tinymce.get('elm1').execCommand('Bold');
+                                    return false;">[Bold]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').getContent());
+                                    return false;">[Get contents]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').getContent({format: 'raw'}));
+                                    return false;">[Get raw]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getContent());
+                                    return false;">[Get selected HTML]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getContent({format: 'text'}));
+                                    return false;">[Get selected text]</a>
+                            <a href="javascript:;" onclick="alert(tinymce.get('elm1').selection.getNode().nodeName);
+                                    return false;">[Get selected element]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceInsertContent', false, '<b>Hello world!!</b>');
+                                    return false;">[Insert HTML]</a>
+                            <a href="javascript:;" onclick="tinymce.execCommand('mceReplaceContent', false, '<b>{$selection}</b>');
+                                    return false;">[Replace selection]</a>
+                        </div>
+                    </div>
+                </div><!-- End Group -->
+
+                <div class="form-group">
+                    <div class="col-lg-3">
+                        <label>Insere a categoria para o artigo:</label>
+                        <select name="id_cat" id="" class="form-control">
+                            <?php
+                            foreach ($this->cate as $key => $value) :
+                                ?>
+
+                                <option value="<?php echo $value['id_cat']; ?>"><?php echo $value['name']; ?></option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-inverse btn-default" onclick="updateAricle(<?php echo $this->publico['id_article']; ?>)" ><i class="glyphicon glyphicon-refresh "></i></button>
+
+                <?php
+                echo Form::close();
+                ?>
+
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+
+
+    function updateAricle(id_article) {
+
+        var title = $('form[name=perfil] input[name=title]')[0].value;
+        title = (title != "<?php echo $this->publico['title'] ?>" && title != '') ? title : "<?php echo $this->publico['title']; ?>";
+        var post_date = $('form[name=perfil] input[name=post_date]')[0].value;
+        post_date = (post_date != "<?php echo $this->publico['post_date'] ?>" && post_date != '') ? post_date : "<?php echo $this->publico['post_date'] ?>";
+        var excerpt = $('form[name=perfil] textarea[name=excerpt]')[0].value;
+        excerpt = (excerpt != "<?php echo $this->publico['excerpt'] ?>" && excerpt != '') ? excerpt : "<?php echo $this->publico['excerpt'] ?>";
+        var content = $('form[name=perfil] textarea[name=content]')[0].value;
+        content = (content != "<?php echo $this->publico['content'] ?>" && content != '') ? content : "<?php echo $this->publico['content'] ?>";
+        var id_cat = $('form[name=perfil] input[name=id_cat]')[0].value;
+        id_cat = (id_cat != "<?php echo $this->cate['id_cat'] ?>" && id_cat != '') ? id_cat : "<?php echo $this->cate['id_cat'] ?>";
+
+
+        $.ajax({
+            type: "post",
+            url: "<?php echo URL; ?>Article/editPublish",
+            data: {id_article: id_article, title: title, post_date: post_date, excerpt: excerpt, content: content, id_cat: id_cat}
+        }).done(function (resposta) {
+            if (resposta == true) {
+                alert(" atualizado com sucesso");
+            }
+
+        });
+
+        alert("vc vai atualizar o artigo com o id:" + id);
+    }
+
+
+
+
+</script>

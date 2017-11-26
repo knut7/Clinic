@@ -1,0 +1,36 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use FWAP\Helpers\Form;
+use FWAP\Helpers\Uploads;
+?>
+<div class="container">
+    <section>
+        <div class="page-header text-center btn-default">
+            <!--            <h2>Faça o Uploads de um ficheiro</h2>
+                        <form method="POST" action="<?php echo URL; ?>cpanel/getImage" enctype="multipart/form-data">
+                            <input type="txt" name="legenda" value="legenda" >
+                <label for="pic">Please upload a profile picture:</label>
+                <input type="file" name="archive[]" id="pic" />
+            
+                <input type="submit" />-->
+
+            <form method='POST' enctype='multipart/form-data' action='<?php echo URL; ?>galery/getImage'>
+                <input type='file' name='archive[]' multiple ><br/>
+                <input type='text' name='legenda' value=''> <br/>
+                <button type='submit'  class=' btn btn-lg btn-default glyphicon glyphicon-upload'></button></form>
+        </div>
+    </section>

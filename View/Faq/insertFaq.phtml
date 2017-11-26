@@ -1,0 +1,30 @@
+
+<?php
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+
+?>
+
+<div class="container">
+    <section>
+        <div class="page-header text-center" id="contact ">
+            <h2>POSTAR FAQ<small></small></h2>
+        </div> <!-- End Page Header -->
+
+        <div id="content" class="col-sm-9">
+            <?php echo Form::open(['action' => URL."Faq/insertFaq", 'method'=>'post', 'style'=>'margin-left:30%;'])?>
+                    <div class="form-group">
+                        <?php echo Form::input(['type'=>'text', 'name'=>'quest', 'class'=> 'form-control', 'placeholder'=> 'Pergunta']) ?>
+                    </div>
+                    <div class="form-group">
+
+                        <?php echo Form::textBox([ 'name'=>'respo', 'id'=>'elm1', 'class'=> 'form-control', 'placeholder'=> 'Pergunta']) ?>
+
+                    </div>
+                        <?php echo  Form::button([ 'type'=> 'submit', 'class'=>'form-button-submit button', 'value'=>'PUBLICAR'])?>
+
+            <?php echo Form::close(); ?>
+        </div>
+    </section>
+
+</div>

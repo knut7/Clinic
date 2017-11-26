@@ -1,0 +1,144 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Ballybran\Helpers\Utility\Assets;
+
+?>
+
+<!DOCTYPE HTML>
+<!--
+	Strongly Typed by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title><?php $title = $this->title ??  "Knut7" ; echo $title?></title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="<?php echo URL;?>Public/clinica/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="<?php echo URL;?>Public/clinica/assets/css/main.css" />
+    <link rel="stylesheet" href="<?php echo URL . DIR_FILE;?>Public/css/style.css" />
+    <link rel="stylesheet" href="<?php echo URL; ?>Public/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?php echo URL; ?>Public/bootstrap/css/bootstrap-theme.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="<?php echo URL;?>Public/clinica/assets/css/ie8.css" /><![endif]-->
+
+
+</head>
+<script src="<?php echo URL. DIR_FILE?>Public/dist/Chart.bundle.min.js"></script>
+<script src="<?php echo URL. DIR_FILE?>Public/js/jquery-3.2.1.js"></script>
+<script src="<?php echo URL.DIR_FILE;?>Public/dist/main.js"></script>
+
+<script src="<?php echo URL; ?>Public/js/bootstrap.min.js"></script>
+<script src="<?php echo URL; ?>Public/bootstrap/js/bootstrap.js"></script>
+<body>
+<div id="page-wrapper">
+    <!-- Header -->
+    <div id="header-wrapper">
+        <?php $c = new \Ballybran\Core\Caller\Caller('Module\Clinica\Visitor', 'contagem');
+        $d = $c->__init();
+
+        $register = \Ballybran\Database\RegistryDatabase::getInstance();
+        $stmt =  $register->get("PDO");
+
+            if(!empty($_GET['search'])) {
+
+                $search = $_GET['search'];
+
+
+                $aa = $stmt->selectManager("SELECT * FROM article  WHERE  (title LIKE '%$search%') OR  (content  LIKE '%$search%') ");
+                foreach ($aa as $ke => $va) { ?>
+                    <a href="<?php echo URL;?>article/art_pre_post/<?php echo $va['id_article'];?>">ler em <?php echo $va["title"]; ?></a>
+               <?php  }
+
+            }
+//
+        foreach ($d as $value) {
+            foreach ($value as $item) {
+//
+                $total = 0 ?>
+                <div style="padding-top: 1%">
+                    <span class="badge badge-pill badge-danger " style="margin-left: 40%;"><?php echo $total += $item; "\t " ?></span><strong style="color: #2ca02c; padding-left: 5px">Online</strong>
+                    <form class="form-inline my-2 my-lg-0" action="#", method="get" style="margin-left: 70%;">
+                        <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+
+                <?php
+
+            }
+
+        }
+
+        ?>
+
+
+        <div id="header" class="container">
+            <!-- Logo -->
+            <h1 id="logo"><a href="<?php echo URL;?>">Clinica Knut7</a></h1>
+            <p>Lorem ipsum dolor sit amet.</p>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li class="nav-item active">
+                        <a class="nav-link icon fa-home" href="<?php echo URL ;?>">HOME <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>contacto">SOBRE NÓS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>serviços">Serviços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>utentes">Utentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>Convénios">Convénios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>contacto">CONTACTO</a>
+                    </li>
+                    <li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo URL;?>faq">FAQ</a>
+                    </li>
+                    <li>
+                    <?php if(Session::exist()) : ?>
+                        <a href="#" class="icon fa-bar-chart-o"><span><?php echo Session::get('U_NAME'); ?></span></a>
+                        <ul>
+                            <li><a href="<?php echo URL;?>account/cpanel">Painel</a></li>
+                            <li><a href="<?php echo URL;?>User/DestroySession">Teminar</a></li>
+                        </ul>
+                        <? else : ?>
+
+                            <a href="#" class="icon fa-bar-chart-o"><span>Entrar</span></a>
+                            <ul>
+                                <li><a href="<?php echo URL;?>user/login">Login</a></li>
+                                <li><a href="<?php echo URL;?>user/signUp">Registrar</a></li>
+                            </ul>
+                        <?php endif; ?>
+
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>

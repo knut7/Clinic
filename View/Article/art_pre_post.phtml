@@ -1,0 +1,176 @@
+
+<?php
+
+
+
+?>
+<!-- { col-2 | col-3 | col-4 } -->
+
+<?php use Ballybran\Helpers\Security\Session;
+use Ballybran\Helpers\Time\Timestamp;
+
+foreach ($this->public as $key => $value) { ?>
+
+<div id="main-wrapper">
+
+    <section id="features" class="container">
+
+        <div class="container col-lg-10">
+            <div class="row">
+                    <div class="thumbnail">
+                       <!--  <img src="<?php echo URL; ?>Public/assets/images/bootstrap.png" alt=""> -->
+                            <div>
+
+                                <header class="card-header col-lg-6">
+                                    <h3 class="btn btn-default"><?php echo $value['title']; ?>
+                                   <strong><?php echo $value['post_date']; ?></strong></h3>
+                                </header>
+
+                                <p> <?php echo $post = $value['content'] ?? null; ?></p>
+
+                                <?php
+                                /*
+                                  /* insert comments
+                                 */
+                                ?>
+
+
+                        </div>
+                    </div>
+                    <a href="<?php echo URL; ?>article">Voltar</a>
+                    <?php
+                    if (Session::exist()) {
+                        if (Session::get('role') == 'owner' || Session::get('role') == 'admin'):
+                            ?>
+                            <a href=<?php echo URL; ?>article/editar/<?php echo $value['id_article'] ?>>editar</a>
+                            <?php
+                        endif;
+                    }
+                    ?>
+
+                <?php } ?>
+            </div>
+            <br><hr>
+        <div class=" col-lg-6">
+                <div class="well">
+
+                    <form method="post" action="<?php echo URL ?>article/insertComments">
+
+                        <?php
+                        if (Session::exist()) {
+                            if (Session::get('role') == 'owner' || Session::get('role') == 'admin' || Session::get('role') == 'default' || Session::get('role') == 'funcionario' || Session::get('role') == 'paciente' || Session::get('role') == 'secretaria'):
+                                ?>
+                                <div class="form-group">
+                                    <input type="text" name="nome" class="form-control" value="<?php echo Session::get('U_NAME'); ?>" disabled="disabled">
+                                    <?php
+                                endif;
+                            } else {
+                                ?>
+                                <div class="form-group">
+                                    <input type="text" name="nome" class="form-control" placeholder="Seu nome" >
+                                <?php } ?>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <textarea type="text" name="comments"  class="form-control" placeholder="Coloca teu comenario aqui"></textarea>
+
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="article_id" class="form-control" value="<?php echo $value['id_article']; ?>">
+
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="post_date" class="form-control" value="<?php echo date('Y-m-d H:i:s'); ?>">
+
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-outline-primary onclick="updateAricle(<?php echo $value['id_article']; ?>)" btn-block btn-default" type="submit">Comentar </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="container col-lg-10">
+
+            <table  class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th style="width:20%; height: 10px;" >Nome</th>
+                        <th>Comentarios</th>
+                        <?php
+                        if (Session::exist()) {
+                            if (Session::get('role') == 'owner' || Session::get('role') == 'admin' ) {
+                                ?>
+                                <th>Deletar</th>
+                                <?php
+                            }
+                        }
+                        ?>
+
+                    </tr>
+
+
+
+                </thead>
+                <tbody>
+
+                    <?php foreach ($this->comments as $key => $comm) { ?>
+                        <tr>
+
+                            <td><p class="glyphicon glyphicon-comment "><?php echo $comm['post_date']; ?> </p><em><?php echo "\n" . $comm['nome']; ?> | <?php Timestamp::_getDataTime_stemp($comm['post_date']); ?></em></td>
+                            <td><em><?php echo $comm['comments']; ?></em></td>
+
+                            <?php
+                            if (Session::exist()) {
+                                if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+                                    ?>
+
+                                    <td><a  href="<?php echo URL; ?>/article/deleteComments/<?php echo $comm['id']; ?>"><p class="btn btn-outline-primary   btn-default">deletar</a></td>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+
+                        </tr>
+                    <br/>
+                <?php } ?>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<script>
+
+    function insertComments(id_article) {
+
+
+        $.ajax({
+            url: "<?php echo URL; ?>Article/insertComments",
+            data: {
+                id_article: id_article,
+                nome: nome,
+                post_date: post_date
+            }
+        }).done(function (resposta) {
+            if (resposta == true) {
+                alert(" atualizado com sucesso");
+            }
+
+        });
+
+        alert("vc vai atualizar o artigo com o id:" + id);
+    }
+
+
+</script>
+
+
+

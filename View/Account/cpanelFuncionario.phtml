@@ -1,0 +1,257 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Module\menu\Sub_Menu;
+use Ballybran\Library\Form;
+Sub_Menu::getSubMenu();
+?>
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+    </div>
+    <div class="row ">
+
+        <div class="col-lg-3 4u 12u(mobile)">
+
+            <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                <?php
+                if (Session::exist()) {
+                    ?>
+                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                    <?php
+
+                }
+            } else {
+                echo "nao tem imagem";
+            } ?>
+        </div>
+
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Contacto</h3>
+
+            <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
+            <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
+            <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <h3>Endereço</h3>
+
+            <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
+            <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
+            <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
+            <strong>País: </strong><?php echo  $this->user['country_id']; ?><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container" id="features" >
+    <div class="breadcrumb text-center" id="features">
+    </div>
+    <div class="row ">
+        <div class="col-lg-4 4u 12u(mobile)">
+
+            <canvas id="popChart"  width="600" height="400"></canvas>
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+            <canvas id="barChart"  width="600" height="400"></canvas>
+
+        </div>
+
+        <div class="col-lg-4 4u 12u(mobile) text-left">
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container" id="features" >
+        <div class="col-lg-12 4u 12u(mobile)">
+            <table class="table  table-black table-bordered">
+                <thead>
+                <h3>Doentes para serem atendido</h3>
+
+                <tr>
+                    <th>#</th>
+                    <th>Nome do Paciente</th>
+                    <th>Telefone</th>
+                    <th>Infotmações</th>
+                    <th>Hora Marcada para o Atendimento</th>
+                    <th> Ver Prontuario</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($this->paciente as $key => $value) : ?>
+                <tr>
+                    <th scope="row"><?php echo $key + 1; ?></th>
+                    <td><?php echo $value['firstname'] . "\t". $value['lastname'];?></td>
+                    <td><?php echo $value['telephone'];?></td>
+                    <td><?php echo $value['info'];?></td>
+                    <td><?php echo $value['horas'];?></td>
+                    <td><a href="<?php echo URL; ?>funcionario/prontuario/<?php echo $value['id'];?>"> <i class="glyphicon glyphicon-eye-open eye-white"></i></a></td>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<?php
+$c = new \Ballybran\Core\Caller\Caller('Module\Clinica\Visitor', 'contagem');
+$d = $c->__init();
+
+$register = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt =  $register->get("PDO");
+$paciente = $stmt->selectManager("SELECT * FROM Exame");
+$pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id  WHERE Medicamento.Funcionarios_id is null  and Funcionarios.usuarios_id =".Session::get('ID') );
+
+?>
+<script>
+
+    var barChart = {
+        type : "pie",
+        data : {
+            datasets: [{
+                data : [
+                    [<?php echo json_encode(count($pacientes));?>],
+                    [<?php echo json_encode(count($paciente));?>],
+
+
+                ],
+
+                backgroundColor: [
+                    "#f7464a",
+                    "#46BFBD",
+                    "#FDB45C",
+                    "#949FB1",
+                    "#4D5360",
+                ],
+            }],
+            labels :
+
+
+                [
+                    ' Em expera',
+                    'Atendidos'
+                ]
+
+        },
+
+        options : {
+            responsive : true,
+        }
+    };
+    var bar = document.getElementById('barChart').getContext('2d');
+    window.line = new Chart(bar, barChart);
+
+    var lineChart = {
+        type : "line",
+        data : {
+            datasets: [{
+                data :
+//                    [<?php //echo json_encode(count($pacientes));?>//],
+                    [<?php echo json_encode(count($paciente));?>],
+
+
+                backgroundColor: [
+                    "#f7464a",
+                    "#46BFBD",
+                    "#FDB45C",
+                    "#949FB1",
+                    "#4D5360",
+                ],
+            }],
+            labels : [
+                "dados1",
+                "dados2",
+                "dados3",
+                "dados4",
+                "dados5",
+            ]
+        },
+
+        options : {
+            responsive : true,
+        }
+    };
+    var canvas = document.getElementById('popChart').getContext('2d');
+
+    window.line = new Chart(canvas, lineChart);
+</script>
+
+<div class="row">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam atque culpa delectus dolor dolorem et, eum ipsa, ipsam iure laudantium magni molestias reiciendis sapiente sunt suscipit, ullam veritatis voluptas.</div>
+            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">marcio</div>
+            <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">nejo</div>
+            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consectetur distinctio ea eos est facere fugit in iste laudantium magnam maiores neque odio omnis, provident suscipit tempora temporibus voluptatibus.</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

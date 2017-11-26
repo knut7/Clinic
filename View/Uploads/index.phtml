@@ -1,0 +1,23 @@
+
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: artphotografie
+ * Date: 2016/02/14
+ * Time: 11:11 AM
+ */
+use FWAP\Helpers\Form;
+use FWAP\Helpers\Uploads;
+?>
+<div class="container">
+    <section>
+        <div class="page-header text-center btn-default">
+            <h2>Faça o Uploads de um ficheiro</h2>
+            <?php
+            $new = new Uploads();
+            $new->file('myupload');
+            echo $new->formUploadFiles(URL . 'Uploads/file');
+            ?>
+        </div>
+    </section>
