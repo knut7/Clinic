@@ -15,7 +15,7 @@
  * @version   1.0.2
  */
 
-namespace Module\Clinica\Controllers;
+namespace Module\Clinic\Controllers;
 
 use Ballybran\Helpers\Http\Hook;
 use Ballybran\Helpers\Security\Session;

@@ -14,7 +14,7 @@
  * @version   1.0.2
  */
 
-namespace Module\Clinica\Controllers;
+namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Core\REST\Encodes;
@@ -39,9 +39,7 @@ class Account extends AbstractController
      */
     public function __construct()
     {
-
         parent::__construct();
-
     }
 
     /**
@@ -49,7 +47,6 @@ class Account extends AbstractController
      */
     public function index()
     {
-
         $this->view->title = "Lista de Usuarios";
         $this->view->users = $this->model->getAllUser();
         $this->view->render($this, 'index');
@@ -75,11 +72,7 @@ class Account extends AbstractController
      */
     public function getRest()
     {
-//            $id = $_POST['username'];
-//            $pass = $_POST["password"];
-
         $data = RestUtilities::processRequest();
-
         switch ($data->getMethod()) {
             case 'put':
                 $propriedade = $this->model->getAllUser();
@@ -88,7 +81,6 @@ class Account extends AbstractController
         }
 
     }
-
 
     /**
      *
@@ -112,7 +104,6 @@ class Account extends AbstractController
 
             }
             if (Session::get('role') == 'laboratorio') {
-//                $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
                 $this->view->render($this, 'cpanelLaboratorio');
 
             }
@@ -126,7 +117,6 @@ class Account extends AbstractController
             }
             if (Session::get('role') == 'secretaria') {
                 $this->view->render($this, 'cpanelSecretaria');
-
             }
 
         } else {
@@ -158,9 +148,6 @@ class Account extends AbstractController
     {
 
         $this->imagem->file('perfil');
-
-
-
         $image = new ImageUpload();
         $image->setName($this->imagem->name);
         $image->setType($this->imagem->type);
@@ -219,8 +206,7 @@ class Account extends AbstractController
         $pess = new Pessoa();
         $pess->setId($_POST['id']);
         if ($pess->getId()) {
-
-
+            
             $pess->setFirstname($_POST['firstname']);
             $pess->setLastname(($_POST['lastname']));
             $pess->setUsername($_POST['username']);

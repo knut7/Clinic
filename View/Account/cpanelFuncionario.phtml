@@ -122,7 +122,7 @@ Sub_Menu::getSubMenu();
 
 
 <?php
-$c = new \Ballybran\Core\Caller\Caller('Module\Clinica\Visitor', 'contagem');
+$c = new \Ballybran\Core\Caller\Caller('Module\Clinic\Visitor', 'contagem');
 $d = $c->__init();
 
 $register = \Ballybran\Database\RegistryDatabase::getInstance();
@@ -203,6 +203,10 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
     window.line = new Chart(canvas, lineChart);
 </script>
+
+
+
+
 
 
 

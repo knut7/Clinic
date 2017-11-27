@@ -15,14 +15,14 @@
  * @version   1.0.2
  */
 
-namespace Module\Clinica\Models;
+namespace Module\Clinic\Models;
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 use Ballybran\Helpers\Security\Session;
 
 /**
  * Class AccountModel
- * @package Module\Clinica\Models
+ * @package Module\Clinic\Models
  */
 class AccountModel {
 

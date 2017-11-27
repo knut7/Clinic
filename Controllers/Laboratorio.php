@@ -21,7 +21,7 @@
  * Time: 20:53
  */
 
-namespace Module\Clinica\Controllers;
+namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;

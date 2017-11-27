@@ -21,7 +21,7 @@
  * Time: 19:37
  */
 
-namespace Module\Clinica;
+namespace Module\Clinic;
 
 
 use Ballybran\Database\Drives\AbstractDatabasePDO;

@@ -31,27 +31,25 @@ use Ballybran\Helpers\Utility\Assets;
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--[if lte IE 8]><script src="<?php echo URL;?>Public/clinica/assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="<?php echo URL;?>Public/clinica/assets/css/main.css" />
+    <!--[if lte IE 8]><script src="<?php echo URL . DIR_FILE;;?>Public/clinic/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="<?php echo URL . DIR_FILE;;?>Public/clinic/assets/css/main.css" />
     <link rel="stylesheet" href="<?php echo URL . DIR_FILE;?>Public/css/style.css" />
-    <link rel="stylesheet" href="<?php echo URL; ?>Public/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<?php echo URL; ?>Public/bootstrap/css/bootstrap-theme.min.css"/>
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="<?php echo URL;?>Public/clinica/assets/css/ie8.css" /><![endif]-->
+    <link rel="stylesheet" href="<?php echo URL;?>Public/clinic/assets/css/ie8.css" /><![endif]-->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="<?php echo URL; ?>Public/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?php echo URL; ?>Public/css/bootstrap-theme.min.css"/>
 
 
 </head>
-<script src="<?php echo URL. DIR_FILE?>Public/dist/Chart.bundle.min.js"></script>
-<script src="<?php echo URL. DIR_FILE?>Public/js/jquery-3.2.1.js"></script>
-<script src="<?php echo URL.DIR_FILE;?>Public/dist/main.js"></script>
 
-<script src="<?php echo URL; ?>Public/js/bootstrap.min.js"></script>
-<script src="<?php echo URL; ?>Public/bootstrap/js/bootstrap.js"></script>
+<script src="<?php echo URL.DIR_FILE;?>Public/chart/main.js"></script>
+<script src="<?php echo URL. DIR_FILE?>Public/chart/Chart.bundle.min.js"></script>
 <body>
 <div id="page-wrapper">
     <!-- Header -->
     <div id="header-wrapper">
-        <?php $c = new \Ballybran\Core\Caller\Caller('Module\Clinica\Visitor', 'contagem');
+        <?php $c = new \Ballybran\Core\Caller\Caller('Module\Clinic\Visitor', 'contagem');
         $d = $c->__init();
 
         $register = \Ballybran\Database\RegistryDatabase::getInstance();
@@ -92,7 +90,7 @@ use Ballybran\Helpers\Utility\Assets;
 
         <div id="header" class="container">
             <!-- Logo -->
-            <h1 id="logo"><a href="<?php echo URL;?>">Clinica Knut7</a></h1>
+            <h1 id="logo"><a href="<?php echo URL;?>">Clinic Knut7</a></h1>
             <p>Lorem ipsum dolor sit amet.</p>
 
             <!-- Nav -->
