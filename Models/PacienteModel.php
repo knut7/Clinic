@@ -15,7 +15,7 @@
  */
 
 
-namespace Module\Clinica\Models;
+namespace Module\Clinic\Models;
 
 
 use Ballybran\Core\Model\Model;

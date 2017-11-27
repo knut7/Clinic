@@ -21,7 +21,7 @@
  * Time: 14:51
  */
 
-namespace Module\Clinica\Models;
+namespace Module\Clinic\Models;
 
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;

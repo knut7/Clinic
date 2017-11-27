@@ -21,7 +21,7 @@
  * Time: 14:38
  */
 
-namespace Module\Clinica\Controllers;
+namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;

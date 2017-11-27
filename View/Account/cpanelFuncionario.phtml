@@ -122,7 +122,7 @@ Sub_Menu::getSubMenu();
 
 
 <?php
-$c = new \Ballybran\Core\Caller\Caller('Module\Clinica\Visitor', 'contagem');
+$c = new \Ballybran\Core\Caller\Caller('Module\Clinic\Visitor', 'contagem');
 $d = $c->__init();
 
 $register = \Ballybran\Database\RegistryDatabase::getInstance();
@@ -204,30 +204,9 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
     window.line = new Chart(canvas, lineChart);
 </script>
 
-<div class="row">
-    <div class="col-4">
-        <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-        </div>
-    </div>
-    <div class="col-8">
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam atque culpa delectus dolor dolorem et, eum ipsa, ipsam iure laudantium magni molestias reiciendis sapiente sunt suscipit, ullam veritatis voluptas.</div>
-            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">marcio</div>
-            <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">nejo</div>
-            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consectetur distinctio ea eos est facere fugit in iste laudantium magnam maiores neque odio omnis, provident suscipit tempora temporibus voluptatibus.</div>
-        </div>
-    </div>
-</div>
 
 
 
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
 

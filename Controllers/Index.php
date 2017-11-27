@@ -14,7 +14,7 @@
  * @version   1.0.2
  */
 
-namespace Module\Clinica\Controllers;
+namespace Module\Clinic\Controllers;
 /**
  *
  * KNUT7 K7F (http://framework.artphoweb.com/)
@@ -40,7 +40,7 @@ use Ballybran\Helpers\vardump\Vardump;
 
 /**
  * Class Index
- * @package Module\Clinica\Controllers
+ * @package Module\Clinic\Controllers
  */
 class Index extends AbstractController {
 

@@ -14,7 +14,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-namespace Module\Clinica\Models;
+namespace Module\Clinic\Models;
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 use PDO;
