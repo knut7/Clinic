@@ -17,91 +17,616 @@
 
 use Ballybran\Helpers\Security\Session;
 use Module\menu\Sub_Menu;
-use Ballybran\Library\Form;
+
 Sub_Menu::getSubMenu();
+
+use Ballybran\Library\Form;
+
+$register = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt =  $register->get("PDO");
+$prontuario = "";
 ?>
 
 
-<div class="container" id="features" >
-    <div class="breadcrumb text-center" id="features">
-        <strong>Dados do Paciente</strong>
+    <div class="col-sm-12">
+        <div class="row ">
+            <div class="col-lg-12 card-radius">
 
-    </div>
-    <div class="row ">
+            <div class="col-lg-3 4u 12u(mobile)">
 
-        <div class="col-lg-3 4u 12u(mobile)">
+                <?php if (!empty($this->UserPhoto['path'])) { ?>
 
-            <?php if (!empty($this->UserPhoto['path'])) { ?>
-
-                <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
-                <?php
-                if (Session::exist()) {
-                    ?>
-                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                    <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
                     <?php
 
-                }
-            } else {
-                echo "nao tem imagem";
-            } ?>
+                } else {?>
+                    <img  src="<?php echo URL . DIR_FILE?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+               <?php } ?>
+            </div>
+
+            <div class="col-lg-3 4u 12u(mobile) text-left">
+                <h4>Contacto</h4>
+
+                <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
+                <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
+                <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+
+            </div>
+
+            <div class="col-lg-3 4u 12u(mobile) text-left">
+                <h4>Outras</h4>
+                <strong>Sexo: </strong><?php echo  $this->user['sexo'] == 'f' ? "Feminino" : "Masculino"; ?><br>
+                <strong>Aniversário: </strong><?php echo  $this->user['dataNascimento']; ?><br>
+                <strong>Perfil: </strong><?php echo  $this->user['role']; ?><br>
+
+            </div>
+            <div class="col-lg-3 4u 12u(mobile) text-left">
+                <h4>Endereço</h4>
+
+                <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
+                <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
+                <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
+                <strong>País: </strong><?php echo  $this->user['country']; ?><br>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-6">
+        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    <div class="hidden-xs">Painel</div>
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
+                    <div class="hidden-xs">Paciente</div>
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <div class="hidden-xs">Marcar Consulta</div>
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                    <div class="hidden-xs">Configurações</div>
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <div  id="favorites" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    <div class="hidden-xs">Historico</div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-lg-4 4u 12u(mobile) text-left">
-            <h3>Contacto</h3>
+        <div class="panel panel-info col-lg-12">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tab1">
+                    <br><br>
 
-            <?php foreach ($this->paciente as $kye => $value) : ?>
-            <strong>Nome: </strong><?php echo  $value['firstname'] . "\t" .  $value['lastname']; ?><br>
-            <strong>Telefone: </strong><?php echo  $value['telephone']; ?><br>
-            <strong>Email: </strong><?php echo  $value['email']; ?><br>
+
+
+                </div>
+
+                <div class="tab-pane fade in" id="tab2">
+                    <div class="panel-heading c-list">
+                        <ul class="pull-right c-controls">
+                            <li><a href="#cant-do-all-the-work-for-you" data-toggle="tooltip" data-placement="top" title="Add Contact"><i class="glyphicon glyphicon-plus"></i></a></li>
+                            <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Buscar Paciente"><i class="glyphicon glyphicon glyphicon-search"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="row" style="display: none;">
+                        <div class="col-xs-12">
+                            <div class="input-group c-search">
+                                <input type="text" class="form-control" id="contact-list-search">
+                                <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group" id="contact-list">
+
+                        <?php foreach ($this->paciente as $key => $value) :?>
+
+                            <li class="list-group-item">
+                                <div class="col-xs-12 col-sm-3">
+                                    <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                                        <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                                        <?php
+
+                                    } else {?>
+                                        <img  src="<?php echo URL . DIR_FILE?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+                                    <?php } ?>
+                                </div>
+                                <div class="col-xs-12 col-sm-9">
+                                    <span class="name"><?php echo $value['firstname'];?></span> <small><?php echo $value['lastname'];?></small><br/>
+                                    <div class=" col-lg-12 col-sm-3">
+                                            <div class="col-lg-5">
+                                                <p class=""><small>Medico(a) : <?php echo $value['titulo'];?></small></p
+                                               <small  class="">Aria da Consulta: <?php echo $value['aria'];?> </small>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <small  class="">Custo da Consulta: <?php echo $value['CreditoValor'];?> </small> | <small  class="">Prazo até: <?php echo $value['dtPag'];?> </small><br>
+                                                <small class="">Situação da Conta: <?php echo $value['situ_nome'] ==  "ABERTO" ? "<small class='btn btn-danger'>{$value['situ_nome']}</small> " : "<small class='btn btn-success'>{$value['situ_nome']}</small>";?></small>
+                                                <a href="" data-toggle="modal" data-target="#exampleModalLong-<?php echo $value['id'];?>">Prontuario</a>
+                                                <a href="" data-toggle="modal" data-target="#exampleModalLongReceita-<?php echo $value['id'];?>"> Receita</a>
+                                            </div>
+                                        <a target="_blank" href="<?php echo URL;?>account/printProntuario/<?php echo $value['id'];?>"><i class="fa fa-print"></i></a>
+                                        </div>
+
+                                    <!-- Modal 1 -->
+                                    <div class="modal fade col-lg-12" id="exampleModalLong-<?php echo $value['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Conta a Pagar</h5>
+                                                    <small  class="">Custo da Consulta: <?php echo $value['CreditoValor'];?> </small> | <small  class="">Prazo até: <?php echo $value['dtPag'];?> </small><br>
+
+                                                    <footer>
+                                                        <div class="footer" id="footer">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 ">
+
+                                                                 <?php   $prontuario = $stmt->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
+                                                                    INNER JOIN Func_has_Paci ON Func_has_Paci.Paciente_id = Paciente.id
+                                                                    INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id
+                                                                    LEFT OUTER JOIN Convenio ON Convenio.id = Paciente.Convenio_id
+                                                                    LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Docum_Atestado ON Docum_Atestado.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Evolucao ON Evolucao.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Exame_Fisico ON Exame_Fisico.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN hipotese_diagnostica ON hipotese_diagnostica.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id WHERE Paciente.id =". $value['id'] )[0];?>
+
+                                                                    <h3> Dados Pessoais</h3>
+                                                                        <strong>Nome:</strong> <strong><small><?php echo $prontuario['firstname']. "\t" .$prontuario['lastname'] ;?></small></strong><br>
+                                                                        <strong>Sexo:</strong> <strong><small> <?php echo $prontuario['sexo'];?></small></strong><br>
+                                                                        <strong>Telefone1</strong> <strong><small> <?php echo $prontuario['telephone'];?></small></strong><br>
+                                                                        <strong>Celular:</strong> <strong><small> <?php echo $prontuario['telephone2'];?></small></strong><br>
+                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $prontuario['email'];?></small></strong><br>
+                                                                        <strong>C.Postal:</strong> <strong><small> <?php echo $prontuario['postcode'];?></small></strong><br>
+                                                                        <strong>Endereço:</strong> <strong><small> <?php echo $prontuario['address_1'];?></small></strong><br>
+                                                                        <strong>Número:</strong> <strong><small> <?php echo $prontuario['address_2'];?></small></strong><br>
+                                                                        <strong>Bairro:</strong> <strong><small> <?php echo $prontuario['bairro'];?></small></strong><br>
+                                                                        <strong>Cidade:</strong> <strong><small> <?php echo $prontuario['city'];?></small></strong><br>
+                                                                        <strong>Estado:</strong> <strong><small> <?php echo $prontuario['states'];?></small></strong><br>
+                                                                        <strong>Paciente Cadastrado em:</strong> <strong><small> <?php echo $prontuario['create_dt'];?></small></strong><br>
+                                                                        <strong>Última Consulta:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Numero de Consulta: </strong> <strong><small><?php echo $prontuario['id'];?></small></strong><br>
+                                                                    <h3> Annaminese</h3>
+
+                                                                        <?php echo $prontuario['queixa_pri'] != "" ? "<strong>Qiexa Principal:</strong> <strong><small> {$prontuario['queixa_pri']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['historia'] != "" ? "<strong>História:</strong> <strong><small> {$prontuario['historia']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['prob_renais'] != "" ? "<strong>Problemas Renais:</strong> <strong><small> {$prontuario['prob_renais']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['prob_artic_reum'] != "" ? "<strong>Problemas articulares ou reumatismo:</strong> <strong><small> {$prontuario['prob_artic_reum']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['prob_cardiaco'] != "" ? "<strong>Próblemas Cardiacos:</strong> <strong><small> {$prontuario['prob_cardiaco']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['prob_respira'] != "" ? "<strong>Problemas Respiratórios:</strong> <strong><small> {$prontuario['prob_respira']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['prob_gastricos'] != "" ? "<strong>Próblemas Gastrícos:</strong> <strong><small> {$prontuario['prob_gastricos']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['alergia'] != "" ? "<strong>Alergia:</strong> <strong><small> {$prontuario['alergia']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['hepatite'] != "" ? "<strong>Hepatite:</strong> <strong><small> {$prontuario['hepatite']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['gravides'] != "" ? "<strong>Gravides:</strong> <strong><small> {$prontuario['gravides']}</small></strong><br>" : ""?>
+                                                                        <?php echo $prontuario['uso_de_medicam'] != "" ? "<strong>Uso de Medicamento:</strong> <strong><small> {$prontuario['uso_de_medicam']}</small></strong><br>" : ""?>
+
+                                                                </div>
+                                                                <div class="col-lg-6 ">
+                                                                    <h3> Dados Complementares </h3>
+                                                                        <strong>Naturalidade:</strong> <strong><small><?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Etnia:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Estado Cívil:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Profissão:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Excolaridade:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <h3>Dados Familares</h3>
+                                                                        ___
+                                                                        <h3>Convenio</h3>
+                                                                        <strong>Plano:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Data de vencimento:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                        <strong>Acomodação:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                </div>
+
+                                                            </div>
+                                                            <!--/.container-->
+                                                        </div>
+                                                        <!--/.footer-->
+
+
+                                                    </footer>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                    <?php  echo Form::button(['type'=> 'button', 'value'=> 'Impimir']);
+                                                    echo Form::close();
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- modal 1 end -->
+
+
+                                    <!-- Modal 2 -->
+                                    <div class="modal fade col-lg-12" id="exampleModalLongReceita-<?php echo $value['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Receita Médica</h5>
+                                                    <small  class="">Custo da Consulta: <?php echo $value['CreditoValor'];?> </small> | <small  class="">Prazo até: <?php echo $value['dtPag'];?> </small><br>
+
+
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+
+
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                    <?php  echo Form::button(['type'=> 'button', 'value'=> 'Imprimir', 'style'=> 'margin-left:30%;']);
+                                                    echo Form::close();
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- modal 2 end -->
+
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </li>
+                        <?php endforeach; ?>
+
+                    </ul>
+                </div>
+
+
+                <div id="cant-do-all-the-work-for-you" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="mySmallModalLabel">Ooops!!!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>I am being lazy and do not want to program an "Add User" section into this snippet... So it looks like you'll have to do that for yourself.</p><br/>
+                                <p><strong>Sorry<br/>
+                                        ~ Mouse0270</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="tab3">
+                    <br>
+                    <div class="breadcrumb text-center" id="features">
+                        <strong>Marcar Consulta</strong>
+                    </div>
+                    <div class="row ">
+                        <div class="col-lg-4 ">
+                            <p>Escreva o que voçe sente na cacha ao lado</p>
+                        </div>
+                        <div class="col-lg-8 ">
+                            <?php
+                            echo Form::open(['action'=>URL .'account/inserconsulta', 'method'=>'post']);
+                            echo Form::input(['type'=>'hidden', 'name'=>'usuarios_id', 'value'=> Session::get("ID") ]);
+//                            echo Form::input(['type'=>'hidden', 'name'=>'Situacao_id' ]);
+                            echo Form::input(['type'=>'hidden',  'name'=>'create_dt', 'value'=> \Ballybran\Helpers\Time\Timestamp::dataTime() ]);
+                            ?>
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Convenio:</label>
+                                <select name="Convenio_id" id="">
+                                    <option>Seleciona uma Opçao</option>
+                                    <?php foreach ($this->convenio as $key => $value) : ?>
+                                <option value="<?php echo $value['id'];?>"><?php echo $value['convNome'];?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Especialidade (opcional):</label>
+                                <select name="Especialidade_id" id="">
+                                    <option value="">Seleciona uma Opçao</option>
+                                    <?php foreach ($this->especialidades as $key => $value) : ?>
+                                        <option value="<?php echo $value['id'];?>"><?php echo $value['espNome'];?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Antecedente de doença cróonica como HTA, DM ou outras:</label>
+                                <?php
+                            echo Form::input(['type'=>'text', 'name'=>'ante', 'placeholder'=> '', 'class'=>'form-control' ]);
+                            ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Informa aqui:</label>
+
+                                <?php
+                            echo Form::textBox(['type'=>'text', 'name'=>'info', 'placeholder'=> '', 'class'=>'form-control']);
+                            ?>
+                            </div>
+                            <div class="form-group">
+                                <?php
+                            echo Form::button(['type'=> 'submit', 'class' => 'form-button-submit button', 'value'=>'Fazer consulta']);
+                            ?>
+                            </div>
+                            <?php
+                            echo Form::close();
+                            ?>
+                        </div>
+                        <div class="col-lg-4 ">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade in" id="tab4">
+
+                    <div class="row" style="min-height:300px;">
+                        <div  class="col-lg-12">
+                            <div class="col-xs-8">
+                                <!-- required for floating -->
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs tabs-left">
+                                    <li class="active"><a href="#home" data-toggle="tab">Dados Pessoais</a></li>
+                                    <li><a href="#info" data-toggle="tab">Atualizar dados</a></li>
+                                    <li><a href="#password" data-toggle="tab">Password</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-9">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="home">
+                                        <br><br><br>
+
+                                        <div class="row">
+
+                                            <div class="panel panel-info col-lg-12" >
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Meus Dados</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="row">
+
+                                                        <div class=" col-md-9 col-lg-9 ">
+                                                            <div class="col-lg-7 4u 12u(mobile)">
+
+                                                                <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                                                                    <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                                                                    <?php
+                                                                    if (Session::exist()) {
+                                                                        ?>
+                                                                        <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                                                                        <?php
+
+                                                                    }
+                                                                } else {?>
+                                                                    <img  src="<?php echo URL . DIR_FILE?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+                                                                <?php } ?>
+                                                            </div>
+                                                            <br>
+                                                            <table class="table table-user-information">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>Especialidade:</td>
+                                                                    <td><?php echo $this->user['telephone'];?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Contratado em::</td>
+                                                                    <td><?php echo $this->user['create_time'];?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Data de Nascimento</td>
+                                                                    <td><?php echo $this->user['dataNascimento'];?></td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                <tr>
+                                                                    <td>Genero</td>
+
+                                                                    <td>
+                                                                        <?php  echo $this->user['sexo'] != "" ?  $this->user['sexo'] == 'f' ? "Feminino" : "Masculino" : "Nao inserido";?>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Endereço</td>
+                                                                    <td><?php echo $this->user['address_1'];?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Email</td>
+                                                                    <td><a href="mailto:<?php echo $this->user['email'];?>"><?php echo $this->user['email'];?></a></td>
+                                                                </tr>
+                                                                <td>Numero do Telefone</td>
+                                                                <td><?php echo $this->user['telephone'];?><br><br><?php echo $this->user['telephone2'];?>(Mobile)
+                                                                </td>
+
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- profile end -->
+
+                                    </div>
+                                    <div class="tab-pane" id="info">
+                                        <br><br>
+                                        <form method="POST" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
+                                            <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
+                                            <input type="file" name="archive[]" id="pic" />
+                                            <input type="button" value="Carregar" />
+                                        </form>
+
+                                        <h4>My Account</h4>
+
+
+                                        <?php
+                                        echo Form::open(['method' => 'post', 'action'=> URL .'account/updates', 'name' => '', 'class' => 'form-signin', 'style' => 'width:50%']);
+                                        ?>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">First Name</label>
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'firstname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['firstname']]);
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Last Name</label>
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'lastname', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['lastname']]);
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">User Name</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'username', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['username']]);
+                                            ?>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">E-mail</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['email']]);
+                                            ?>
+
+                                        </div>
+                                        <small>Your Address</small>
+                                        <hr>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Telephone</label>
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'telephone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['telephone']]);
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Company</label>
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'company', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['company']]);
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Address 1</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'address_1', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['address_1']]);
+                                            ?>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Address 2</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'address_2', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['address_2']]);
+                                            ?>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Post Code</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'postcode', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['postcode']]);
+                                            ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">City</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'city', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['city']]);
+                                            ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Country</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'country', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['country']]);
+                                            ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Region/State</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone_id']]);
+                                            ?>
+
+                                        </div>
+                                        <?php
+                                        echo Form::input(['type' => 'hidden', 'name' => 'id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['id']]);
+                                        ?>
+
+
+                                        <div class="form-group">
+                                            <br/>
+                                            <button class="btn btn-primary btn-inverse btn-default" onclick="updateUser(<?php echo $this->user['id']; ?>)" ><p class="glyphicon glyphicon-refresh "></p></button>
+                                            <a class="btn btn-danger deletar" href="<?php echo URL ?>account/deletes/<?php echo $this->user['id']; ?>"><p class="glyphicon glyphicon-trash "></p></a>
+
+                                        </div>
+
+                                        <?php
+                                        echo Form::close();
+                                        ?>
+                                    </div>
+                                    <div class="tab-pane" id="password">
+                                        <br><br>
+                                        <section>
+
+                                            <div class="row">
+                                                <form  class="form-horizontal" action="<?php echo URL; ?>account/managePassword" name="perfil" method="post">
+
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Password</label>
+                                                        <input type="password" class="form-control" placeholder="Senha antiga" name="password2" id="exampleInputPassword1">
+                                                        <br>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Password</label>
+                                                        <input type="password" class="form-control" placeholder="Senha Nova" name="password" id="exampleInputPassword1">
+                                                        <input type="hidden" class="form-control" name="id" value="<?php echo $this->user['id']; ?>"  id="exampleInputPassword1">
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <button type="button" class="btn btn-info">Atualizar</button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="tab5">
+                </div>
+
+            </div>
 
         </div>
-
-        <div class="col-lg-4 4u 12u(mobile) text-left">
-            <h3>Endereço</h3>
-
-            <strong>Endereço 1: </strong><?php echo  $value['address_1'] ?><br>
-            <strong>Endereço 2: </strong><?php echo  $value['address_2']; ?><br>
-            <strong>Cidade: </strong><?php echo  $value['city']; ?><br>
-            <strong>País: </strong><?php echo  $value['country_id']; ?><br>
-        </div>
-        <?php endforeach; ?>
 
     </div>
 </div>
-<div class="container" id="features" >
-    <div class="col-lg-12 4u 12u(mobile)">
-        <div class="breadcrumb text-center" id="features">
-            <strong>PRONTUÁRIO DO PACIENTE</strong>
-        </div>
-
-            <table class="table  table-black table-bordered table-responsive">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nome do Paciente</th>
-                    <th>Telefone</th>
-                    <th>Infotmações</th>
-                    <th>Hora Marcada para o Atendimento</th>
-                    <th>Médico</th>
-                    <th> Ver Prontuario</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($this->paciente as $key => $value) : ?>
-                <tr>
-                    <th scope="row"><?php echo $key + 1; ?></th>
-                    <td><?php echo $value['firstname'] . "\t". $value['lastname'];?></td>
-                    <td><?php echo $value['telephone'];?></td>
-                    <td><?php echo $value['info'];?></td>
-                    <td><?php echo $value['horas'];?></td>
-                    <td><?php echo $value['titulo'];?></td>
-                    <td><a href="<?php echo URL; ?>paciente/prontuario/<?php echo $value['Paciente_id'];?>"> <i class="glyphicon glyphicon-eye-open eye-white"></i></a></td>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
-
 

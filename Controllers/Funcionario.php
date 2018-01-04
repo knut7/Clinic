@@ -74,17 +74,81 @@ class Funcionario extends AbstractController
                     Hook::Header(" ");
 
                 }
-                $this->view->getMedicamento = $this->model->getMedicamentoByPaciente($id)[0];
+                $this->view->UserPhoto = $this->model->getImageUser($id);
+
+//                $this->view->getMedicamento = $this->model->getMedicamentoByPaciente($id)[0];
                 $this->view->getReceitas = $this->model->getReceitasByPaciente($id);
                 $this->view->getExame = $this->model->getExamesByPaciente($id);
-                $this->view->paciente = $this->model->getPacienteById($id);
+                $this->view->paciente = $this->model->getPacienteById($id)[0];
                 $this->view->medical = $this->model->getMedicamentosByPaciente($id);
-                $this->view->render($this, 'medicamentos');
+                $this->view->render($this, 'add-atendimento');
             } else {
                 Hook::Header("");
             }
         }
     }
+
+
+    public function insertAnamnese()
+    {
+        $this->form->post('Paciente_id')->val('maxlength', 1223)
+            ->post('Funcionarios_id')->val('maxlength', 12)
+            ->post('queixa_pri')->val('maxlength', 400)
+            ->post('historia')->val('maxlength', 123)
+            ->post('prob_renais')->val('maxlength', 123)
+            ->post('prob_artic_reum')->val('maxlength', 123)
+            ->post('prob_cardiaco')->val('maxlength', 123)
+            ->post('prob_respira')->val('maxlength', 123)
+            ->post('prob_gastricos')->val('maxlength', 123)
+            ->post('alergia')->val('maxlength', 123)
+            ->post('hepatite')->val('maxlength', 123)
+            ->post('gravides')->val('maxlength', 123)
+            ->post('diabete')->val('maxlength', 123)
+            ->post('data')->val('maxlength', 123)
+            ->post('uso_de_medicam')->val('maxlength', 123)->submit();
+
+
+
+
+
+        $this->model->insertAnamnese($this->form->getPostData());
+        Hook::Header("account/cpanel");
+    }
+
+    public function insertExameFisico() {
+        $this->form->post('Paciente_id')->val('maxlength', 1223)
+            ->post('Funcionarios_id')->val('maxlength', 12)
+            ->post('altura')->val('maxlength', 12)
+            ->post('peso')->val('maxlength', 123)
+            ->post('freq_cardiaca')->val('maxlength', 123)
+            ->post('press_arte_sistolica')->val('maxlength', 123)
+            ->post('press_arte_diastolica')->val('maxlength', 123)
+            ->post('obs_gerais')->val('maxlength', 123)->submit();
+
+        $this->model->insertExameFisico($this->form->getPostData());
+        Hook::Header("account/cpanel");
+    }
+
+ public function insertHipoteseDiagnostico() {
+    $this->form->post('Paciente_id')->val('maxlength', 1223)
+        ->post('Funcionarios_id')->val('maxlength', 12)
+        ->post('diagnostico')->val('maxlength', 12)
+        ->post('diag_obs')->val('maxlength', 123)->submit();
+
+
+    $this->model->insertHipoteseDiagnostico($this->form->getPostData());
+    Hook::Header("account/cpanel");
+}
+
+    public function insertEvolucao() {
+        $this->form->post('Paciente_id')->val('maxlength', 1223)
+            ->post('Funcionarios_id')->val('maxlength', 12)
+            ->post('evolucao')->val('maxlength', 123)->submit();
+
+        $this->model->insertEvolucao($this->form->getPostData());
+        Hook::Header("account/cpanel");
+}
+
 
 
     public function inserMedicamento()

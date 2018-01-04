@@ -1,5 +1,4 @@
 <?php
-
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -15,10 +14,20 @@
  * @version   1.0.2
  */
 
+/**
+ * Created by PhpStorm.
+ * User: macbookpro
+ * Date: 29/11/17
+ * Time: 10:03
+ */
+
 namespace Module\Clinic\Models;
 
+
+
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
-use Ballybran\Helpers\Security\Session;
+use Ballybran\Helpers\Log\Log;
+use Ballybran\Helpers\Log\Logger;
 
 /**
  * Class AccountModel
@@ -63,7 +72,7 @@ class AccountModel {
      * @param $id
      */
     public function updates($data, $id) {
-         $this->entity->update('usuarios', $data, "id=$id");
+        $this->entity->update('usuarios', $data, "id=$id");
     }
 
     public function deletes($id) {
@@ -83,7 +92,7 @@ class AccountModel {
      * update the role of users
      *
      * @return data, id
-     * @author 
+     * @author
      * */
     public function manageUser($data, $id) {
         return $this->entity->update('usuarios', $data, "id=" . $id);
@@ -93,7 +102,7 @@ class AccountModel {
      * update the role of users
      *
      * @return data, id
-     * @author 
+     * @author
      * */
     public function managePassword($data, $id) {
         return $this->entity->update('usuarios', $data, "id=" . $id);
@@ -124,58 +133,14 @@ class AccountModel {
      * @return mixed
      */
     public function deleteImagePerfil($id) {
-         return $this->entity->delete('pic_perfil', "usuarios_id=$id", 1);
+        return $this->entity->delete('pic_perfil', "usuarios_id=$id", 1);
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getMural($id) {
-        return $this->entity->selectManager("SELECT * FROM mural INNER JOIN usuarios ON
-                mural.usuarios_id = usuarios.id WHERE mural.usuarios_id = $id ORDER BY mural.id DESC");
-    }
 
-    /**
-     * @return mixed
-     */
-    public function getResMural() {
-        return $this->entity->selectManager("SELECT * FROM res_mural INNER JOIN mural on res_mural.id_m =mural.id WHERE mural.id ");
-    }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getMuralById($id) {
-        return $this->entity->selectManager("SELECT mural.id FROM mural inner join usuarios on mural.usuarios_id = usuarios.id WHERE usuarios.id = $id");
-    }
-
-    /**
-     * @param $data
-     * @return bool
-     */
-    public function insertMural($data) {
-        return $this->entity->insert('mural', $data);
-    }
-
-    /**
-     * @param $data
-     * @return bool
-     */
-    public function insertRespo($data) {
-        return $this->entity->insert('res_mural', $data);
-    }
-
-    /**
-     *  Times and Date
-     * @param $id
-     * @return mixed
-     *
-     */
     public function getHorarioByFunc($id)
     {
-       return  $this->entity->selectManager("SELECT * FROM Funcionarios INNER JOIN usuarios on Funcionarios.usuarios_id = usuarios.id INNER JOIN Horario ON usuarios.id = Horario.usuarios_id WHERE Horario.usuarios_id =$id");
+        return  $this->entity->selectManager("SELECT * FROM Funcionarios INNER JOIN usuarios on Funcionarios.usuarios_id = usuarios.id INNER JOIN Horario ON usuarios.id = Horario.usuarios_id WHERE Horario.usuarios_id =$id");
     }
 
     /**
@@ -205,13 +170,179 @@ class AccountModel {
 
     public function getPacientForConsulta($id)
     {
-        return $this->entity->selectManager("SELECT * FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id WHERE Funcionarios.usuarios_id = $id");
+        return $this->entity->selectManager("SELECT Paciente.* , usuarios.*, Convenio.convNome, Funcionarios.titulo, Funcionarios.aria, Func_has_Paci.horas  FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN pic_perfil ON pic_perfil.usuarios_id = Paciente.usuarios_id LEFT OUTER JOIN Anamnese ON Paciente.id = Anamnese.Paciente_id INNER JOIN Convenio ON Convenio.id = Paciente.Convenio_id WHERE Anamnese.Paciente_id IS NULL AND Funcionarios.usuarios_id = $id AND Func_has_Paci.horas > now() ");
     }
 
+    public function getPacientForAtendimento($id)
+    {
+        return $this->entity->selectManager("SELECT Paciente.*,Convenio.convNome, usuarios.firstname, usuarios.lastname, usuarios.sexo, usuarios.dataNascimento, Funcionarios.titulo, Funcionarios.aria  FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN pic_perfil ON pic_perfil.usuarios_id = Paciente.usuarios_id INNER JOIN Anamnese ON Paciente.id = Anamnese.Paciente_id INNER JOIN Convenio ON Convenio.id = Paciente.Convenio_id WHERE Anamnese.Paciente_id  AND Funcionarios.usuarios_id = $id");
+    }
+    /**
+     * @param $id | return user \ order
+     * @return mixed
+     *
+     */
     public function getPacienteById($id) {
-        return $this->entity->selectManager(" SELECT  Paciente.*, Func_has_Paci.* , usuarios.*, Funcionarios.titulo FROM Func_has_Paci INNER JOIN Paciente on Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios on Paciente.usuarios_id = usuarios.id INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id WHERE Paciente.usuarios_id =$id ORDER BY Paciente.info ASC");
+        return $this->entity->selectManager("  SELECT  Paciente.* , usuarios.firstname, usuarios.lastname, Funcionarios.titulo, Funcionarios.aria,  Situacao.situ_nome,  Credito.CreditoValor, Credito.dtPag FROM Func_has_Paci INNER JOIN Paciente on Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios on Paciente.usuarios_id = usuarios.id INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id INNER JOIN Credito ON Credito.Paciente_id = Paciente.id INNER JOIN Situacao ON Situacao.id = Paciente.Situacao_id WHERE Paciente.usuarios_id = $id ORDER BY Paciente.info ASC");
     }
 
 
+
+
+//    admin nd owner
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function getAllUserAdmin() {
+
+        return $this->entity->selectManager("SELECT usuarios.*, Especialidade.espNome, pic_perfil.path FROM usuarios INNER JOIN Funcionarios ON usuarios.id = Funcionarios.usuarios_id INNER JOIN Especialidade ON Especialidade.id = Funcionarios.Especialidade_id LEFT JOIN pic_perfil ON pic_perfil.usuarios_id = usuarios.id WHERE usuarios.role = 'funcionario' || usuarios.role = 'secretaria' || usuarios.role = 'laboratorio'  ");
+    }
+
+    public function getAllPaciente() {
+
+        return $this->entity->selectManager("SELECT Paciente.* , usuarios.firstname, usuarios.lastname, usuarios.dataNascimento, usuarios.sexo, Funcionarios.titulo, Funcionarios.aria, Situacao.situ_nome, Especialidade.espValor, Credito.dtPag, Convenio.convNome , pic_perfil.path, Func_has_Paci.horas FROM usuarios INNER JOIN  Paciente  ON usuarios.id = Paciente.usuarios_id INNER JOIN Especialidade ON Especialidade.id = Paciente.Especialidade_id INNER JOIN Func_has_Paci ON Paciente.id = Func_has_Paci.Paciente_id   INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id INNER JOIN Situacao ON Situacao.id = Paciente.Situacao_id INNER JOIN Credito ON Credito.Paciente_id = Paciente.id INNER JOIN Convenio ON Convenio.id = Paciente.Convenio_id LEFT JOIN pic_perfil ON pic_perfil.usuarios_id = usuarios.id WHERE  usuarios.role = 'paciente' ");
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function add($data) {
+        return $this->entity->insert('usuarios', $data);
+    }
+
+    /**
+     * @param $id id for user selected by session
+     * @return array
+     */
+    public function getUserAdmin($id) {
+        return $this->entity->selectManager('SELECT * FROM usuarios INNER JOIN Funcionarios  WHERE id ='.$id);
+    }
+
+    public function getusersAdmin($user) {
+        return $this->entity->selectManager("SELECT * FROM usuarios WHERE id=:id", ["id" => $user]);
+    }
+    
+
+
+    /**
+     * @param $data
+     * @param $id
+     */
+    public function updatesAdmin($data, $id) {
+        return $this->entity->update('usuarios', $data, "id=" . $id);
+    }
+
+    public function deletesAdmin($id) {
+        $this->entity->delete('usuarios', "id=$id", 1);
+    }
+
+    public function getConsultas()
+    {
+        return $this->entity->selectManager('SELECT usuarios.* FROM usuarios LEFT OUTER JOIN Paciente ON usuarios.id = Paciente.usuarios_id WHERE Paciente.usuarios_id IS NULL AND  usuarios.role = \'paciente\' ');
+    }
+
+    public function getConvenio()
+    {
+        return $this->entity->find('Convenio', '*');
+    }
+
+    public function getFuncionarios($id)
+    {
+        return $this->entity->selectManager("SELECT Funcionarios.id, Funcionarios.titulo, usuarios.firstname, usuarios.lastname FROM   Funcionarios INNER JOIN Especialidade ON Especialidade.id = Funcionarios.Especialidade_id INNER JOIN usuarios ON Funcionarios.usuarios_id = usuarios.id WHERE Especialidade_id = $id");
+    }
+
+
+
+    public function inserConsulta($data)
+    {
+        $this->entity->insert('Paciente', $data);
+    }
+
+    public function getTypeReceita() {
+
+        return $this->entity->find("TipoReceita", "*");
+    }
+
+    public function getContaMovimento() {
+
+        return $this->entity->find("ContaMovimento", "*");
+    }
+
+    public function getTypePagamento() {
+
+        return $this->entity->find("FormaPagamento", "*");
+    }
+
+    public function getTypeSituacao() {
+
+        return $this->entity->find("Situacao", "*");
+    }
+
+    public function getEspecialidades()
+    {
+        return $this->entity->find("Especialidade", "*");
+
+    }
+
+    public function getPacienteSemMedico()
+    {
+        return $this->entity->selectManager(" SELECT Paciente.* , usuarios.firstname, usuarios.lastname, usuarios.role, usuarios.telephone, usuarios.sexo, usuarios.dataNascimento, Funcionarios.titulo, Funcionarios.aria, Situacao.situ_nome, Especialidade.espValor,Especialidade.espNome, Credito.dtPag, Convenio.convNome FROM usuarios INNER JOIN  Paciente  ON usuarios.id = Paciente.usuarios_id INNER JOIN Especialidade ON Especialidade.id = Paciente.Especialidade_id LEFT JOIN Func_has_Paci ON Paciente.id = Func_has_Paci.Paciente_id  LEFT OUTER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id INNER JOIN Situacao ON Situacao.id = Paciente.Situacao_id LEFT OUTER JOIN Credito ON Credito.Paciente_id = Paciente.id INNER JOIN Convenio ON Convenio.id = Paciente.Convenio_id WHERE  Func_has_Paci.Funcionarios_id is null AND Credito.Paciente_id is null AND usuarios.role = 'paciente' ");
+    }
+
+    public function getAllInfoForPrint($id)
+    {
+        return $this->entity->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
+                                                                    INNER JOIN Func_has_Paci ON Func_has_Paci.Paciente_id = Paciente.id
+                                                                    INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id
+                                                                    LEFT OUTER JOIN Convenio ON Convenio.id = Paciente.Convenio_id
+                                                                    LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Docum_Atestado ON Docum_Atestado.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Evolucao ON Evolucao.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Exame_Fisico ON Exame_Fisico.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN hipotese_diagnostica ON hipotese_diagnostica.Paciente_id = Paciente.id
+                                                                    LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id WHERE Paciente.id =$id");
+
+    }
+
+    public function logAccess($cote, $content)
+    {
+        $log = new Log('logActividadeCecretria.txt');
+        $log->write($cote . "\t" .$content);
+    }
+
+    public function logPaciente($cote, $content)
+    {
+        $log = new Log('logOfPaciente.txt');
+        $log->write($cote . "\t" .$content);
+    }
+
+    public function logMedico($cote, $content)
+    {
+        $log = new Log('logOfMedico.txt');
+        $log->write($cote . "\t" .$content);
+    }
+
+    public function getEvent()
+    {
+        return $this->entity->find("events", "*");
+    }
+
+    public function updatEvent($data, $id)
+    {
+         $this->entity->update("events", $data, "id=$id");
+    }
+
+    public function updatEvent2($data, $id)
+    {
+        $this->entity->update("events", $data, "id=$id");
+    }
+
+    public function deleteEvent($id)
+    {
+        $this->entity->delete("events", "id=$id", 1);
+    }
 
 }

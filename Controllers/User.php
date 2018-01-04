@@ -50,7 +50,7 @@ class User extends AbstractController {
 
         $this->view->title = "Entrar";
 
-        if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password'])) {
+        if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['sexo'])) {
 
             $obj = new Pessoa();
             $obj->setFirstname($_POST['firstname']);
@@ -58,16 +58,24 @@ class User extends AbstractController {
             $obj->setEmail($_POST['email']);
             $obj->setPassword($_POST['password']);
             $obj->setUsername($_POST['username']);
+            $obj->setSexo($_POST['sexo']);
 
             $data['username'] = $obj->getUsername();
             $data['password'] = $obj->getPassword();
             $data['lastname'] = $obj->getLastname();
             $data['firstname'] = $obj->getFirstname();
+            $data['sexo'] = $obj->getSexo();
             $data['email'] = $obj->getEmail();
             $data['create_time'] = Timestamp::dataTime();
 
 
             $this->model->signUp($data);
+            if(!Session::exist()) {
+                Hook::Header('user/signIn');
+            }
+            Hook::Header('account/cpanel');
+
+
         }
         $this->view->render($this, 'register');
     }
@@ -96,6 +104,7 @@ class User extends AbstractController {
 
                     $data['status'] = Session::exist();
                     $this->model->insertSession($data, Session::get('ID'));
+                    $this->model->logAcess( Session::get("U_NAME"), " Entrou");
                     Hook::Header('Account/Cpanel');
                 } else {
                     Hook::Header(' ');
@@ -130,6 +139,7 @@ class User extends AbstractController {
 
     public function DestroySession() {
         $data['status'] = !Session::exist();
+        $this->model->logAcess(Session::get("U_NAME"), " Saiu");
         $this->model->insertSession($data, Session::get('ID'));
         Session::Destroy();
         Hook::Header('');

@@ -17,6 +17,8 @@
 namespace Module\Clinic\Models;
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
+use Ballybran\Helpers\Log\Log;
+use Ballybran\Helpers\Log\Logger;
 use PDO;
 
 /**
@@ -40,7 +42,7 @@ class UserModel {
      * @param $data
      * @return bool
      */
-    public function signUp($data, $time) {
+    public function signUp($data) {
         return $this->entity->insert('usuarios', $data);
     }
 
@@ -65,6 +67,17 @@ class UserModel {
     {
         return $this->entity->update('usuarios', $data, "id=$status");
 
+    }
+    public function logAcess($cote, $content)
+    {
+        $log = new Log('logoAccess.txt');
+        $log->write($cote . "\t" .$content);
+    }
+
+    public function logPaciente($cote, $content)
+    {
+        $log = new Log('logOfPaciente.txt');
+        $log->write($cote . "\t" .$content);
     }
 
 }

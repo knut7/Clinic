@@ -22,52 +22,47 @@ Sub_Menu::getSubMenu();
 ?>
 
 
-<div class="container" id="features" >
-    <div class="breadcrumb text-center" id="features">
-        <strong>Dados do Paciente</strong>
+
+    <div class="col-sm-12">
+        <div class="row ">
+            <div class="col-lg-12 card-radius">
+
+                <div class="col-lg-3 4u 12u(mobile)">
+
+                    <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                        <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                        <?php
+
+                    } else {?>
+                        <img  src="<?php echo URL . DIR_FILE?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+                    <?php } ?>
+                </div>
+
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Contacto</h4>
+
+                    <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
+                    <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
+                    <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+
+                </div>
+
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Outras</h4>
+                    <strong>Sexo: </strong><?php echo  $this->user['sexo'] == 'f' ? "Feminino" : "Masculino"; ?><br>
+                    <strong>Aniversário: </strong><?php echo  $this->user['dataNascimento']; ?><br>
+                    <strong>Perfil: </strong><?php echo  $this->user['role']; ?><br>
+
+                </div>
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Endereço</h4>
+
+                    <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
+                    <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
+                    <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
+                    <strong>País: </strong><?php echo  $this->user['country']; ?><br>
+                </div>
+
+            </div>
     </div>
-    <div class="row ">
-
-        <div class="col-lg-3 4u 12u(mobile)">
-
-            <?php if (!empty($this->UserPhoto['path'])) { ?>
-
-                <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
-                <?php
-                if (Session::exist()) {
-                    ?>
-                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
-                    <?php
-
-                }
-            } else {
-                echo "nao tem imagem";
-            } ?>
-        </div>
-
-
-        <div class="col-lg-4 4u 12u(mobile) text-left">
-            <h3>Contacto</h3>
-
-            <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
-            <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
-            <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
-
-        </div>
-
-        <div class="col-lg-4 4u 12u(mobile) text-left">
-            <h3>Endereço</h3>
-
-            <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
-            <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
-            <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
-            <strong>País: </strong><?php echo  $this->user['country_id']; ?><br>
-        </div>
-
-    </div>
-</div>
-
-
-
-
-

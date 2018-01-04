@@ -76,7 +76,7 @@ class Index extends AbstractController {
        switch ($data->getMethod()) :
            case 'get':
                $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(200, Encodes::encodeXml($property), 'application/json');
+               $var = RestUtilities::sendResponse(200, Encodes::encodeJson($property), 'application/json');
                break;
            default:
                # code...

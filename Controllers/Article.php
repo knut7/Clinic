@@ -42,10 +42,10 @@ use function date;
 
 class Article extends AbstractController {
 
-    private $path;
-    public $name;
-    public $size;
-    public $type;
+    public $width = 2000;
+    public $height = 2000;
+    public $quality = 10;
+    public $option = "perfil";
     /**
      * Article constructor.
      * call file js default
@@ -115,11 +115,12 @@ class Article extends AbstractController {
 
     public function insertArticle() {
         $this->imagem->file('article');
-        if (!empty($_POST['title']) && !empty($_POST['excerpt']) && !empty($_POST['content']) && !empty($_POST['post_date']) && !empty($_POST['id_cat'])) {
+        if (!empty($_POST['title']) && !empty($_POST['excerpt']) && !empty($_POST['content']) && !empty($_POST['cote']) && !empty($_POST['post_date'])  && !empty($_POST['id_cat'])) {
 //            $data['type'] = $this->imagem->type;
 //            $data['size'] = $this->imagem->size;
 //            $data['path'] = $this->imagem->path;
 //            $data['name'] = $this->imagem->name;
+            $data['cote'] = $_POST['cote'];
             $data['title'] = $_POST['title'];
             $data['excerpt'] = $_POST['excerpt'];
             $data['content'] = $_POST['content'];

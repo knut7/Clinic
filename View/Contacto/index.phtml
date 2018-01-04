@@ -1,1 +1,17 @@
-<h3 class="text-center">not content</h3><br><br>
+<?php
+Module\Lib2\header::getHeader();
+?>
+
+<?php foreach ($this->contacto as $value) {
+
+    echo $value['endereco'];
+    echo $value['telefone'];
+    echo $value['email'];
+    echo $value['bairro'];
+    echo $value['cidade'];
+    echo $value['fax'];
+    ?> <a target="_blank" href="<?php echo $value['site']?>"><?php echo $value['site']; ?></a>
+
+<?php }
+?>
+<?php Module\Lib2\header::getFooter();

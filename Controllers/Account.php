@@ -14,32 +14,49 @@
  * @version   1.0.2
  */
 
+/**
+ * Created by PhpStorm.
+ * User: macbookpro
+ * Date: 29/11/17
+ * Time: 10:01
+ */
+
 namespace Module\Clinic\Controllers;
 
-use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Core\REST\Encodes;
-use Ballybran\Core\REST\RestUtilities;
-use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
-use Ballybran\Helpers\Utility\Hash;
-use Ballybran\Helpers\vardump\Vardump;
+
+use Ballybran\Core\{
+    Controller\AbstractController, REST\Encodes, REST\RestUtilities
+};
+use Ballybran\Helpers\{
+    Copyright\Copyright, Http\Hook, Security\Session, Security\Validate, Utility\Hash
+};
+use Module\Clinic\{
+    Controllers\CTrait\Updates, Lib\PrintListFuncionario, Lib\Prontuario, Lib\PrintListPacient, Lib\PrintListOfAllPacient, Lib\PrintListPacientPayment, Lib\PrintConsult
+};
 use Module\Entity\Pessoa;
 use Module\Upload\ImageUpload;
 
+
 class Account extends AbstractController
 {
+    use Updates;
 
     public $width = 2000;
     public $height = 2000;
     public $quality = 10;
     public $option = "perfil";
+    private $form;
+
     /**
      * Account constructor.
      */
     public function __construct()
     {
         parent::__construct();
+        $this->form = new Validate();
+        $this->form->setMethod('POST');
+
+
     }
 
     /**
@@ -88,18 +105,26 @@ class Account extends AbstractController
     public function Cpanel()
     {
         if (Session::exist()) {
+
+
             $this->view->title = "Cpanel";
+            $this->view->especialidades = $this->model->getEspecialidades();
 
             $this->view->user = $this->model->getUser(Session::get("ID"))[0];
+
             if ($this->model->getImageUser(Session::get("ID"))) {
                 $this->view->UserPhoto = $this->model->getImageUser(Session::get("ID"))[0];
             }
 
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+                $this->view->userAdmin = $this->model->getAllUserAdmin();
+                $this->view->allPaciente = $this->model->getAllPaciente();
                 $this->view->render($this, 'cpanel');
             }
             if (Session::get('role') == 'funcionario') {
                 $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
+
+                $this->view->atendidos  = $this->model->getPacientForAtendimento(Session::get("ID"));
                 $this->view->render($this, 'cpanelFuncionario');
 
             }
@@ -109,21 +134,144 @@ class Account extends AbstractController
             }
             if (Session::get('role') == 'paciente') {
 
+                $this->view->paciente = $this->model->getPacienteById(Session::get('ID'));
+                $this->view->convenio = $this->model->getConvenio();
 
-                    $this->view->paciente = $this->model->getPacienteById(Session::get('ID'));
-                    $this->view->render($this, 'cpanelPaciente');
+//                $this->view->id = $this->model->getPacienteByPaciente(Session::get('ID'))[0];
+                // $this->view->prontuario = $this->model->getProntuario(Session::get('ID'))[0];
 
+                $this->view->render($this, 'cpanelPaciente');
 
             }
             if (Session::get('role') == 'secretaria') {
+
+                $this->view->consultas = $this->model->getConsultas();
+                $this->view->typeReceita = $this->model->getTypeReceita();
+                $this->view->passienteSecretaria = $this->model->getAllPaciente();
+                $this->view->moviento = $this->model->getContaMovimento();
+                $this->view->formaPagamento = $this->model->getTypePagamento();
+                $this->view->pacieteMedico = $this->model->getPacienteSemMedico();
+
                 $this->view->render($this, 'cpanelSecretaria');
+
             }
 
         } else {
 
-            Hook::Header('account/profile');
+            Hook::Header('');
         }
     }
+
+    public function printConsulta()
+    {
+        $pdf = new PrintConsult();
+        $pdf->getList($this->model->getConsultas());
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->body();
+        $pdf->Output();
+    }
+
+    public function printProntuario($id)
+    {
+
+        $pdf = new  Prontuario();
+        $pdf->getId($this->model->getAllInfoForPrint($id));
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->Output();
+        $this->model->logPaciente( Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
+
+    }
+
+    public function printListPaciente()
+    {
+
+        $pdf = new  PrintListPacient();
+        $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->body();
+        $pdf->Output();
+        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
+
+
+    }
+
+    public function printListPacienteForConsult()
+    {
+
+        $pdf = new  PrintListPacient();
+        $pdf->getList($this->model->getPacientForConsulta(Session::get("ID")));
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->body();
+        $pdf->Output();
+        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes sem Consulta Agendadas.");
+
+    }
+
+    public function printAllPacient()
+    {
+        $pdf = new  PrintListOfAllPacient();
+        $pdf->getList($this->model->getPacienteSemMedico());
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->body();
+        $pdf->Output();
+        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes sem Consulta Agendadas.");
+
+
+    }
+
+    public function printAllPacientPayment()
+    {
+        $pdf = new  PrintListPacientPayment();
+        $pdf->getList($this->model->getAllPaciente());
+        $pdf->AliasNbPages();
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->AddPage();
+        $pdf->body();
+        $pdf->Output();
+        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes com a Consulta paga. ");
+
+
+    }
+
+    public function printlistFuncionario()
+    {
+        if(Session::exist() ) {
+            if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+                $pdf = new  PrintListFuncionario();
+                $pdf->getList($this->model->getAllUserAdmin());
+                $pdf->AliasNbPages();
+                $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
+                $pdf->AddPage();
+                $pdf->body();
+                $pdf->Output();
+
+                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
+            } else {
+                Hook::Header("account/cpanel");
+            }
+        }else {
+            Hook::Header("");
+        }
+    }
+
+    public function getInfoPaciente($id) {
+        return ($this->model->getAllInfoForPrint($id));
+    }
+
+
+
+
+
 
     /**
      *
@@ -164,6 +312,7 @@ class Account extends AbstractController
 
         Hook::Header('account/cpanel');
     }
+
 
     /**
      *
@@ -206,7 +355,7 @@ class Account extends AbstractController
         $pess = new Pessoa();
         $pess->setId($_POST['id']);
         if ($pess->getId()) {
-            
+
             $pess->setFirstname($_POST['firstname']);
             $pess->setLastname(($_POST['lastname']));
             $pess->setUsername($_POST['username']);
@@ -218,7 +367,8 @@ class Account extends AbstractController
             $pess->setPostcode($_POST["postcode"]);
             $pess->setZoneId($_POST['zone_id']);
             $pess->setCity($_POST['city']);
-            $pess->setCountryId($_POST['country_id']);
+            $pess->setCountryId($_POST['country']);
+            $pess->setDataNascimento($_POST['dataNascimento']);
 
             $data["firstname"] = $pess->getFirstname();
             $data["lastname"] = $pess->getLastname();
@@ -231,10 +381,13 @@ class Account extends AbstractController
             $data["postcode"] = $pess->getPostcode();
             $data['zone_id'] = $pess->getZoneId();
             $data['city'] = $pess->getCity();
-            $data['country_id'] = $pess->getCountryId();
+            $data['dataNascimento'] = $pess->getDataNascimento();
+            $data['country'] = $pess->getCountryId();
 
             $this->model->updates($data, $pess->getId());
-            Hook::Header('account/edit');
+            $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou seus dados");
+
+            Hook::Header('account/cpanel');
         } else {
             echo "NADA FOI ATUALIZADO";
         }
@@ -279,37 +432,11 @@ class Account extends AbstractController
             $this->view->mural = $this->model->getMural($id);
             $this->view->users = $this->model->getUser($id);
         } else {
-            Hook::Header('Account');
+            Hook::Header('account/cpanel');
         }
         $this->view->render($this, 'profile');
     }
 
-    /**
-     *
-     */
-    public function insertMural()
-    {
-
-        $valid = new Validate();
-        $valid->getMethod('POST');
-        $valid->post('usuarios_id')->post('message');
-
-        $this->model->insertMural($valid->getPostDate());
-
-    }
-
-    /**
-     *
-     */
-    public function insertRespo()
-    {
-
-        $valid = new Validate();
-        $valid->getMethod('POST');
-        $valid->post('message')->post('mural_id');
-        $this->model->insertRespo($valid->getPostDate());
-
-    }
 
     /**
      * update the role of users
@@ -321,6 +448,7 @@ class Account extends AbstractController
     {
         if ($_POST['id']) {
             $data['role'] = $_POST['role'];
+            $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou seus previlegios para " . $_POST['role']);
             return $this->model->manageUser($data, $_POST['id']);
         } else {
             echo "NADA FOI ATUALIZADO";
@@ -335,7 +463,7 @@ class Account extends AbstractController
      * */
     public function password()
     {
-        $this->view->UserData = $this->model->getUser(Session::get("ID"))[0];
+        $this->view->password = $this->model->getUser(Session::get("ID"))[0];
         $this->view->render($this, 'password');
     }
 
@@ -347,13 +475,23 @@ class Account extends AbstractController
      * */
     public function managePassword()
     {
-        if ($_POST['id'] && !empty($_POST['password'])) {
-            $data['password'] = Hash::Create(ALGO, $_POST['password'], HASH_KEY);
-            return $this->model->managePassword($data, $_POST['id']);
+        if ($_POST['id'] && !empty($_POST['password']) && !empty($_POST['password2'])) {
+            $new = Hash::Create(ALGO, $_POST['password2'], HASH_KEY);
+            $old = $this->model->getUser(Session::get("ID"))[0]['password'];
+
+            if ($new == $old) {
+                $data['password'] = Hash::Create(ALGO, $_POST['password'], HASH_KEY);
+                $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou sua senha");
+                return $this->model->managePassword($data, $_POST['id']);
+            } else {
+                echo "NADA FOI ATUALIZADO  porque a password antiga nao existe";
+            }
         } else {
-            echo "NADA FOI ATUALIZADO  porque a password antiga nao existe";
+            Hook::Header('Account/cpanel');
+
         }
     }
+
 
     /**
      *   Times and Date
@@ -376,13 +514,12 @@ class Account extends AbstractController
     {
         if (!empty($_POST['id'])) {
 
-            $form = new Validate();
-            $form->setMethod('POST');
-            $form->post('hora')->val('maxlength', 58)
+
+            $this->form->post('hora')->val('maxlength', 58)
                 ->post('diaSeman')->val('maxlength', 85)
                 ->post('id')->val('maxlength', 85)
                 ->submit();
-            $data = $form->getPostData();
+            $data = $this->form->getPostData();
             $this->model->updateHorario($data, $_POST['id']);
         }
         Hook::Header('Account/horarios');
@@ -391,14 +528,12 @@ class Account extends AbstractController
 
     public function insertHorario()
     {
-        $form = new Validate();
-        $form->setMethod('POST');
-        $form->post('hora')->val('maxlength', 58)
+        $this->form->post('hora')->val('maxlength', 58)
             ->post('diaSeman')->val('maxlength', 85)
             ->post('usuarios_id')->val('maxlength', 85)
             ->submit();
 
-        $data = $form->getPostData();
+        $data = $this->form->getPostData();
         $this->model->insertHorario($data);
         Hook::Header('Account/horarios');
 
@@ -413,19 +548,59 @@ class Account extends AbstractController
 
     }
 
+    public function inserConsulta()
+    {
 
-//    public function updateAddHorasPaciente()
-//    {
-//        if (! empty($_POST['Funcionarios_id'])) {
-//
-//            $form = new Validate();
-//            $form->setMethod('POST');
-//            $form->post('horas')->val('maxlength', 58)
-//                ->submit();
-//            $data = $form->getPostData();
-//            $this->model->updateAddHorasPaciente($data);
-//        }
-//        Hook::Header('Account/horarios');
-//
-//    }
+        if (Session::get('role') == 'paciente' || Session::get('role') == 'secretaria') {
+            $this->form->post('info')->val('maxlength', 1223)
+                ->post('ante')->val('maxlength', 1223)
+                ->post('create_dt')->val('maxlength', 1223)
+                ->post('Convenio_id')->val('maxlength', 1223)
+                ->post('Especialidade_id')->val('maxlength', 1223)
+            ->post('usuarios_id')->val('maxlength', 1223)->submit();
+
+            $this->model->inserConsulta($this->form->getPostData());
+            $this->model->logPaciente( Session::get("U_NAME"), ":: Fez uma Consulta");
+
+            Hook::Header('account/cpanel');
+
+        }
+    }
+
+    public function event()
+    {
+     echo json_encode($this->model->getPacientForConsulta(Session::get('ID')));
+    }
+
+    public function updatEvent()
+    {
+        if(! empty($_POST['id'])) {
+
+            $data['start'] = $_POST['start'];
+            $data['end'] = $_POST['end'];
+            $this->model->updatEvent($data, $_POST['id']);
+        }
+        
+    }
+    public function updatEvent2()
+    {
+        if(! empty($_POST['id'])) {
+
+            $data['title'] = $_POST['title'];
+            $this->model->updatEvent2($data, $_POST['id']);
+        }
+
+    }
+
+    public function deleteEvent()
+    {
+        if(! empty($_POST['id'])) {
+
+            $this->model->deleteEvent($_POST['id']);
+        }
+    }
+
+
+
+
 }
