@@ -1,0 +1,100 @@
+<?php
+use Ballybran\Library\Form;
+\Module\menu\Sub_Menu::getSubMenu();
+?>
+
+    <div class="col-lg-12 ">
+        <div class="row">
+            <div class="col-lg-5">
+                <h3>Contacto </h3>
+
+                <?php
+echo Form::open(['method'=> "post", 'action'=> URL.'contacto/insertContacto']);
+?>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Endereço</label>
+        <?php
+        echo Form::input(['type'=>'hidden', 'name'=> 'id', 'value' => $this->contacto['id'], 'class'=> 'form-control']);
+        echo Form::input(['type'=>'text', 'name'=> 'endereco', 'value' => $this->contacto['endereco'], 'class'=> 'form-control']);
+?>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Telefone:</label>
+        <?php
+        echo Form::input(['type'=>'text', 'name'=> 'telefone', 'value'=> $this->contacto['telefone'], 'class'=> 'form-control']);
+        ?>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Bairro:</label>
+        <?php
+        echo Form::input(['type'=>'text', 'name'=> 'bairro', 'value'=> $this->contacto['bairro'], 'class'=> 'form-control']);
+        ?>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Cidade:</label>
+        <?php
+        echo Form::input(['type'=>'text', 'name'=> 'cidade', 'value'=> $this->contacto['cidade'], 'class'=> 'form-control']);
+        ?>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">E-mail:</label>
+        <?php
+        echo Form::input(['type'=>'text', 'name'=> 'email','value'=> $this->contacto['email'], 'class'=> 'form-control']);
+        ?>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Fax:</label>
+        <?php
+        echo Form::input(['type'=>'text', 'name'=> 'fax', 'value'=> $this->contacto['fax'], 'class'=> 'form-control']);
+        ?>
+    </div>
+
+     <div class="form-group">
+          <label for="recipient-name" class="form-control-label">Site:</label>
+          <?php
+          echo Form::input(['type'=>'text', 'name'=> 'site', 'value'=> $this->contacto['site'], 'class'=> 'form-control']);
+          ?>
+     </div>
+<?php
+echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
+echo Form::close();
+
+?>
+            </div>
+            <div class="col-lg-5">
+                <h3>Social </h3>
+                    <?php
+                    echo Form::open(['method'=> "post", 'action'=> URL.'contacto/insertSocial']);
+                    ?>
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Instagram</label>
+                        <?php
+                        echo Form::input(['type'=>'hidden', 'name'=> 'id', 'value' => $this->social['id'], 'class'=> 'form-control']);
+                        echo Form::input(['type'=>'text', 'name'=> 'instagram', 'value' => $this->social['instagram'], 'class'=> 'form-control']);
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Facebook:</label>
+                        <?php
+                        echo Form::input(['type'=>'text', 'name'=> 'facebook', 'value'=> $this->social['facebook'], 'class'=> 'form-control']);
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Dribbble:</label>
+                        <?php
+                        echo Form::input(['type'=>'text', 'name'=> 'dribbble', 'value'=> $this->social['dribbble'], 'class'=> 'form-control']);
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">twitter:</label>
+                        <?php
+                        echo Form::input(['type'=>'text', 'name'=> 'twitter', 'value'=> $this->social['twitter'], 'class'=> 'form-control']);
+                        ?>
+                    </div>
+
+                    <?php
+                    echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
+                    echo Form::close();
+                    ?>
+            </div>
+        </div>

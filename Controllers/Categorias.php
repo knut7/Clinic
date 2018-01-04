@@ -102,7 +102,7 @@ class Categorias extends AbstractController {
 
         $this->model->createCategory($data);
 
-        Hook::Header('categoriascreatecategory');
+        Hook::Header('categorias/createcategory');
 
     }
 

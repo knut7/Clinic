@@ -45,9 +45,9 @@ class Secretaria extends AbstractController
     }
     public function joinPacienteAndFunc()
     {
-        $this->form->post('Funcionarios_id')->val('maxlength', 1223)
+        $this->form->post('Especialidade_id')->val('maxlength', 1223)
             ->post('Paciente_id')->val('maxlength', 12)
-            ->post('horas')->val('maxlength', 12)->submit();
+            ->post('horas')->val('maxlength', 123)->submit();
 
         $this->model->joinPacienteAndFunc($this->form->getPostData());
         Hook::Header('secretaria/customers');
@@ -113,6 +113,21 @@ class Secretaria extends AbstractController
         }
     }
 
+    public function inserPasciente(){
+
+        if(!empty($_POST['Especialidade_id']) && !empty($_POST['usuarios_id']) && !empty($_POST['create_dt']) && !empty($_POST['info'])) {
+
+            $data['info'] = $_POST['info'];
+            $data['create_dt'] = $_POST['create_dt'];
+            $data['usuarios_id'] = $_POST['usuarios_id'];
+            $data['Especialidade_id'] = $_POST['Especialidade_id'];
+            $this->model->inserPasciente($data);
+            Hook::Header("account/cpanel");
+        } else {
+            Hook::Header("account/cpanel");
+        }
+    }
+
     /**
      * @param $data
      */
@@ -133,8 +148,10 @@ class Secretaria extends AbstractController
             $pess->setPostcode($_POST["postcode"]);
             $pess->setZoneId($_POST['zone_id']);
             $pess->setCity($_POST['city']);
-            $pess->setCountryId($_POST['country_id']);
+            $pess->setCountryId($_POST['country']);
             $pess->setRole($_POST['role']);
+            $pess->setDataNascimento($_POST['dataNascimento']);
+
 
             $data["firstname"] = $pess->getFirstname();
             $data["lastname"] = $pess->getLastname();
@@ -147,8 +164,10 @@ class Secretaria extends AbstractController
             $data["postcode"] = $pess->getPostcode();
             $data['zone_id'] = $pess->getZoneId();
             $data['city'] = $pess->getCity();
-            $data['country_id'] = $pess->getCountryId();
+            $data['country'] = $pess->getCountryId();
             $data['role'] = $pess->getRole();
+            $data['dataNascimento'] = $pess->getDataNascimento();
+
 
             $this->model->updates($data, $pess->getId());
             Hook::Header('Dashboard/customers');

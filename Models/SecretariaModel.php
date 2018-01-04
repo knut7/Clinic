@@ -109,5 +109,9 @@ class SecretariaModel
     {
         $this->entity->insert('Func_has_Paci', $data);
     }
+    public function inserPasciente($data)
+    {
+         $this->entity->insert('Paciente', $data);
+    }
 
 }

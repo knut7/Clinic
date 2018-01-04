@@ -1,0 +1,1057 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Ballybran\Library\Form;
+Module\menu\Sub_Menu::getSubMenu();
+
+
+
+$c = new \Ballybran\Core\Caller\Caller('Module\Lib\Visitor', 'contagem');
+$d = $c->__init();
+
+$register = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt =  $register->get("PDO");
+$paciente = $stmt->selectManager("SELECT * FROM Exame");
+$pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id  WHERE Medicamento.Funcionarios_id is null  and Funcionarios.usuarios_id =".Session::get('ID') );
+
+?>
+
+<div class="container" id="features" >
+        <div class="col-sm-12">
+            <div class="row ">
+                <div class="col-lg-12 card-radius">
+
+                    <div class="col-lg-3 4u 12u(mobile)">
+                        <?php  foreach ($this->UserPhoto as $key => $UserPhoto) { ?>
+
+                            <?php if (!empty($UserPhoto['path'])) { ?>
+                                <img  src="<?php echo URL . $UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $UserPhoto['name']; ?>" />
+                                <?php
+                                if (Session::exist()) {
+                                    ?>
+                                    <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
+                                    <?php
+                                }
+                            } else {
+                                echo "nao tem imagem";
+                            } } ?>
+                    </div>
+                    <div class="col-lg-4 4u 12u(mobile) text-left">
+                        <h3>Contacto</h3>
+
+                        <strong>Nome: </strong><?php echo  $this->paciente['firstname'] . "\t" . $this->paciente['lastname']; ?><br>
+                        <strong>Telefone: </strong><?php echo  $this->paciente['telephone']; ?><br>
+                        <strong>Email: </strong><?php echo  $this->paciente['email']; ?><br>
+                    </div>
+                    <div class="col-lg-4 4u 12u(mobile) text-left">
+                        <h3>Endereço</h3>
+                        <strong>Endereço 1: </strong><?php echo  $this->paciente['address_1'] ?><br>
+                        <strong>Endereço 2: </strong><?php echo  $this->paciente['address_2']; ?><br>
+                        <strong>Cidade: </strong><?php echo  $this->paciente['city']; ?><br>
+                        <strong>País: </strong><?php echo  $this->paciente['country']; ?><br>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-sm-6">
+                <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <div class="hidden-xs">Painel</div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
+                            <div class="hidden-xs">Atendimento</div>
+                        </div>
+                    </div>
+                    <?php /*
+                    <div class="btn-group" role="group">
+                        <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <div class="hidden-xs">Pacientes</div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                            <div class="hidden-xs">Configurações</div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <div  id="favorites" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                            <div class="hidden-xs">Configuração</div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <div  id="following" class="btn btn-default" href="#tab6" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <div class="hidden-xs">Historico</div>
+                        </div>
+                    </div>
+                     */ ?>
+
+                </div>
+
+                <div class="panel panel-info col-lg-12">
+                    <div class="tab-content">
+                        <br>
+
+
+
+                        <div class="tab-pane fade in active" id="tab1">
+
+                            <div class="row" style="min-height:300px;">
+                                <div  class="col-lg-12">
+                                    <br>
+                                    <div class="col-xs-12">
+
+                                        <!-- required for floating -->
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs tabs-left">
+<!--                                            <li class="active"><a href="#resumo" data-toggle="tab">Resumo</a></li>-->
+                                            <li class="active"><a href="#anamnese" data-toggle="tab">Anamnese</a></li>
+                                            <li><a href="#exame" data-toggle="tab">Exame Físico</a></li>
+                                            <li><a href="#hdiagno" data-toggle="tab">Hipótese Diagnóstico</a></li>
+                                            <li><a href="#evolucao" data-toggle="tab">Evolução</a></li>
+                                            <li><a href="#prescricao" data-toggle="tab">Prescrições</a></li>
+                                            <li><a href="#documento" data-toggle="tab">Documentos e atestados</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-9">
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <?php /*
+                                            <div class="tab-pane active" id="resumo">
+
+
+                                                <!-- timer line of the resume -->
+
+
+                                                <!-- Timeline -->
+                                                <div class="timeline">
+
+                                                    <!-- Line component -->
+                                                    <div class="line text-muted"></div>
+
+                                                    <!-- Separator -->
+                                                    <div class="separator text-muted">
+                                                        <time>26. 3. 2015</time>
+                                                    </div>
+                                                    <!-- /Separator -->
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-danger panel-outline">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-heart"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            <strong>Someone</strong> favourited your photo.
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                    </article>
+                                                    <!-- /Panel -->
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-default panel-outline">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-picture"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            <img class="img-responsive img-rounded" src="//placehold.it/350x150" />
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                    </article>
+                                                    <!-- /Panel -->
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-primary">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Heading -->
+                                                        <div class="panel-heading">
+                                                            <h2 class="panel-title">New content added</h2>
+                                                        </div>
+                                                        <!-- /Heading -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            Some new content has been added.
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                        <!-- Footer -->
+                                                        <div class="panel-footer">
+                                                            <small>Footer is also supported!</small>
+                                                        </div>
+                                                        <!-- /Footer -->
+
+                                                    </article>
+                                                    <!-- /Panel -->
+
+                                                    <!-- Separator -->
+                                                    <div class="separator text-muted">
+                                                        <time>25. 3. 2015</time>
+                                                    </div>
+                                                    <!-- /Separator -->
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-success">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Heading -->
+                                                        <div class="panel-heading">
+                                                            <h2 class="panel-title">New content added</h2>
+                                                        </div>
+                                                        <!-- /Heading -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            Anything you can do with <code>.panel</code>, can be done in timeline too!
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                        <!-- List group -->
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">Like</li>
+                                                            <li class="list-group-item">list</li>
+                                                            <li class="list-group-item">groups</li>
+                                                            <li class="list-group-item">and</li>
+                                                            <li class="list-group-item">tables</li>
+                                                        </ul>
+
+                                                    </article>
+                                                    <!-- /Panel -->
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-info panel-outline">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            That is all.
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                    </article>
+                                                    <!-- /Panel -->
+
+                                                </div>
+                                                <!-- /Timeline -->
+
+
+                                            </div>
+                                            */
+                                            ?>
+                                            <div class="tab-pane active" id="anamnese">
+
+                                                <br><br>
+                                                <!-- Anamnese form-->
+                                                <strong class="message"></strong>
+                                                <div class="content">
+                                                    <form id="anamneseForm", method="post", action="<?php echo URL;?>Funcionario/insertAnamnese">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label>Queixa Principal </label>
+                                                                    <input type="text" class="form-control" name="queixa_pri">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label>História</label>
+                                                                    <input type="text" class="form-control" name="historia" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Problemas Renais</label>
+                                                                    <input type="text" class="form-control" name="prob_renais">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Problemas Articulares ou Reumatismo</label>
+                                                                    <input type="text" class="form-control" name="prob_artic_reum" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Problemas Cardiaco</label>
+                                                                    <input type="text" class="form-control" name="prob_cardiaco">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Problemas Respitátorios</label>
+                                                                    <input type="text" class="form-control" name="prob_respira" >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Problemas Gastríco</label>
+                                                                    <input type="text" class="form-control" name="prob_gastricos" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Alergia</label>
+                                                                    <input type="text" class="form-control" name="alergia">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Grávides</label>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="gravides" id="gridRadios1" value="sim" >
+                                                                            sim
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="gravides" id="gridRadios2" value="nao">
+                                                                            não
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Epatite</label>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="hepatite" id="gridRadios1" value="sim" >
+                                                                            sim
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="hepatite" id="gridRadios2" value="nao">
+                                                                            não
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Diabete</label>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="diabete" id="gridRadios1" value="sim" >
+                                                                            sim
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input" type="radio" name="diabete" id="gridRadios2" value="nao">
+                                                                            não
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Uso de Medicamento</label>
+                                                                    <input type="text" class="form-control" name="uso_de_medicam">
+                                                                    <input  name="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
+                                                                    <input type="hidden" class="form-control" name="Paciente_id" value="<?php echo $this->paciente['Paciente_id'];?>">
+                                                                    <input type="hidden" class="form-control" name="data" value="<?php echo \Ballybran\Helpers\Time\Timestamp::dataTime();?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="submit" id="save" class="btn btn-info btn-fill pull-right">Save</button>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+
+                                                    <span id="result"></span>
+
+                                                    <script>
+                                                        //
+                                                        $("#save").click(function () {
+                                                            var data = $("#anamneseForm :input").serializeArray();
+                                                            $.post($("#anamneseForm").attr("action"), data, function (info) {
+                                                                $("result").html(info);
+                                                                clearInfo();
+                                                                hideForm();
+                                                                showSucessMessage();
+
+                                                            });
+                                                        });
+
+                                                        $("#anamneseForm").submit(function () {
+                                                            return false;
+                                                        });
+
+                                                        function clearInfo() {
+
+                                                            $("#anamneseForm :input").each(function () {
+                                                                $(this).val("")
+                                                            });
+                                                        };
+
+                                                        function hideForm() {
+                                                            $("#anamneseForm").each(function () {
+                                                                $(this).hide("");
+
+                                                            });
+                                                        };
+
+                                                        function showSucessMessage() {
+                                                            $(".message").each(function () {
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> mensagem inserida com sucess").show();
+                                                            })
+                                                        }
+
+                                                    </script>
+                                                </div> <!-- end -->
+
+
+                                            </div>
+                                            <div class="tab-pane" id="exame">
+                                                <br><br>
+                                                <!-- Exame  Físico form-->
+
+                                                <strong class="message"></strong>
+                                                <div class="content">
+                                                    <form id="ExameFisicoForm", method="post", action="<?php echo URL;?>Funcionario/insertExameFisico">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label>Altura </label>
+                                                                    <input type="text" class="form-control" name="altura"> m
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label>Peso</label>
+                                                                    <input type="text" class="form-control" name="peso"> Kg
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label>Frequência Cardiaca</label>
+                                                                    <input type="text" class="form-control" name="freq_cardiaca" > Batimentos por minutos
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Pressão Arterial Sitótelica</label>
+                                                                    <input type="text" class="form-control" name="press_arte_sistolica"> mmHg
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Pressão Arterial Diastótelica</label>
+                                                                    <input type="text" class="form-control" name="press_arte_diastolica"/> mmHg
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Observações Gerais</label>
+                                                                    <input  name="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
+                                                                    <textarea rows="5" name="obs_gerais" class="form-control"></textarea>
+                                                                    <input type="hidden" class="form-control" name="Paciente_id" value="<?php echo $this->paciente['Paciente_id'];?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="submit" id="save2" class="btn btn-info btn-fill pull-right">Save</button>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+
+                                                    <span id="result"></span>
+
+                                                    <script>
+
+                                                        $("#save2").click(function () {
+                                                            var data = $("#ExameFisicoForm :input").serializeArray();
+                                                            $.post($("#ExameFisicoForm").attr("action"), data, function (info) {
+                                                                $("result").html(info);
+                                                                clearInfo();
+                                                                hideForm();
+                                                                showSucessMessage();
+
+                                                            });
+                                                        });
+
+                                                        $("#ExameFisicoForm").submit(function () {
+                                                            return false;
+                                                        });
+
+                                                        function clearInfo() {
+
+                                                            $("#ExameFisicoForm :input").each(function () {
+                                                                $(this).val("")
+                                                            });
+                                                        };
+
+                                                        function hideForm() {
+                                                            $("#ExameFisicoForm").each(function () {
+                                                                $(this).hide("");
+
+                                                            });
+                                                        };
+
+                                                        function showSucessMessage() {
+                                                            $(".message").each(function () {
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Exames fisico  inserida com sucess").show();
+                                                            })
+                                                        }
+
+                                                    </script>
+                                                </div> <!-- end -->
+
+
+
+                                            </div>
+                                            <div class="tab-pane" id="hdiagno">
+                                                <br><br>
+                                                <!-- Hipotese Diagnostico  form-->
+
+                                                <strong class="message"></strong>
+                                                <div class="content">
+                                                    <form id="HipoDiagno", method="post", action="<?php echo URL;?>Funcionario/insertHipoteseDiagnostico">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Diagnostico </label>
+                                                                    <input type="text" class="form-control" name="diagnostico">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Observações</label>
+                                                                    <textarea rows="5" name="diag_obs" class="form-control"></textarea>
+                                                                    <input  name="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
+                                                                    <input type="hidden" class="form-control" name="Paciente_id" value="<?php echo $this->paciente['Paciente_id'];?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="submit" id="save3" class="btn btn-info btn-fill pull-right">Save</button>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+
+                                                    <span id="Diagnostico"></span>
+
+                                                    <script>
+
+                                                        $("#save3").click(function () {
+                                                            var data = $("#HipoDiagno :input").serializeArray();
+                                                            $.post($("#HipoDiagno").attr("action"), data, function (info) {
+                                                                $("Diagnostico").html(info);
+                                                                clearInfo();
+                                                                hideForm();
+                                                                showSucessMessage();
+
+                                                            });
+                                                        });
+
+                                                        $("#HipoDiagno").submit(function () {
+                                                            return false;
+                                                        });
+
+                                                        function clearInfo() {
+
+                                                            $("#HipoDiagno :input").each(function () {
+                                                                $(this).val("")
+                                                            });
+                                                        }
+
+                                                        function hideForm() {
+                                                            $("#HipoDiagno").each(function () {
+                                                                $(this).hide("");
+
+                                                            });
+                                                        }
+
+                                                        function showSucessMessage() {
+                                                            $(".message").each(function () {
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Hipotese diagnostico Inseridoc com sucess").show();
+                                                            })
+                                                        }
+
+                                                    </script>
+                                                </div> <!-- end -->
+
+
+                                            </div>
+                                            <div class="tab-pane" id="evolucao">
+                                                <br><br>
+                                                <!--  Evolucao  form-->
+
+                                                <strong class="message"></strong>
+                                                <div class="content">
+                                                    <form id="evolucaoForm", method="post", action="<?php echo URL;?>Funcionario/insertEvolucao">
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>Evolução</label>
+                                                                    <input  name="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
+                                                                    <input type="hidden" class="form-control" name="Paciente_id" value="<?php echo $this->paciente['Paciente_id'];?>">
+                                                                    <textarea rows="5" name="evolucao" class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="submit" id="save4" class="btn btn-info btn-fill pull-right">Save</button>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+
+                                                    <span id="result"></span>
+
+                                                    <script>
+                                                        //
+                                                        $("#save4").click(function () {
+                                                            var data = $("#evolucaoForm :input").serializeArray();
+                                                            $.post($("#evolucaoForm").attr("action"), data, function (info) {
+                                                                $("result").html(info);
+                                                                clearInfo();
+                                                                hideForm();
+                                                                showSucessMessage();
+
+                                                            });
+                                                        });
+
+                                                        $("#evolucaoForm").submit(function () {
+                                                            return false;
+                                                        });
+
+                                                        function clearInfo() {
+
+                                                            $("#evolucaoForm :input").each(function () {
+                                                                $(this).val("")
+                                                            });
+                                                        };
+
+                                                        function hideForm() {
+                                                            $("#evolucaoForm").each(function () {
+                                                                $(this).hide("");
+
+                                                            });
+                                                        };
+
+                                                        function showSucessMessage() {
+                                                            $(".message").each(function () {
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Evolução Inserido com sucess").show();
+                                                            })
+                                                        }
+
+                                                    </script>
+                                                </div> <!-- end -->
+                                            </div>
+
+                                            <div class="tab-pane" id="prescricao">
+                                                <br><br><br>
+
+                                                <!-- Prescircao form-->
+                                                <strong class="message"></strong>
+                                                <div class="content">
+
+                                                    <form id="presciaoForm" method="post" action="<?php echo URL; ?>funcionario/inserMedicamento">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Nome Genérico</label>
+                                                                <input  name="generico" id="generico" class="form-control" type="text" />
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Nome Comercial</label>
+                                                                <input name="comercial" id="comercial" class="form-control" type="text" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Dose</label>
+                                                                    <input  name="dose" id="dose" class="form-control" type="text" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Tipo de Administração</label>
+                                                                    <input name="via_admin" id="via_admin" class="form-control" type="text" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Intervalo da Medicacao</label>
+                                                                    <input name="interval" id="interval" class="form-control" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <input  name="Funcionarios_id" id="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <input name="Paciente_id" id="Paciente_id" value="<?php echo $this->paciente['Paciente_id']; ?>" type="hidden" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Inicio da Medicação</label>
+                                                                    <input  name="inicio" id="inicio" class="form-control" type="date" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Fim da Medicação</label>
+                                                                    <input name="final" id="final" class="form-control"  type="date" />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <button type="submit" id="save5"  class="btn btn-info btn-fill pull-right">Save</button>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+                                                    <span id="result"></span>
+
+                                                    <script>
+
+
+                                                        //                                          function sendMed() {
+                                                        //
+                                                        //                                              var comercial = $("#comercial").val();
+                                                        //                                              var generico = $("#generico").val();
+                                                        //                                              var dose = $("#dose").val();
+                                                        //                                              var via_admin = $("#via_admin").val();
+                                                        //                                              var interval = $("#interval").val();
+                                                        //                                              var Funcionarios_id = $("#Funcionarios_id").val();
+                                                        //                                              var Paciente_id = $("#Paciente_id").val();
+                                                        //                                              var inicio = $("#inicio").val();
+                                                        //                                              var final = $("#final").val();
+                                                        //                                              $.ajax({
+                                                        //                                                  type: "POST",
+                                                        //                                                  url : "<?php //echo URL; ?>//funcionario/inserMedicamento",
+                                                        //                                                  data:  "generico ="+ generico + "&comercial= " + comercial + "&dose=" + dose + "&via_admin= " + via_admin + "&interval= " +interval + "&Funcionarios_id= " + Funcionarios_id + "&Paciente_id= " +Paciente_id + "&inicio =" +inicio +
+                                                        //                                                      "&final = " +final,
+                                                        //                                                  success : function (data) {
+                                                        //                                                      alert("sucess");
+                                                        //                                                  }
+                                                        //
+                                                        //                                              });
+                                                        //                                          }
+                                                        $("#save5").click(function () {
+                                                            var data = $("#presciaoForm :input").serializeArray();
+                                                            $.post($("#presciaoForm").attr("action"), data, function (info) {
+                                                                $("result").html(info);
+                                                                clearInfo();
+                                                                hideForm();
+                                                                showSucessMessage();
+
+                                                            });
+                                                        });
+
+                                                        $("#presciaoForm").submit(function () {
+                                                            return false;
+                                                        });
+
+                                                        function clearInfo() {
+
+                                                            $("#presciaoForm :input").each(function () {
+                                                                $(this).val("")
+                                                            });
+                                                        };
+
+                                                        function hideForm() {
+                                                            $("#presciaoForm").each(function () {
+                                                                $(this).hide("");
+
+                                                            });
+                                                        };
+
+                                                        function showSucessMessage() {
+                                                            $(".message").each(function () {
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Prescição Inserido com sucess").show();
+                                                            });
+                                                        };
+
+
+                                                    </script>
+                                                </div><!-- end -->
+                                            </div>
+
+
+                                            <div class="tab-pane" id="documento">
+                                                <br><br>
+                                                <!-- documento form-->
+
+                                                <div class="content">
+
+                                                </div> <!-- end -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade in" id="tab2">
+                            <h1>Not found</h1>
+                        </div>
+                        <?php /*
+                        <div class="tab-pane fade in" id="tab3">
+                                3
+                        </div>
+                        <div class="tab-pane fade in" id="tab4">
+                            4
+                        </div>
+                        <div class="tab-pane fade in" id="tab5">
+                            5
+                        </div>
+                        <div class="tab-pane fade in" id="tab6">
+                            6
+                        </div>
+                        */
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+    <script>
+
+    var PieChart = {
+        type : "pie",
+        data : {
+            datasets: [{
+                data :
+                    [
+                        [<?php echo json_encode(count($pacientes));?>],
+                        [<?php echo json_encode(count($paciente));?>],
+
+
+                    ],
+
+                backgroundColor: [
+                    "#f7464a",
+                    "#46BFBD",
+                    "#FDB45C",
+                    "#949FB1",
+                    "#4D5360",
+                ],
+            }],
+            labels :
+
+
+                [
+                    ' Em expera',
+                    'Atendidos'
+                ]
+
+        },
+
+        options : {
+            responsive : true,
+        }
+    };
+    var pie = document.getElementById('barChart').getContext('2d');
+    window.line = new Chart(pie, PieChart);
+
+
+    var ctx = document.getElementById("totalPaciente").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "julho", "Agosto", "Setembro", "Outrubto", "Noembro", "Dezembro"],
+            datasets: [
+
+                {
+                    label: 'Pacientes em Espera',
+                    data:
+                        [
+                            <?php  for($i = 0; $i < 12; $i++)
+                            {?>,
+                            <?php echo json_encode(count($allPaciente[$i]));
+                            }?>],
+
+                    backgroundColor: [
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
+
+                    ],
+                    borderColor: [
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
+                    ],
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Atendidos',
+                    data:
+                        [
+                            <?php  for($i = 0; $i < 12; $i++)
+                            {?>,
+                            <?php echo json_encode(count($pacientesAtendidos[$i]));
+                            }?>],
+
+                    backgroundColor: [
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                    ],
+                    borderColor: [
+
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                    ],
+                    borderWidth: 1,
+                }]
+        },
+        scales: {
+            yAxes: [{
+                barPercentage: 0.5
+            }]
+        },
+        elements: {
+            rectangle: {
+                borderSkipped: 'left',
+            }
+        }
+
+
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
