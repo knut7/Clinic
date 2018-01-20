@@ -104,19 +104,21 @@ class Finance  extends AbstractController {
 
 
 
-        $this->form2->post('Funcionarios_id')->val('maxlength', 1223)
-            ->post('Paciente_id')->val('maxlength', 12)
-            ->post('Func_dt')->val('maxlength', 1234)
-            ->post('horas')->val('maxlength', 122)->submit();
 
-        if(!empty(['Paciente_id'])) {
+        if(!empty($_POST['Paciente_id']) && !empty($_POST['Funcionarios_id']) && !empty($_POST['Func_dt']) && !empty($_POST['start']) && !empty($_POST['Situacao_id']) ) {
             $data['Situacao_id'] = $_POST['Situacao_id'];
+            $dataa['Funcionarios_id'] = $_POST['Funcionarios_id'];
+            $dataa['Func_dt'] = $_POST['Func_dt'];
+            $dataa['start'] = $_POST['start'];
+            $dataa['Paciente_id'] = $_POST['Paciente_id'];
+            $this->model->joinPacienteAndFunc($dataa);
             $this->model->updateSituacao($data, $_POST['Paciente_id']);
+
         }
 
 
 
-        $this->model->joinPacienteAndFunc($this->form2->getPostData());
+
         $this->model->insertCredito($this->form->getPostData());
 
         Hook::Header('account/cpanel');

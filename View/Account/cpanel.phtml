@@ -16,7 +16,7 @@
  */
 
 use Ballybran\Helpers\Security\Session;
-use Module\menu\Sub_Menu;
+use Module\Clinic\Lib\menu\Sub_Menu;
 
 
 use Ballybran\Library\Form;
@@ -86,8 +86,6 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
     <div class="col-sm-12">
 
         <div class="row ">
-            <div class="col-lg-12 card-radius">
-
                 <div class="col-lg-3 4u 12u(mobile)">
 
                     <?php if (!empty($this->UserPhoto['path'])) { ?>
@@ -125,12 +123,10 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                     <strong>País: </strong><?php echo  $this->user['country']; ?><br>
                 </div>
 
-            </div>
-
         </div>
     </div>
 
-    <div class="col-lg-12 col-sm-6">
+    <div class="col-lg-12 col-sm-12">
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
             <div class="btn-group" role="group">
                 <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -229,7 +225,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                         </div> <!-- end -->
 
 
-                        <div class="col-lg-4 4u 12u(mobile)">
+                        <div class="col-lg-12 4u 12u(mobile)">
                             <div class="card">
 
                                 <div class="header">
@@ -342,7 +338,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="header">
                                     <h5 class="titles">Estatistica Mensal de Pciente</h5>
@@ -362,7 +358,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                             </div>
                         </div><!-- end -->
 
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="header">
                                     <h4 class="titles">Estatistica de Funcionario</h4>
@@ -478,6 +474,13 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                                             echo Form::input(['type' => 'text', 'name' => 'username', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'user name']);
                                             ?>
 
+                                        </div>
+                                        <div class="form-group">
+
+                                            <select name="sexo" id="">
+                                                <option value="f">Feminino</option>
+                                                <option value="m">Masculino</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="input-firstname">Email</label>
@@ -670,9 +673,15 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                                     </div>
                                     <div class="tab-pane" id="info">
                                         <br><br>
-                                        <form method="POST" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
+                                        <form method="post" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
                                             <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
                                             <input type="file" name="archive[]" id="pic" />
+                                            <label for="colorWell">Qualidade:</label>
+                                            <input type="text" value="50" name="quality"/>
+                                            <label for="colorWell">Color:</label>
+                                            <input type="color" name="color" value="#ff0000" class="contact-form" id="colorWell" />
+                                            <label for="colorWell">Rotação:</label>
+                                            <input type="text"  value="0" name="degree" />
                                             <input type="submit" value="Carregar" />
                                         </form>
 
@@ -853,9 +862,8 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
                                     <div class="tab-pane active" id="log">
 
-                                        <?php $log = new \Ballybran\Helpers\Log\Log("logoAccess.txt");
-                                       echo  $log->open();
-                                        ?>
+                                        <?php $log = new \Ballybran\Helpers\Log\Log("logoAccess.txt");?>
+                                        <p class="btn btn-danger"> <?php  echo  $log->open(); ?></p>
                                     </div>
                                     <div class="tab-pane" id="profile3">
                                         <?php $secret = new \Ballybran\Helpers\Log\Log("logActividadeCecretria.txt");
@@ -1231,6 +1239,8 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
     $(document).ready(function() {
 
+        var localeCode = "pt-br";
+
         $.post('<?php echo URL;?>account/event',
             function(data){
                 //alert(data);
@@ -1241,6 +1251,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                         center: 'title',
                         right: 'month,basicWeek,basicDay'
                     },
+                    locale: localeCode,
                     defaultDate: new Date(),
                     navLinks: true, // can click day/week names to navigate views
                     editable: true,
@@ -1344,5 +1355,18 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
 
     });
+
+    var colorWell;
+    var defaultColor = "#0000ff";
+
+    window.addEventListener("load", startup, false);
+
+    function startup() {
+        colorWell = document.querySelector("#colorWell");
+        colorWell.value = defaultColor;
+        colorWell.addEventListener("input", updateFirst, false);
+        colorWell.addEventListener("change", updateAll, false);
+        colorWell.select();
+    }
 
 </script>

@@ -43,7 +43,7 @@ class UserModel {
      * @return bool
      */
     public function signUp($data) {
-        return $this->entity->insert('usuarios', $data);
+         $this->entity->insert('usuarios', $data);
     }
 
     /**
@@ -52,7 +52,7 @@ class UserModel {
      *  select all from usuarios
      */
     public function signIn($data) {
-        return $this->entity->selectManager("SELECT * FROM usuarios WHERE username=:username", $data, PDO::FETCH_ASSOC);
+        return $this->entity->selectManager("SELECT * FROM usuarios WHERE email=:email", $data, PDO::FETCH_ASSOC);
     }
 
     /**
@@ -60,12 +60,18 @@ class UserModel {
      * @return array
      */
     public function selectData($data) {
-        return $this->entity->selectManager("SELECT * FROM usuarios WHERE username=:username", $data);
+        return $this->entity->selectManager("SELECT * FROM usuarios WHERE email=:email", $data, PDO::FETCH_ASSOC);
     }
 
     public function insertSession($data, $status)
     {
         return $this->entity->update('usuarios', $data, "id=$status");
+
+    }
+
+    public function updatePassword($data, $id)
+    {
+        return $this->entity->update('usuarios', $data, "id=$id");
 
     }
     public function logAcess($cote, $content)
@@ -79,5 +85,16 @@ class UserModel {
         $log = new Log('logOfPaciente.txt');
         $log->write($cote . "\t" .$content);
     }
+
+    public function confirm($data, $confirm)
+    {
+        $this->entity->update("usuarios", $data, "confirmCod=$confirm");
+    }
+    public function confirm2($data, $confirm)
+    {
+        $this->entity->update("usuarios", $data, "email=$confirm");
+    }
+
+
 
 }

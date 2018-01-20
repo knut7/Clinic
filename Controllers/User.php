@@ -24,7 +24,10 @@ use Ballybran\Helpers\Time\Timestamp;
 use Ballybran\Helpers\Ucfirst;
 use Ballybran\Helpers\Utility\Hash;
 use Ballybran\Helpers\vardump\Vardump;
+use Ballybran\Library\Email;
 use Module\Entity\Pessoa;
+use Module\Lib\SendMail;
+use PHPMailer\PHPMailer\PHPMailer;
 
 
 class User extends AbstractController {
@@ -39,8 +42,13 @@ class User extends AbstractController {
 
     }
     public function Login() {
-        $this->view->title = 'Login';
-        $this->view->render($this, 'index');
+        if(!Session::exist()) {
+            $this->view->title = 'Login';
+            $this->view->render($this, 'index');
+        }else {
+            Hook::Header('account/cpanel');
+        }
+
     }
 
     /**
@@ -66,10 +74,22 @@ class User extends AbstractController {
             $data['firstname'] = $obj->getFirstname();
             $data['sexo'] = $obj->getSexo();
             $data['email'] = $obj->getEmail();
+            $data['confirmCod'] = rand();
             $data['create_time'] = Timestamp::dataTime();
 
 
+            $mail = new SendMail(new PHPMailer());
+            $mail->setFrom("marciozebedeu@gmail.com");
+            $mail->setFromName($_POST['firstname'] . "\t" . $_POST['lastname']);
+            $mail->setMessage("Clinic no link para confirmar teu cadastro : " ."\t". URL . "user/confirm/?email=" . $_POST['email'] . "&confirmCod=".$data['confirmCod']);
+            $mail->setAssunto("Recuperarção da Senha");
+            $mail->setTo($_POST['email']);  // email d visitante vindo do form
+            $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
+
+            $mail->send();
+            $mail->body();
             $this->model->signUp($data);
+
             if(!Session::exist()) {
                 Hook::Header('user/signIn');
             }
@@ -87,19 +107,19 @@ class User extends AbstractController {
     {
         $obj = new Pessoa();
 
-        if (!empty($_POST["username"]) && !empty($_POST["password"])) {
+        if (!empty($_POST["email"]) && !empty($_POST["password"])) {
 
-            $obj->setUsername($_POST["username"]);
+            $obj->setUsername($_POST["email"]);
             $obj->setPassword($_POST["password"]);
 
 
-            if (!empty($this->model->signIn(array (':username' => $obj->getUsername())))) {
+            if (!empty($this->model->signIn(array (':email' => $obj->getUsername())))) {
 
-                $resposta = $this->model->signIn(array (':username' => $obj->getUsername()));;
+                $resposta = $this->model->signIn(array (':email' => $obj->getUsername()));;
                 $resposta = $resposta[0];
 
 
-                if ($resposta["password"] == $obj->getPassword()) {
+                if (Hash::verify_password($_POST["password"], $resposta["password"]) && $resposta['confirmed'] == 1) {
                     $this->CreateSession($resposta["username"], $resposta["role"], $resposta["id"]);
 
                     $data['status'] = Session::exist();
@@ -118,13 +138,93 @@ class User extends AbstractController {
         }
     }
     
-    /**
-     *
-     */
-    public function selectData() {
-        $resposta = $this->model->selectData(array(':username', $_POST['username']));
-        $resposta = $resposta[0];
+
+    public function formReset()
+    {
+        $this->view->title = 'Esqueceu sua senha?';
+        $this->view->render($this, 'password_reset');
     }
+
+    public function resetPassword()
+    {
+        if(!empty($_POST['email'])) {
+
+            if (!empty($this->model->selectData(array(':email' => $_POST['email'])))) {
+
+                $resposta = $this->model->selectData(array(':email' => $_POST['email']))[0];
+
+                $mail = new SendMail(new PHPMailer() );
+                $mail->setFrom("marciozebedeu@gmail.com");
+                $mail->setFromName($resposta['firstname'] . "\t" . $resposta['lastname']);
+                $mail->setMessage("Clinic no link para atualizar a senha: " ."\t". URL . "user/newpassword/?id=" . $resposta['id'] . "&email=" . $resposta['email']);
+                $mail->setAssunto("Recuperarção da Senha");
+                $mail->setTo($resposta['email']);  // email d visitante vindo do form
+                $mail->setAddr($resposta['email']); // enviar para mim (secretaria)
+
+                $mail->send();
+                $mail->body();
+            } else {
+                Hook::Header('user');
+            }
+        }
+
+    }
+
+    public function newPassword()
+    {
+        if(!empty($_GET['id']) && !empty($_GET['email'])) {
+
+            $this->view->title = 'Recuperar sua senha?';
+            $this->view->id = $_GET['id'];
+            $this->view->email = $_GET['email'];
+            $this->view->render($this, 'new_password');
+
+        }
+
+    }
+
+    public function makePassword()
+    {
+        if(!empty($_POST['id']) && !empty($_POST['email']) && !empty($_POST['password'])) {
+
+            $entity = new Pessoa();
+            $entity->setPassword($_POST['password']);
+            $data['password'] = $entity->getPassword();
+            $this->model->updatePassword($data, $_POST['id']);
+            $resposta = $this->model->selectData(array(':email'=> $_POST['email']))[0];
+            $mail = new SendMail();
+            $mail->setFrom("marciozebedeu@gmail.com");
+            $mail->setFromName($resposta['firstname'] . "\t" . $resposta['lastname']);
+            $mail->setMessage("Tua senha foi criada com sucesso para : " . $_POST['password'] );
+            $mail->setAssunto("Atualização da Senha");
+            $mail->setTo($resposta['email']);  // email d visitante vindo do form
+            $mail->setAddr($resposta['email']); // enviar para mim (secretaria)
+
+            $mail->send();
+            $mail->body();
+            Hook::Header('user');
+        } else{
+            Hook::Header('user');
+        }
+    }
+
+    public function confirm()
+    {
+        if (!empty($_GET['confirmCod']) && !empty($_GET['email'])) {
+
+
+                $data['confirmed'] = 1;
+                $this->model->confirm($data, $_GET['confirmCod']);
+                $this->view->render($this, 'confirm');
+
+            } else {
+                $this->view->render($this, 'not-confirm');
+
+
+        }
+    }
+
+
 
     /**
      *

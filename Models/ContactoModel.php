@@ -61,4 +61,15 @@ class ContactoModel {
 
     }
 
+    public function getMailSetting()
+    {
+        return $this->database->find("MailConfig", "*");
+
+    }
+
+    public function updateMailConfig($data, $id)
+    {
+        $this->database->update("MailConfig", $data, "id=$id");
+    }
+
 }

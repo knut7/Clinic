@@ -28,6 +28,9 @@ use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Helpers\Security\Validate;
+use Ballybran\Helpers\Utility\Hash;
+use Module\Lib\SendMail;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class Contacto extends AbstractController
 {
@@ -42,6 +45,7 @@ class Contacto extends AbstractController
 
     public function index()
     {
+
         $this->view->title = "Contacto";
         $this->view->contacto = $this->model->getContacto();
         $this->view->render($this, 'index');
@@ -60,6 +64,7 @@ class Contacto extends AbstractController
 
 
                 $this->view->title = "Insert";
+                $this->view->mailConfig =  $this->model->getMailSetting()[0];
                 $this->view->contacto = $this->model->getContacto()[0];
                 $this->view->social = $this->model->getSocial()[0];
                 $this->view->render($this, 'insert-contacto');
@@ -73,26 +78,26 @@ class Contacto extends AbstractController
 
     }
 
-        public function insertContacto()
-        {
-            if ($_POST['id']) {
-                $this->form->post("endereco")->val("maxlength", 122)
-                    ->post("telefone")->val("maxlength", 122)
-                    ->post("bairro")->val("maxlength", 122)
-                    ->post("cidade")->val("maxlength", 122)
-                    ->post("email")->val("maxlength", 122)
-                    ->post("fax")->val("maxlength", 122)
-                    ->post("site")->val("maxlength", 122)->submit();
+    public function insertContacto()
+    {
+        if ($_POST['id']) {
+            $this->form->post("endereco")->val("maxlength", 122)
+                ->post("telefone")->val("maxlength", 122)
+                ->post("bairro")->val("maxlength", 122)
+                ->post("cidade")->val("maxlength", 122)
+                ->post("email")->val("maxlength", 122)
+                ->post("fax")->val("maxlength", 122)
+                ->post("site")->val("maxlength", 122)->submit();
 
-                $this->model->updateContacto($this->form->getPostData(), $_POST['id']);
-                Hook::Header("contacto/contactoInfo");
-            }
+            $this->model->updateContacto($this->form->getPostData(), $_POST['id']);
+            Hook::Header("contacto/contactoInfo");
         }
+    }
 
 
     public function insertSocial()
     {
-        if($_POST['id']) {
+        if ($_POST['id']) {
 
             $this->form->post("instagram")->val("maxlength", 122)
                 ->post("facebook")->val("maxlength", 122)
@@ -102,6 +107,59 @@ class Contacto extends AbstractController
             Hook::Header("contacto/contactoInfo");
 
         }
+    }
+
+    public function sendMail()
+    {
+        if (!empty($_POST['assunto']) && !empty($_POST['email']) && !empty($_POST['message']) && !empty($_POST['nome'])) {
+
+
+            $mail = new SendMail();
+            $mail->setFrom("marciozebedeu@gmail.com");
+            $mail->setFromName($_POST['nome']);
+            $mail->setMessage($_POST['message']);
+            $mail->setAssunto($_POST['assunto']);
+            $mail->setTo($_POST['email']);  // email d visitante vindo do form
+            $mail->setAddr("marciozebedeu@gmail.com"); // enviar para mim
+
+            $mail->send();
+            $mail->body();
+
+
+
+
+        }
+    }
+
+    public function updatEmailConfig()
+    {
+        if (!empty($_POST['id'])
+            && !empty($_POST['Lang']) && !empty($_POST['Auth']) && !empty($_POST['Charset'])
+            && !empty($_POST['Html']) && !empty($_POST['Port']) && !empty($_POST['Host'])
+            && !empty($_POST['Username']) && !empty($_POST['Password']) && !empty($_POST['Secure'])
+            && !empty($_POST['From']) && !empty($_POST['FromName'])
+            && !empty($_POST['Message1'])  && !empty($_POST['Message2']) && !empty($_POST['Message3'])) {
+
+            $data['Lang'] = $_POST['Lang'];
+            $data['Auth'] = $_POST['Auth'];
+            $data['Charset'] = $_POST['Charset'];
+            $data['Html'] = $_POST['Html'];
+            $data['Port'] = $_POST['Port'];
+            $data['Host'] = $_POST['Host'];
+            $data['Username'] = $_POST['Username'];
+            $data['Password'] = $_POST['Password'];
+            $data['Secure'] = $_POST['Secure'];
+            $data['From'] = $_POST['From'];
+            $data['FromName'] = $_POST['FromName'];
+            $data['Message1'] = $_POST['Message1'];
+            $data['Message2'] = $_POST['Message2'];
+            $data['Message3'] = $_POST['Message3'];
+
+            $this->model->updateMailConfig($data, $_POST['id']);
+            Hook::Header("contacto/contactoInfo");
+
+        }
+
     }
 
 

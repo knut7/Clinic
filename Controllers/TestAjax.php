@@ -37,8 +37,20 @@ class TestAjax extends AbstractController {
     {
         $this->view->title = " TEXT DE SERACH";
 
-//        $this->view->user = $this->model->getUser();
-        $this->view->render($this, "serach" );
+        $this->view->select = $this->model->select();
+        $this->view->render($this, "index" );
+    }
+
+    public function insert()
+    {
+
+        if(! empty($_GET['id'])) {
+            $data['start'] = $_GET['start'];
+            $data['end'] = $_GET['end'];
+            $d = $this->model->insert($data, $_GET['id']);
+//            var_dump($data);
+        }
+
     }
 
     public function search()

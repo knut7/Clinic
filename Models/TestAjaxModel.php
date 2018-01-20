@@ -43,4 +43,20 @@ class TestAjaxModel {
         return $this->database->find("usuarios", "*");
     }
 
+    public function Backup()
+    {
+        return $this->database->Backup("test.sql");
+    }
+
+    public function select()
+    {
+        return $this->database->selectManager("SELECT * FROM usuarios");
+
+    }
+
+    public function insert($data, $id)
+    {
+         $this->database->update('events', $data, "id=$id");
+
+    }
 }
