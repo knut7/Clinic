@@ -18,9 +18,14 @@ namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\vardump\Vardump;
+use Ballybran\Helpers\{
+    Http\Hook, Security\Session, vardump\Vardump, Images\Resize
+};
+use Module\Upload\ImageUpload;
+use Module\Lib\SendMail;
+use PHPMailer\PHPMailer\PHPMailer;
+
+
 use function date;
 
 /**
@@ -68,11 +73,6 @@ class Article extends AbstractController {
         /** @var int $id */
         $this->view->public = $this->model->_getAllArticle();
         $this->view->render($this, 'index');
-//        $background = 'img/background.jpg';
-//        $image = new \FWAP\Library\Images\Image($background, 100, 100);
-//        $d = $image->saveImage('Image/teste.gif', 100);
-//
-//        var_dump($d);
     }
 
     public function art_pre_post($id) {
@@ -81,6 +81,9 @@ class Article extends AbstractController {
         /** @var int $id */
         $this->view->public = $this->model->_getArticleById($id);
         $this->view->comments = $this->model->getComments($id);
+        if(Session::exist()){
+        $this->view->getUser = $this->model->getUser(Session::get("ID"))[0];
+    }
         $this->view->render($this, 'art_pre_post');
     }
 
@@ -114,12 +117,25 @@ class Article extends AbstractController {
     }
 
     public function insertArticle() {
-        $this->imagem->file('article');
         if (!empty($_POST['title']) && !empty($_POST['excerpt']) && !empty($_POST['content']) && !empty($_POST['cote']) && !empty($_POST['post_date'])  && !empty($_POST['id_cat'])) {
-//            $data['type'] = $this->imagem->type;
-//            $data['size'] = $this->imagem->size;
-//            $data['path'] = $this->imagem->path;
-//            $data['name'] = $this->imagem->name;
+           $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
+            $this->imagem->setWidth(690);
+            $this->imagem->setHeight(690);
+            $this->imagem->setOption("exact");
+            $this->imagem->setQuality(100);
+            $this->imagem->setColor("FFFFFF");
+            $this->imagem->setDegree(00);
+
+            $img = new ImageUpload();
+            $this->imagem->file('article');
+            $img->setName($this->imagem->name);
+            $img->setPath($this->imagem->path);
+            $img->setSize($this->imagem->size);
+            $img->setType($this->imagem->type);
+            $data['path'] = $img->getPath();
+            $data['name'] = $img->getName();
+            $data['type'] = $img->getType();
+            $data['size'] = $img->getSize();
             $data['cote'] = $_POST['cote'];
             $data['title'] = $_POST['title'];
             $data['excerpt'] = $_POST['excerpt'];
@@ -156,14 +172,27 @@ class Article extends AbstractController {
     }
 
     public function insertComments() {
-        if (!empty($_POST['nome']) && !empty($_POST['post_date']) && !empty($_POST['article_id']) && !empty($_POST['comments'])) {
+        if (!empty($_POST['nome']) && !empty($_POST['post_date']) && !empty($_POST['article_id']) && !empty($_POST['comments']) && !empty($_POST['email'])) {
 
             $data['nome'] = $_POST['nome'];
             $data['article_id'] = $_POST['article_id'];
             $data['comments'] = $_POST['comments'];
             $data['post_date'] = date('Y-m-d H:i:s');
+
+
+            $mail = new SendMail(new PHPMailer() );
+            $mail->setFrom("marciozebedeu@gmail.com");
+            $mail->setFromName($_POST['nome']);
+            $mail->setMessage($_POST['comments'] );
+            $mail->setAssunto("Commentarios dos usuarios");
+            $mail->setTo($_POST['email']);  // email d visitante vindo do form
+            $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
+
+            $mail->send();
+            $mail->body();
+
             $this->model->insertComments($data);
-            Hook::Header('Article/');
+            // Hook::Header('Article/');
         } else {
             Hook::Header('Article');
         }
@@ -182,7 +211,7 @@ class Article extends AbstractController {
 
     public function rest(){
 
-        $data = RestUtilities::processRequest();
+        $data = \Ballybran\Core\REST\RestUtilities::processRequest();
      $view = "";
      if(isset($_GET["id_article"])) {
          $view = $_GET["id_article"];
@@ -190,7 +219,7 @@ class Article extends AbstractController {
        switch ($data->getMethod()) {
            case 'get':
                 $property = $this->model->_getAllArticleById($view);
-               $var = RestUtilities::sendResponse(401, Encodes::encodeJson($property), 'application/json');
+               $var = \Ballybran\Core\REST\RestUtilities::sendResponse(401, \Ballybran\Core\REST\Encodes::encodeHtml($property), 'application/text');
                var_dump($property);
                break;
            

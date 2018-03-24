@@ -88,9 +88,16 @@ class IndexModel
      */
     public function _allCategorias()
     {
-        return $this->entity->selectManager("SELECT * FROM categoria  WHERE id_cat ORDER BY id_cat DESC ");
+        return $this->entity->selectManager("SELECT * FROM categoria  WHERE id_cat ORDER BY id_cat DESC  LIMIT 3");
     }
 
+    /**
+     * @return mixed
+     */
+    public function sidebarCategorias()
+    {
+        return $this->entity->selectManager("SELECT * FROM categoria   ORDER BY RAND()   LIMIT 3");
+    }
     /**
      * @return mixed
      */

@@ -162,5 +162,18 @@ class Contacto extends AbstractController
 
     }
 
+    public function createBackup()
+    {
+        if(! empty($_GET['backup'])) {
+        $back = new \Ballybran\Database\MySQLDump();
+        $back->save(\Ballybran\Helpers\Utility\Hash::token().'-'.time().'txt');
+        Hook::Header("contacto/contactoInfo");
+
+        }else{
+            echo "nooo";
+        }
+    
+    }
+
 
 }

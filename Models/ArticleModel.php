@@ -43,6 +43,13 @@ class ArticleModel {
         $this->entity = $entity;
     }
 
+
+
+    public function getUser($id)
+    {
+       return $this->entity->selectManager("SELECT usuarios.id, usuarios.firstname, usuarios.lastname, usuarios.email FROM usuarios WHERE usuarios.id= $id");
+    }
+
     /**
      * @param $id responsavel para buscar artigos pelo id na base de dados
      * @return array
@@ -86,7 +93,7 @@ class ArticleModel {
      * @author 
      * */
     public function getComments($id) {
-        return $this->entity->selectManager("SELECT * FROM comments INNER JOIN article ON comments.article_id = article.id_article  WHERE comments.article_id = $id ORDER BY comments.id DESC");
+        return $this->entity->selectManager("SELECT Comments.id, Comments.post_date, Comments.nome, Comments.comments FROM comments INNER JOIN article ON comments.article_id = article.id_article  WHERE Comments.article_id = $id ORDER BY Comments.id DESC");
     }
 
     /**

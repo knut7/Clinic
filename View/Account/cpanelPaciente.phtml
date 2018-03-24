@@ -112,23 +112,11 @@ $prontuario = "";
                 </div>
 
                 <div class="tab-pane fade in" id="tab2">
-                    <div class="panel-heading c-list">
-                        <ul class="pull-right c-controls">
-                            <li><a href="#cant-do-all-the-work-for-you" data-toggle="tooltip" data-placement="top" title="Add Contact"><i class="glyphicon glyphicon-plus"></i></a></li>
-                            <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Buscar Paciente"><i class="glyphicon glyphicon glyphicon-search"></i></a></li>
-                        </ul>
-                    </div>
-
-                    <div class="row" style="display: none;">
-                        <div class="col-xs-12">
-                            <div class="input-group c-search">
-                                <input type="text" class="form-control" id="contact-list-search">
-                                <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button></span>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <ul class="list-group" id="contact-list">
+
+                        <a class="fa fa-print button " href="<?php echo URL;?>account/printProntuarios">Imprimir todos</a>
 
                         <?php foreach ($this->paciente as $key => $value) :?>
 
@@ -153,13 +141,15 @@ $prontuario = "";
                                             <div class="col-lg-7">
                                                 <small  class="">Custo da Consulta: <?php echo $value['CreditoValor'];?> </small> | <small  class="">Prazo até: <?php echo $value['dtPag'];?> </small><br>
                                                 <small class="">Situação da Conta: <?php echo $value['situ_nome'] ==  "ABERTO" ? "<small class='btn btn-danger'>{$value['situ_nome']}</small> " : "<small class='btn btn-success'>{$value['situ_nome']}</small>";?></small>
-                                                <a href="" data-toggle="modal" data-target="#exampleModalLong-<?php echo $value['id'];?>">Prontuario</a>
-                                                <a href="" data-toggle="modal" data-target="#exampleModalLongReceita-<?php echo $value['id'];?>"> Receita</a>
+                                                <!-- <a href="" data-toggle="modal" data-target="#exampleModalLong-<?php echo $value['id'];?>">Prontuario</a>
+                                                <a href="" data-toggle="modal" data-target="#exampleModalLongReceita-<?php echo $value['id'];?>"> Receita</a> -->
                                             </div>
-                                        <a target="_blank" href="<?php echo URL;?>account/printProntuario/<?php echo $value['id'];?>"><i class="fa fa-print"></i></a>
+                                            <a target="_blank" href="<?php echo URL;?>account/printProntuario/<?php echo $value['id'];?>"><i class="fa fa-print"></i>Prontuario</a>
+                                         <a target="_blank" href="<?php echo URL;?>account/printPrescricao/<?php echo $value['id'];?>"><i class="fa fa-print"></i>Receita</a>
                                         </div>
 
                                     <!-- Modal 1 -->
+                                    <?php /**
                                     <div class="modal fade col-lg-12" id="exampleModalLong-<?php echo $value['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
@@ -172,7 +162,7 @@ $prontuario = "";
                                                             <div class="row">
                                                                 <div class="col-lg-6 ">
 
-                                                                 <?php   $prontuario = $stmt->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
+                                                                 <?php  $prontuario = $stmt->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
                                                                     INNER JOIN Func_has_Paci ON Func_has_Paci.Paciente_id = Paciente.id
                                                                     INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id
                                                                     LEFT OUTER JOIN Convenio ON Convenio.id = Paciente.Convenio_id
@@ -252,10 +242,13 @@ $prontuario = "";
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> <!-- modal 1 end -->
+                                    </div> */ ?>
+                                    <!-- modal 1 end -->
 
 
                                     <!-- Modal 2 -->
+
+                                    <?php /**
                                     <div class="modal fade col-lg-12" id="exampleModalLongReceita-<?php echo $value['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
@@ -282,7 +275,8 @@ $prontuario = "";
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> <!-- modal 2 end -->
+                                    </div> */?>
+                                     <!-- modal 2 end -->
 
 
                                 </div>
@@ -468,11 +462,17 @@ $prontuario = "";
 
                                     </div>
                                     <div class="tab-pane" id="info">
-                                        <br><br>
-                                        <form method="POST" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
+                                         <br><br>
+                                        <form method="post" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
                                             <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
                                             <input type="file" name="archive[]" id="pic" />
-                                            <input type="button" value="Carregar" />
+                                            <label for="colorWell">Qualidade:</label>
+                                            <input type="number" value="50" name="quality"/>
+                                            <label for="colorWell">Rotação:</label>
+                                            <input type="number"  value="00" name="degree" />
+                                            <label for="colorWell">Color:</label>
+                                            <input type="color" name="color" value="#ff0000" class="contact-form" id="colorWell" />
+                                            <input type="submit" value="Carregar" />
                                         </form>
 
                                         <h4>My Account</h4>
@@ -510,12 +510,26 @@ $prontuario = "";
                                             ?>
 
                                         </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Data de Nascimento</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'dataNascimento', 'class' => 'form-control', 'id' => 'datetimepicker', 'value' => $this->user['dataNascimento']]);
+                                            ?>
+
+                                        </div>
                                         <small>Your Address</small>
                                         <hr>
                                         <div class="form-group">
                                             <label class="control-label" for="input-firstname">Telephone</label>
                                             <?php
                                             echo Form::input(['type' => 'text', 'name' => 'telephone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['telephone']]);
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Telephone 2</label>
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'telephone2', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['telephone2']]);
                                             ?>
                                         </div>
                                         <div class="form-group">
@@ -564,11 +578,20 @@ $prontuario = "";
                                             ?>
                                         </div>
 
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="input-firstname">Bairro</label>
+
+                                            <?php
+                                            echo Form::input(['type' => 'text', 'name' => 'bairro', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['bairro']]);
+                                            ?>
+                                        </div>
+
                                         <div class="form-group">
                                             <label class="control-label" for="input-firstname">Region/State</label>
 
                                             <?php
-                                            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone_id']]);
+                                            echo Form::input(['type' => 'text', 'name' => 'zone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone']]);
                                             ?>
 
                                         </div>
@@ -629,3 +652,12 @@ $prontuario = "";
 
     </div>
 </div>
+
+<script>
+
+    jQuery.datetimepicker.setLocale('pt');
+
+    jQuery('#datetimepicker').datetimepicker({
+
+    });
+              </script>

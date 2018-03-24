@@ -42,18 +42,18 @@ $mulher = $stmt->selectManager("SELECT * FROM Anamnese INNER JOIN Paciente ON Pa
 $homem = $stmt->selectManager("SELECT * FROM Anamnese INNER JOIN Paciente ON Paciente.id = Anamnese.Paciente_id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id INNER JOIN Func_has_Paci ON Func_has_Paci.Paciente_id = Paciente.id INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id WHERE usuarios.sexo = 'm' AND  Funcionarios.usuarios_id  = ".Session::get("ID"));
 
 
-$allPaciente[0] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 0+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[1] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 1+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[2] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 2+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[3] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 3+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[4] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 4+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[5] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 5+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[6] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 6+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[7] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 7+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[8] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 8+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[9] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 9+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[10] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 10+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
-$allPaciente[11] = $stmt->selectManager("SELECT DATE_FORMAT(Paciente.create_dt, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 11+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[0] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 0+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[1] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 1+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[2] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 2+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[3] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 3+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[4] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 4+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[5] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 5+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[6] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 6+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[7] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 7+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[8] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 8+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[9] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 9+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[10] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.Func_dt, '%m') = 10+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
+$allPaciente[11] = $stmt->selectManager("SELECT DATE_FORMAT(Func_has_Paci.start, '%m') FROM Paciente  INNER JOIN Funcionarios INNER JOIN Func_has_Paci on Funcionarios.id = Func_has_Paci.Funcionarios_id AND Paciente.id = Func_has_Paci.Paciente_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE  Func_has_Paci.start > now() AND Anamnese.Funcionarios_id is null  and DATE_FORMAT(Func_has_Paci.start, '%m') = 11+1 AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
 
 $pacientesAtendidos[0] = $stmt->selectManager("SELECT DATE_FORMAT(Anamnese.data, '%m')  FROM Anamnese INNER JOIN Paciente on Anamnese.Paciente_id = Paciente.id INNER JOIN Func_has_Paci on Func_has_Paci.Paciente_id = Paciente.id INNER JOIN Funcionarios on Func_has_Paci.Funcionarios_id = Funcionarios.id WHERE DATE_FORMAT(Anamnese.data, '%m') = 0+1  AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
 $pacientesAtendidos[1] = $stmt->selectManager("SELECT DATE_FORMAT(Anamnese.data, '%m')  FROM Anamnese INNER JOIN Paciente on Anamnese.Paciente_id = Paciente.id INNER JOIN Func_has_Paci on Func_has_Paci.Paciente_id = Paciente.id INNER JOIN Funcionarios on Func_has_Paci.Funcionarios_id = Funcionarios.id WHERE DATE_FORMAT(Anamnese.data, '%m') = 1+1  AND Funcionarios.usuarios_id = " . \Ballybran\Helpers\Security\Session::get("ID"));
@@ -243,7 +243,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                 </div> <!-- end -->
 
 
-                                <div class="col-lg-11">
+                               <!--  <div class="col-lg-11">
                                     <div class="card ">
                                         <div class="header">
                                             <h4 class="titles">2014 Sales</h4>
@@ -260,7 +260,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                             </div>
                                         </div>
                                     </div>
-                                </div> <!-- end -->
+                                </div> --> <!-- end -->
 
                             </div>
                         </div>
@@ -295,24 +295,27 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                         <th class="sort" data-sort="name1">Name </th>
                                                         <th class="sort" data-sort="date1">Info</th>
                                                         <th class="sort" data-sort="hora1">Data agendada</th>
+                                                        <th class="sort" data-sort="hora1"></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="list">
 
                                                     <?php foreach ($this->paciente as $key => $value) :?>
-                                                        <tr>
+
+                                                             <tr>
                                                             <td class="id" style="display:none;"><?php echo $key['id']+1;?></td>
                                                             <td class="name1"><?php echo $value['firstname'] . "\t" .  $value['lastname'];?></td>
                                                             <td class="date1"><?php echo $value['info'];?></td>
-                                                            <td class="hora1"><a href="<?php echo URL; ?>funcionario/prontuario/<?php echo $value['id'];?>"> Atender</a></td>
+                                                            <td class="hora1"><?php echo $value['start'];?></td>
+                                                            <td ><a href="<?php echo URL; ?>funcionario/prontuario/<?php echo $value['id'];?>"> Atender</a></td>
                                                         </tr>
-                                                    <?php endforeach; ?>
+
+                                                    <?php  endforeach; ?>
 
                                                     </tbody>
                                                 </table>
                                             </div>
                                             </div>
-
 
 
                                             <div class="tab-pane" id="addPaci">
@@ -416,7 +419,9 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                         <td class="id1" style="display:none;"><?php echo $key['id']+1;?></td>
                                                                         <td class="name1"><?php echo $value['firstname'] . "\t" .  $value['lastname'];?></td>
                                                                         <td class="aria1"><?php echo $value['aria'];?></td>
-                                                                        <td class="medico1"><a href="" data-toggle="modal" data-target="#exampleModalLongReceita-<?php echo $value['id'];?>"> Ver Atendimento</a>
+                                                                        <td class="medico1"><!--<a href="" data-toggle="modal" data-target="#exampleModalLongReceita-<?php echo $value['id'];?>"> Ver Atendimento</a> -->
+                                                                            <a  class="btn btn-success" target="_blank" href="<?php echo URL ;?>account/printProntuario/<?php echo $value['id'];?>"> print prontuario</a>
+                                                                            <a class="btn btn-success" target="_blank" href="<?php echo URL;?>account/printPrescricao/<?php echo $value['id'];?>"> print Receita</a>
                                                                         </td>
 
 
@@ -434,7 +439,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                                                 <div class="row">
                                                                                                     <div class="col-lg-6 ">
 
-                                                                                                        <?php   $prontuario = $stmt->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
+                                                                                                        <?php   $this->prontuario = $stmt->selectManager(" SELECT * FROM Paciente INNER JOIN usuarios ON usuarios.id= Paciente.usuarios_id
                                                                     INNER JOIN Func_has_Paci ON Func_has_Paci.Paciente_id = Paciente.id
                                                                     INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id
                                                                     LEFT OUTER JOIN Convenio ON Convenio.id = Paciente.Convenio_id
@@ -446,49 +451,48 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                     LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id WHERE Paciente.id =". $value['id'] )[0];?>
 
                                                                                                         <h3> Dados Pessoais</h3>
-                                                                                                        <strong>Nome:</strong> <strong><small><?php echo $prontuario['firstname']. "\t" .$prontuario['lastname'] ;?></small></strong><br>
-                                                                                                        <strong>Sexo:</strong> <strong><small> <?php echo $prontuario['sexo'];?></small></strong><br>
-                                                                                                        <strong>Telefone1</strong> <strong><small> <?php echo $prontuario['telephone'];?></small></strong><br>
-                                                                                                        <strong>Celular:</strong> <strong><small> <?php echo $prontuario['telephone2'];?></small></strong><br>
-                                                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $prontuario['email'];?></small></strong><br>
-                                                                                                        <strong>C.Postal:</strong> <strong><small> <?php echo $prontuario['postcode'];?></small></strong><br>
-                                                                                                        <strong>Endereço:</strong> <strong><small> <?php echo $prontuario['address_1'];?></small></strong><br>
-                                                                                                        <strong>Número:</strong> <strong><small> <?php echo $prontuario['address_2'];?></small></strong><br>
-                                                                                                        <strong>Bairro:</strong> <strong><small> <?php echo $prontuario['bairro'];?></small></strong><br>
-                                                                                                        <strong>Cidade:</strong> <strong><small> <?php echo $prontuario['city'];?></small></strong><br>
-                                                                                                        <strong>Estado:</strong> <strong><small> <?php echo $prontuario['states'];?></small></strong><br>
-                                                                                                        <strong>Paciente Cadastrado em:</strong> <strong><small> <?php echo $prontuario['create_dt'];?></small></strong><br>
-                                                                                                        <strong>Última Consulta:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Numero de Consulta: </strong> <strong><small><?php echo $prontuario['id'];?></small></strong><br>
+                                                                                                        <strong>Nome:</strong> <strong><small><?php echo $this->prontuario['firstname']. "\t" .$this->prontuario['lastname'] ;?></small></strong><br>
+                                                                                                        <strong>Sexo:</strong> <strong><small> <?php echo $this->prontuario['sexo'];?></small></strong><br>
+                                                                                                        <strong>Telefone1</strong> <strong><small> <?php echo $this->prontuario['telephone'];?></small></strong><br>
+                                                                                                        <strong>Celular:</strong> <strong><small> <?php echo $this->prontuario['telephone2'];?></small></strong><br>
+                                                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $this->prontuario['email'];?></small></strong><br>
+                                                                                                        <strong>C.Postal:</strong> <strong><small> <?php echo $this->prontuario['postcode'];?></small></strong><br>
+                                                                                                        <strong>Endereço:</strong> <strong><small> <?php echo $this->prontuario['address_1'];?></small></strong><br>
+                                                                                                        <strong>Número:</strong> <strong><small> <?php echo $this->prontuario['address_2'];?></small></strong><br>
+                                                                                                        <strong>Bairro:</strong> <strong><small> <?php echo $this->prontuario['bairro'];?></small></strong><br>
+                                                                                                        <strong>Cidade:</strong> <strong><small> <?php echo $this->prontuario['city'];?></small></strong><br>
+                                                                                                        <strong>Estado:</strong> <strong><small> <?php echo $this->prontuario['states'];?></small></strong><br>
+                                                                                                        <strong>Paciente Cadastrado em:</strong> <strong><small> <?php echo $this->prontuario['create_dt'];?></small></strong><br>
+                                                                                                        <strong>Última Consulta:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Numero de Consulta: </strong> <strong><small><?php echo $this->prontuario['id'];?></small></strong><br>
                                                                                                         <h3> Annaminese</h3>
 
-                                                                                                        <?php echo $prontuario['queixa_pri'] != "" ? "<strong>Qiexa Principal:</strong> <strong><small> {$prontuario['queixa_pri']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['historia'] != "" ? "<strong>História:</strong> <strong><small> {$prontuario['historia']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['prob_renais'] != "" ? "<strong>Problemas Renais:</strong> <strong><small> {$prontuario['prob_renais']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['prob_artic_reum'] != "" ? "<strong>Problemas articulares ou reumatismo:</strong> <strong><small> {$prontuario['prob_artic_reum']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['prob_cardiaco'] != "" ? "<strong>Próblemas Cardiacos:</strong> <strong><small> {$prontuario['prob_cardiaco']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['prob_respira'] != "" ? "<strong>Problemas Respiratórios:</strong> <strong><small> {$prontuario['prob_respira']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['prob_gastricos'] != "" ? "<strong>Próblemas Gastrícos:</strong> <strong><small> {$prontuario['prob_gastricos']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['alergia'] != "" ? "<strong>Alergia:</strong> <strong><small> {$prontuario['alergia']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['hepatite'] != "" ? "<strong>Hepatite:</strong> <strong><small> {$prontuario['hepatite']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['gravides'] != "" ? "<strong>Gravides:</strong> <strong><small> {$prontuario['gravides']}</small></strong><br>" : ""?>
-                                                                                                        <?php echo $prontuario['uso_de_medicam'] != "" ? "<strong>Uso de Medicamento:</strong> <strong><small> {$prontuario['uso_de_medicam']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['queixa_pri'] != "" ? "<strong>Qiexa Principal:</strong> <strong><small> {$this->prontuario['queixa_pri']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['historia'] != "" ? "<strong>História:</strong> <strong><small> {$this->prontuario['historia']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['prob_renais'] != "" ? "<strong>Problemas Renais:</strong> <strong><small> {$this->prontuario['prob_renais']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['prob_artic_reum'] != "" ? "<strong>Problemas articulares ou reumatismo:</strong> <strong><small> {$this->prontuario['prob_artic_reum']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['prob_cardiaco'] != "" ? "<strong>Próblemas Cardiacos:</strong> <strong><small> {$this->prontuario['prob_cardiaco']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['prob_respira'] != "" ? "<strong>Problemas Respiratórios:</strong> <strong><small> {$this->prontuario['prob_respira']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['prob_gastricos'] != "" ? "<strong>Próblemas Gastrícos:</strong> <strong><small> {$this->prontuario['prob_gastricos']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['alergia'] != "" ? "<strong>Alergia:</strong> <strong><small> {$this->prontuario['alergia']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['hepatite'] != "" ? "<strong>Hepatite:</strong> <strong><small> {$this->prontuario['hepatite']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['gravides'] != "" ? "<strong>Gravides:</strong> <strong><small> {$this->prontuario['gravides']}</small></strong><br>" : ""?>
+                                                                                                        <?php echo $this->prontuario['uso_de_medicam'] != "" ? "<strong>Uso de Medicamento:</strong> <strong><small> {$this->prontuario['uso_de_medicam']}</small></strong><br>" : ""?>
 
                                                                                                     </div>
                                                                                                     <div class="col-lg-6 ">
                                                                                                         <h3> Dados Complementares </h3>
-                                                                                                        <strong>Naturalidade:</strong> <strong><small><?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Etnia:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Estado Cívil:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Profissão:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Excolaridade:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <h3>Dados Familares</h3>
-                                                                                                        ___
+                                                                                                        <strong>Naturalidade:</strong> <strong><small><?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Etnia:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Estado Cívil:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Profissão:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>E-mail:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Excolaridade:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        
                                                                                                         <h3>Convenio</h3>
-                                                                                                        <strong>Plano:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Data de vencimento:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
-                                                                                                        <strong>Acomodação:</strong> <strong><small> <?php echo $prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Plano:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Data de vencimento:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
+                                                                                                        <strong>Acomodação:</strong> <strong><small> <?php echo $this->prontuario['firstname'];?></small></strong><br>
                                                                                                     </div>
 
                                                                                                 </div>
@@ -543,8 +547,8 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                         <tr>
                                                             <th class="sort" data-sort="name2">Name </th>
                                                             <th class="sort" data-sort="aria2">Especialidade</th>
-                                                            <th class="sort" data-sort="date2">Dia da consulta</th>
                                                             <th class="sort" data-sort="hora2">Data agendada</th>
+                                                            <th class="sort" data-sort="date2">Dia da consulta</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody class="list">
@@ -554,8 +558,8 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                 <td class="id2" style="display:none;"><?php echo $item['id']+1;?></td>
                                                                 <td class="name2"><?php echo $allPacientes['firstname'] . "\t" .  $allPacientes['lastname'];?></td>
                                                                 <td class="aria2"><?php echo $allPacientes['aria'];?></td>
+                                                                <td class="hora2"><?php echo $allPacientes['create_dt'];?></td>
                                                                 <td class="date2"><?php echo $allPacientes['Func_dt'];?></td>
-                                                                <td class="hora2"><?php echo $allPacientes['horas'];?></td>
                                                             </tr>
                                                         <?php } ?>
 
@@ -667,11 +671,18 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                             </div>
                                             <div class="tab-pane" id="info">
                                                 <br><br>
-                                                <form method="POST" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
-                                                    <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
-                                                    <input type="file" name="archive[]" id="pic" />
-                                                    <input type="submit" value="Carregar" />
-                                                </form>
+                                                <form method="post" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
+                                            <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
+                                            <input type="file" name="archive[]" id="pic" />
+                                            <label for="colorWell">Qualidade:</label>
+                                            <input type="number" value="50" name="quality"/>
+                                            <label for="colorWell">Rotação:</label>
+                                            <input type="number"  value="00" name="degree" />
+                                            <label for="colorWell">Color:</label>
+                                            <input type="color" name="color" value="#ff0000" class="contact-form" id="colorWell" />
+                                            <input type="submit" value="Carregar" />
+                                        </form>
+
 
                                                 <h4>My Account</h4>
 
@@ -766,7 +777,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                     <label class="control-label" for="input-firstname">Region/State</label>
 
                                                     <?php
-                                                    echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone_id']]);
+                                                    echo Form::input(['type' => 'text', 'name' => 'zone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone']]);
                                                     ?>
 
                                                 </div>
@@ -982,7 +993,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
             datasets: [
 
                 {
-                    label: 'Pacientes em Espera',
+                    label: 'Pacientes Agendados',
                     data: [
 
                         <?php echo json_encode(count($allPaciente[0]));?>,
@@ -998,28 +1009,29 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         <?php echo json_encode(count($allPaciente[10]));?>,
                         <?php echo json_encode(count($allPaciente[11]));?>
                         ],
-
-                    backgroundColor: [
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a"
-
+                        
+                        backgroundColor: [
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E"
                     ],
                     borderColor: [
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a",
-                        "#f7464a"
+
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E",
+                        "#34495E"
                     ],
+                   
                     borderWidth: 1
                 },
                 {
@@ -1039,27 +1051,28 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         <?php echo json_encode(count($pacientesAtendidos[11]))?>
                         ],
 
-                    backgroundColor: [
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E"
+                         backgroundColor: [
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
+
                     ],
                     borderColor: [
-
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E",
-                        "#34495E"
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
                     ],
+
                     borderWidth: 1
                 }]
         },
@@ -1122,7 +1135,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         if (!confirm("Esta seguro??")) {
                             revertFunc();
                         }else{
-                            $.post('<?php echo URL;?>account/updatEvent',
+                            $.post('<?php echo URL;?>Events/updatEvent',
                                 {
                                     id:newId,
                                     start:newStard,
@@ -1147,7 +1160,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         if (!confirm("Esta seguro de cambiar la fecha?")) {
                             revertFunc();
                         }else{
-                            $.post('<?php echo URL;?>account/updatEvent',
+                            $.post('<?php echo URL;?>Events/updatEvent',
                                 {
                                     id:newId,
                                     start:newStard,
@@ -1164,23 +1177,37 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                     },
                     eventClick: function(event, jsEvent, view) {
 
-                        // alert(event.title);
+                        if(event.sexo == "f") {
+
+                            $('#sexo').html("Feminino");
+                        }else{
+
+                            $('#sexo').html("Masculino");
+                        }
+
+
+                        if(event.path == null) {
+                        document.getElementById("imagePerfil").src ='<?php echo URL . DIR_FILE?>Public/images/profile-icon.png';
+                        } else{
+                        document.getElementById("imagePerfil").src ='<?php echo URL;?>'+ event.path;
+
+                        }
+
                         $('#mhdnIdEvento').val(event.id);
                         $('#title').val(event.title);
                         $('#nome').html(event.firstname + " " + event.lastname);
                         $('#telefone').html(event.telephone);
                         $('#address_1').html(event.address_1);
                         $('#address_2').html(event.address_2);
-                        $('#sexo').html(event.sexo);
                         $('#bairro').html(event.bairro);
                         $('#city').html(event.city);
                         $('#email').html(event.email);
                         $('#infos').html(event.info);
-                        $('#id').html(event.usuarios_id);
+                        $('#Peciente_id').html(event.Paciente_id);
                         $('#modalEvento').modal();
 
                         if (event.url) {
-                            window.open(event.ui);
+                            window.open(event.id);
                             return false;
                         }
 
@@ -1198,6 +1225,35 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                             //event.color = "#AEC6CF"; //Não iniciado
                             element.css('background-color', '#AEC6CF');
                         }
+                    },
+
+                    eventRender: function(event, element) {
+                        var el = element.html();
+                        element.html("<div style='width:90%;float:left;'>" + el + "</div>" +
+                            "<div style='color:red;text-align:right;' class='closeE'>" +
+                            "<i class='fa fa-trash'></i>" +
+                            "</div>");
+
+                        element.find('.closeE').click(function(){
+                            if (!confirm("Esta seguro de eliminar el evento?")) {
+                                return false;
+                            }else{
+                                var id = event.Paciente_id;
+
+                                $.post('<?php echo URL;?>Events/deleteEvent',
+                                    {
+                                        Paciente_id:id
+                                    },
+                                    function(data){
+                                        if (data === 1) {
+                                            $('#calendar').fullCalendar( 'removeEvents', event.Paciente_id);
+                                            alert('Se elimino correctamente');
+                                        }
+                                    });
+
+                            }
+
+                        });
                     }
 
                 });
@@ -1224,6 +1280,13 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                 <div class="col-lg-12 card-radius">
 
+                                <div class="col-lg-3 ">
+
+                    <img   id="imagePerfil"  class="col-lg-10  img-responsive img-circle" />
+                
+                  
+            </div>
+
                     <div class="col-lg-3  text-left">
                         <h4>Contacto</h4>
 
@@ -1246,7 +1309,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         <strong>Endereço 2: </strong><small id="address_2"></small><br>
                         <strong>Cidade: </strong><small id="city"></small><br>
                         <strong>País: </strong><small id="bairro"></small><br>
-                        <strong>Numero: </strong><small id="id"></small><br>
+                        <strong>Numero: </strong><small id="Peciente_id"></small><br>
                     </div>
                 </div>
                 <textarea id="infos"  cols="141" aria-disabled="true" disabled></textarea>
@@ -1274,7 +1337,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                 if (data == 1) {
                     $('#btnCerrarModal').click();
                 }
-            })
+            });
     })
     var hi = $("#id").hide();
         function doSubmit(){

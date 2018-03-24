@@ -25,12 +25,15 @@ namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Validate;
-use Ballybran\Helpers\vardump\Vardump;
+use Ballybran\Helpers\{
+    Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate
+};
+use Module\Clinic\Controllers\CTrait\Prints;
+
 
 class Finance  extends AbstractController {
 
+use Prints;
 
     private $form;
     private $form2;
@@ -45,23 +48,41 @@ class Finance  extends AbstractController {
 
     public function index()
     {
+        if(Session::exist() ){
+            if(Session::get("role") == "owner" || Session::get("role") == "admin" ) {
+
         $this->view->typeDesp = $this->model->getTypeDespesa();
         $this->view->getPagamento = $this->model->getAllPagamento();
+        $this->view->contasPagas = $this->model->getAllContasPagas();
         $this->view->formaPagamento = $this->model->getFormPagameto();
         $this->view->moviento = $this->model->getContaMovimento();
         $this->view->pagar = $this->model->getPagarmento();
         $this->view->saldo = $this->model->getContaMovimento();
         $this->view->debito = $this->model->getDebito();
+        $this->view->receber = $this->model->getContaReceber();
+        $this->view->totalCrebito = $this->model->sumTotalContaReceber()[0];
+        $this->view->totalDebito = $this->model->sumTotalDebito()[0];
+        $this->view->totalAllPagamentos = $this->model->sumAllPagamento()[0];
+        $this->view->totatDeAllContasPagas = $this->model->sumAllContasPgas()[0];
         $this->view->render($this, 'index');
+        
+        }else {
+                            Hook::Header( 'account/cpanel');
+
+        }
+    }else{
+                Hook::Header( '');
+            }
+
+
 
     }
 
     public function contApagar()
     {
 
-        $this->form->post('tdVenc')->val('maxlength', 100)
+        $this->form->post('dt_Venc')->val('maxlength', 100)
             ->post('valor')->val('maxlength', 100)
-            ->post('liquido')->val('maxlength', 100)
             ->post('situacao')->val('maxlength', 100)
             ->post('historico')->val('maxlength', 100)
             ->post('TipoDespesa_id')->val('maxlength', 111)->submit();
@@ -75,7 +96,6 @@ class Finance  extends AbstractController {
 
         $this->form->post('dt_Venc')->val('maxlength', 100)
             ->post('valor')->val('maxlength', 100)
-            ->post('liquido')->val('maxlength', 100)
             ->post('situacao')->val('maxlength', 100)
             ->post('Paciente_id')->val('maxlength', 100)
             ->post('TipoReceita_id')->val('maxlength', 111)->submit();
@@ -124,15 +144,32 @@ class Finance  extends AbstractController {
         Hook::Header('account/cpanel');
 
     }
+
+    public function tipoDeDespesa()
+    {
+       $this->form->post('Dnome')->val('maxlength', 110)->submit();
+
+        $this->model->TipoDespesa($this->form->getPostData());
+        Hook::Header( 'finance');
+    }
     public function debitar()
     {
-        $this->form->post('dtPag')->val('maxlength', 100)
-            ->post('db_valor')->val('maxlength', 100)
+    
+        if(!empty($_POST['Pagar_id'])){
+            $data['situacao'] = $_POST['situacao'];
+            $this->form->post('dtPag')->val('maxlength', 100)
             ->post('FormaPagamento_id')->val('maxlength', 100)
             ->post('Pagar_id')->val('maxlength', 100)
             ->post('ContaMovimento_id')->val('maxlength', 11)->submit();
 
-        $this->model->inserrtDebitar($this->form->getPostData());
+            // var_dump($data);
+            // var_dump($_POST['Pagar_id']); die;
+        $this->model->insertDebitar($this->form->getPostData());
+        $this->model->updateSituacaoPagar($data, $_POST['Pagar_id']);
+    }
+
+        // if(!empty($_POST['id']))
+        // $this->model->deletePagar($_POST['id']);
         Hook::Header( 'finance');
 
     }
@@ -141,6 +178,7 @@ class Finance  extends AbstractController {
     {
         $this->form->post('situ_nome')->val('maxlength', 100);
         $this->model->insertSituacao($this->form->getPostData());
-
     }
+
+
 }

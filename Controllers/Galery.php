@@ -66,7 +66,7 @@ class Galery extends AbstractController {
             $color = substr($_POST['color'], 1);
 
 
-            $this->imagem = new \Ballybran\Helpers\FileSystem(new Resize());
+            $this->imagem = new \Ballybran\Helpers\Http\FileSystem(new Resize());
             $this->imagem->setWidth(2000);
             $this->imagem->setHeight(2000);
             $this->imagem->setOption("exact");

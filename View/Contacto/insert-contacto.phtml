@@ -23,7 +23,7 @@ use Ballybran\Library\Form;
         </div>
         <div class="btn-group" role="group">
             <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
-                <div class="hidden-xs">Configurações</div>
+                <div class="hidden-xs">Backup</div>
             </div>
         </div>
         <div class="btn-group" role="group">
@@ -262,6 +262,16 @@ use Ballybran\Library\Form;
 
             </div>
             <div class="tab-pane fade in" id="tab4">
+
+                <br>
+
+                <?php 
+                echo Form::open(['action'=> URL.'contacto/createbackup', 'method'=>'get']);
+                echo Form::input(['type'=>'hidden', 'name'=>'backup', 'value'=>'send_backup']);
+                echo Form::input(['type'=>'submit', 'value'=>'Backup']);
+                echo Form::close();
+
+                ?>
 
 
             </div>

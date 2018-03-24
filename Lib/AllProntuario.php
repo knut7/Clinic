@@ -27,7 +27,7 @@ namespace Module\Clinic\Lib;
 use Ballybran\Helpers\Time\Timestamp;
 use Ballybran\Library\fpdf\FPDF;
 
-class Prontuario extends FPDF {
+class AllProntuario extends FPDF {
 
 
 private $prontuario;
@@ -193,9 +193,7 @@ private $prontuario;
 
             $value['alergia'] != "" ? $this->Cell(33, 8, utf8_decode("Alergias:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['alergia']), 0). $this->Ln(4) : "";
 
-            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Hepatite:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['hepatite']), 0). $this->Ln(4): "";
-
-            $value['diabete'] != "" ? $this->Cell(33, 8, utf8_decode("Diabete:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['diabete']), 0). $this->Ln(4): "";
+            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Epatite:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['hepatite']), 0). $this->Ln(4): "";
 
             $value['gravides'] != "" ? $this->Cell(33, 8, utf8_decode("Gravidés:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['gravides']), 0). $this->Ln(4) : "";
 
@@ -237,10 +235,17 @@ private $prontuario;
             $value['final'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['final']), 0). $this->Ln(4): "";
 
 
-
+            $this->PrintChapter($item+1, "prontuario", "rrr");
 
 
         }
+    }
+
+      function PrintChapter($num, $title, $file) {
+        // Add chapter
+        $this->AddPage();
+        $this->ChapterTitle($num, $title);
+        $this->ChapterBody("yttty");
     }
 
 

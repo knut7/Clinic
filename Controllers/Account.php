@@ -30,23 +30,19 @@ use Ballybran\Core\{
 use Ballybran\Helpers\{
     Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate
 };
-use Module\Clinic\{
-    Controllers\CTrait\Updates, Lib\PacienteAtendido, Lib\PrintListFuncionario, Lib\Prontuario, Lib\PrintListPacient, Lib\PrintListOfAllPacient, Lib\PrintListPacientPayment, Lib\PrintConsult
-};
+
 use Module\Entity\Pessoa;
 use Module\Lib\SendMail;
 use Module\Upload\ImageUpload;
 use PHPMailer\PHPMailer\PHPMailer;
+use Module\Clinic\Controllers\CTrait\Prints;
 
 
 class Account extends AbstractController
 {
-    use Updates;
+    use Prints;
 
-    public $width = 2000;
-    public $height = 2000;
-    public $quality = 10;
-    public $option = "perfil";
+ 
     private $form;
     private $imagem;
 
@@ -73,39 +69,7 @@ class Account extends AbstractController
         $this->view->render($this, 'index');
     }
 
-    /**
-     *
-     */
-    public function rest()
-    {
-        $data = RestUtilities::processRequest();
 
-        switch ($data->getMethod()) {
-            case 'get':
-                $propriedade = $this->model->getAllUser();
-                echo RestUtilities::sendResponse(200, Encodes::encodeJson($propriedade), 'application/json');
-                break;
-        }
-    }
-
-    /**
-     *
-     */
-    public function getRest()
-    {
-        $data = RestUtilities::processRequest();
-        switch ($data->getMethod()) {
-            case 'put':
-                $propriedade = $this->model->getAllUser();
-                echo RestUtilities::sendResponse(200, json_decode($propriedade), 'application/json');
-                break;
-        }
-
-    }
-
-    /**
-     *
-     */
     public function Cpanel()
     {
 
@@ -113,7 +77,6 @@ class Account extends AbstractController
 
             $this->view->title = "Cpanel";
             $this->view->especialidades = $this->model->getEspecialidades();
-
             $this->view->user = $this->model->getUser(Session::get("ID"))[0];
 
             if ($this->model->getImageUser(Session::get("ID"))) {
@@ -147,16 +110,23 @@ class Account extends AbstractController
 
             }
             if (Session::get('role') == 'secretaria') {
-
+                $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
                 $this->view->consultas = $this->model->getConsultas();
                 $this->view->typeReceita = $this->model->getTypeReceita();
                 $this->view->passienteSecretaria = $this->model->getAllPaciente();
                 $this->view->moviento = $this->model->getContaMovimento();
                 $this->view->formaPagamento = $this->model->getTypePagamento();
                 $this->view->pacieteMedico = $this->model->getPacienteSemMedico();
+                $this->view->convenio = $this->model->getAllConvenio();
 
                 $this->view->render($this, 'cpanelSecretaria');
 
+            }
+
+            if(Session::get('role') == 'enfermeiro') {
+                $this->view->pacieteMedico = $this->model->getPacienteParaTriagem();
+
+                $this->view->render($this, 'cpanelEnfermagem');
             }
 
         } else {
@@ -165,120 +135,13 @@ class Account extends AbstractController
         }
     }
 
-    public function pacienteAtendido()
+    public function FunctionName($id)
     {
-     $pdf = new PacienteAtendido();
-        $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
+        echo json_encode($this->view->getNum = $this->model->getNumPacientForMedic($id));
 
     }
 
-    public function printConsulta()
-    {
-        $pdf = new PrintConsult();
-        $pdf->getList($this->model->getConsultas());
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-    }
-
-    public function printProntuario($id)
-    {
-
-        $pdf = new  Prontuario();
-        $pdf->getId($this->model->getAllInfoForPrint($id));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->Output();
-        $this->model->logPaciente( Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
-
-    }
-
-    public function printListPaciente()
-    {
-
-        $pdf = new  PrintListPacient();
-        $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
-
-
-    }
-
-    public function printListPacienteForConsult()
-    {
-
-        $pdf = new  PrintListPacient();
-        $pdf->getList($this->model->getPacientForConsulta(Session::get("ID")));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes sem Consulta Agendadas.");
-
-    }
-
-    public function printAllPacient()
-    {
-        $pdf = new  PrintListOfAllPacient();
-        $pdf->getList($this->model->getPacienteSemMedico());
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes sem Consulta Agendadas.");
-
-
-    }
-
-    public function printAllPacientPayment()
-    {
-        $pdf = new  PrintListPacientPayment();
-        $pdf->getList($this->model->getAllPaciente());
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->body();
-        $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes com a Consulta paga. ");
-
-
-    }
-
-    public function printlistFuncionario()
-    {
-        if(Session::exist() ) {
-            if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  PrintListFuncionario();
-                $pdf->getList($this->model->getAllUserAdmin());
-                $pdf->AliasNbPages();
-                $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
-                $pdf->AddPage();
-                $pdf->body();
-                $pdf->Output();
-
-                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
-            } else {
-                Hook::Header("account/cpanel");
-            }
-        }else {
-            Hook::Header("");
-        }
-    }
+   
 
     public function getInfoPaciente($id) {
         return ($this->model->getAllInfoForPrint($id));
@@ -311,10 +174,10 @@ class Account extends AbstractController
             $color = substr($_POST['color'], 1);
 
 
-            $this->imagem = new \Ballybran\Helpers\FileSystem( new Resize());
+            $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
             $this->imagem->setWidth(2000);
             $this->imagem->setHeight(2000);
-            $this->imagem->setOption("exact");
+            $this->imagem->setOption("auto");
             $this->imagem->setQuality($_POST['quality']);
             $this->imagem->setColor($color);
             $this->imagem->setDegree($_POST['degree']);
@@ -389,13 +252,15 @@ class Account extends AbstractController
             $pess->setUsername($_POST['username']);
             $pess->setEmail($_POST['email']);
             $pess->setTelephone($_POST["telephone"]);
+            $pess->setTelephone2($_POST["telephone2"]);
             $pess->setCompany($_POST["company"]);
             $pess->setAddress1($_POST["address_1"]);
             $pess->setAddress2($_POST["address_2"]);
             $pess->setPostcode($_POST["postcode"]);
-            $pess->setZoneId($_POST['zone_id']);
+            $pess->setZone($_POST['zone']);
             $pess->setCity($_POST['city']);
-            $pess->setCountryId($_POST['country']);
+            $pess->setCountry($_POST['country']);
+            $pess->setBairro($_POST['bairro']);
             $pess->setDataNascimento($_POST['dataNascimento']);
 
             $data["firstname"] = $pess->getFirstname();
@@ -403,14 +268,17 @@ class Account extends AbstractController
             $data['username'] = $pess->getUsername();
             $data['email'] = $pess->getEmail();
             $data["telephone"] = $pess->getTelephone();
+            $data["telephone2"] = $pess->getTelephone2();
             $data["company"] = $pess->getCompany();
             $data["address_1"] = $pess->getAddress1();
             $data["address_2"] = $pess->getAddress2();
             $data["postcode"] = $pess->getPostcode();
-            $data['zone_id'] = $pess->getZoneId();
+            $data['zone'] = $pess->getZone();
             $data['city'] = $pess->getCity();
+            $data['bairro'] = $pess->getBairro();
             $data['dataNascimento'] = $pess->getDataNascimento();
-            $data['country'] = $pess->getCountryId();
+            $data['country'] = $pess->getCountry();
+
 
             $this->model->updates($data, $pess->getId());
             $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou seus dados");
@@ -577,15 +445,15 @@ class Account extends AbstractController
                 ->post('create_dt')->val('maxlength', 1223)
                 ->post('Convenio_id')->val('maxlength', 1223)
                 ->post('Especialidade_id')->val('maxlength', 1223)
-            ->post('usuarios_id')->val('maxlength', 1223)->submit();
+                ->post('usuarios_id')->val('maxlength', 1223)->submit();
 
 
-            $paciente =  $this->model->getUser(Session::get("ID"))[0];
+            $paciente = $this->model->getUser(Session::get("ID"))[0];
 
             $mail = new SendMail(new PHPMailer());
             $mail->setFrom("marciozebedeu@gmail.com");
-            $mail->setFromName($_POST['nome']);
-            $mail->setMessage($_POST['ante'] . "<br>". $_POST['info']);
+            $mail->setFromName($paciente['firstname']. "\t". $paciente['lastname']);
+            $mail->setMessage($_POST['ante'] . "<br>" . $_POST['info']);
             $mail->setAssunto("Nova Consulta");
             $mail->setTo($paciente['email']);  // email d visitante vindo do form
             $mail->setAddr("marciozebedeu@gmail.com"); // enviar para mim (secretaria)
@@ -595,47 +463,26 @@ class Account extends AbstractController
 
 
             $this->model->inserConsulta($this->form->getPostData());
-            $this->model->logPaciente( Session::get("U_NAME"), ":: Fez uma Consulta");
+            $this->model->logPaciente(Session::get("U_NAME"), ":: Fez uma Consulta");
 
             Hook::Header('account/cpanel');
 
         }
     }
-
-    public function event()
+        public function event()
     {
         echo json_encode($this->model->getEvent(Session::get('ID')));
     }
 
-    public function updatEvent()
+    public function getEvent2()
     {
-        if(! empty($_POST['id'])) {
-
-            $data['start'] = $_POST['start'];
-            $data['end'] = $_POST['end'];
-            $this->model->updatEvent($data, $_POST['id']);
-        }
-        
-    }
-    public function updatEvent2()
-    {
-        if(! empty($_POST['id'])) {
-
-            $data['title'] = $_POST['title'];
-            $this->model->updatEvent2($data, $_POST['id']);
-        }
-
+        echo json_encode($this->model->getEvent2(Session::get('ID')));
     }
 
-    public function deleteEvent()
+    public function events()
     {
-        if(! empty($_POST['id'])) {
-
-            $this->model->deleteEvent($_POST['id']);
-        }
+        echo json_encode($this->model->getEvent2());
     }
-
-
 
 
 }

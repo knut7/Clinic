@@ -71,7 +71,7 @@ class SecretariaModel
      */
     public function getUser($id)
     {
-        return $this->entity->selectManager('SELECT * FROM usuarios WHERE id =' . $id);
+        return $this->entity->selectManager('SELECT * FROM usuarios WHERE  id =' . $id);
     }
 
     public function getusers($user)
@@ -113,5 +113,27 @@ class SecretariaModel
     {
          $this->entity->insert('Paciente', $data);
     }
+
+     public function insertExameFisico($data) {
+        $this->entity->insert("Exame_Fisico", $data);
+    }
+
+    public function insertEspecialidade($data)
+    {
+        $this->entity->insert("Especialidade", $data);
+    }
+
+    public function deleleEspecialidade($id)
+    {
+        $this->entity->delete("Especialidade", "id=$id", 1);
+
+    }
+
+    public function createConvenio($data)
+    {
+        $this->entity->insert("Convenio", $data);
+  
+    }
+
 
 }

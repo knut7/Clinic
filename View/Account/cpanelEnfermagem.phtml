@@ -1,0 +1,290 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+use Module\Clinic\Lib\menu\Sub_Menu;
+
+Sub_Menu::getSubMenu();
+
+$register = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt =  $register->get("PDO");
+?>
+
+
+
+    <div class="col-sm-12">
+        <div class="row ">
+            <div class="col-lg-12 card-radius">
+
+                <div class="col-lg-3 4u 12u(mobile)">
+
+                    <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                        <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                        <?php
+
+                    } else {?>
+                        <img  src="<?php echo URL . DIR_FILE?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+                    <?php } ?>
+                </div>
+
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Contacto</h4>
+
+                    <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
+                    <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
+                    <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+
+                </div>
+
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Outras</h4>
+                    <strong>Sexo: </strong><?php echo  $this->user['sexo'] == 'f' ? "Feminino" : "Masculino"; ?><br>
+                    <strong>Aniversário: </strong><?php echo  $this->user['dataNascimento']; ?><br>
+                    <strong>Perfil: </strong><?php echo  $this->user['role']; ?><br>
+
+                </div>
+                <div class="col-lg-3 4u 12u(mobile) text-left">
+                    <h4>Endereço</h4>
+
+                    <strong>Endereço 1: </strong><?php echo  $this->user['address_1'] ?><br>
+                    <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
+                    <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
+                    <strong>País: </strong><?php echo  $this->user['country']; ?><br>
+                </div>
+
+            </div>
+    </div>
+    </div>
+
+
+
+<div class="col-lg-12 col-sm-6">
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div class="hidden-xs">Home</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon fa fa-picture-o" aria-hidden="true"></span>
+                <div class="hidden-xs">Triagem</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-wo" aria-hidden="true"></span>
+                <div class="hidden-xs">Portfolio</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                <div class="hidden-xs">Configurações</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="agenda" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <div class="hidden-xs">Agenda</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-info col-sm-12">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <br><br>
+
+            </div>
+
+
+            <div class="tab-pane fade in" id="tab2">
+
+                <br>
+                <h3>triagem</h3>
+
+
+                <!-- Tab panes -->
+
+                <div id="triagem">
+                    <input type="text" class="search form-control" placeholder="Pesquisar Candidatos"  />
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="sort" data-sort="name1">Name Completo </th>
+                            <th class="sort" data-sort="date1">idade</th>
+
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+
+                        <?php foreach ($this->pacieteMedico as $key => $pacieteMedico) :?>
+                            <tr>
+                                <td class="id" style="display:none;"><?php echo $key['id']+1;?></td>
+                                <td class="name1"><?php echo $pacieteMedico['firstname'] . "\t" .  $pacieteMedico['lastname'];?></td>
+                                <td class="date1"><?php echo (intval(\Ballybran\Helpers\Time\Timestamp::dataTime('Y')) - intval($pacieteMedico['dataNascimento']) );?></td>
+
+                                <td> <b class="btn btn-primary" data-toggle="modal" data-target="#triagem-<?php echo $pacieteMedico['id'];?>">Triagem</b></td>
+                            </tr>
+
+                            <!-- modal triagem -->
+
+                            <div class="modal fade" id="triagem-<?php echo $pacieteMedico['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Triagem do Paciente: <?php  echo $pacieteMedico['firstname'] . "\t". $pacieteMedico['lastname'];?></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+
+                                            <form  method="post" action="<?php echo URL;?>Secretaria/insertExameFisico">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <input type="hidden" name="Paciente_id" value="<?php echo $pacieteMedico['id'];?>">
+
+                                                        <select class="form-control"  name="Funcionarios_id"  id="exampleFormControlSelect2">
+                                                            <?php
+                                                                                    $medicos = $stmt->selectManager("SELECT    usuarios.firstname, Funcionarios.id FROM Funcionarios INNER JOIN Especialidade ON Especialidade.id = Funcionarios.Especialidade_id INNER JOIN usuarios ON usuarios.id = Funcionarios.usuarios_id     INNER JOIN Paciente ON Paciente.Especialidade_id = Especialidade.id WHERE Paciente.id = ". $pacieteMedico['id'] );
+
+                                                                   
+                                                                                    ?>
+                                                                                
+                                                                                    <option>--</option>
+
+                                                                                    <?php foreach ($medicos as $keys => $val ) :
+
+
+                                                                                     $count = $stmt->selectManager("SELECT COUNT(Paciente.id) FROM Paciente LEFT OUTER JOIN Anamnese on Paciente.id = Anamnese.Paciente_id  INNER JOIN Func_has_Paci on  Paciente.id = Func_has_Paci.Paciente_id INNER JOIN Funcionarios ON Funcionarios.id = Func_has_Paci.Funcionarios_id WHERE  Anamnese.Funcionarios_id is null AND Funcionarios.usuarios_id = " .$val['id'] )[0];
+                                                                                    foreach ($count as $key => $counts) {
+                                                                                     
+                                                                                     ?>
+
+                                                                                        <option value="<?php echo $val['id']; ?>"><?php echo $val['firstname']  . "\t|\t n de pacientes ({$counts})";?> </option>
+
+                                                                                    <?php } endForeach; ?>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Altura </label>
+                                                        <input type="text" class="form-control" name="altura"> m
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Peso</label>
+                                                        <input type="text" class="form-control" name="peso"> Kg
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Frequência Cardiaca</label>
+                                                        <input type="text" class="form-control" name="freq_cardiaca" > Batimentos por minutos
+                                                    </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Pressão Arterial Sitótelica</label>
+                                                    <input type="text" class="form-control" name="press_arte_sistolica"> mmHg
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Pressão Arterial Diastótelica</label>
+                                                    <input type="text" class="form-control" name="press_arte_diastolica"/> mmHg
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Observações Gerais</label>
+                                                    <!--                                                                    <input  name="Funcionarios_id" value="--><?php //echo $this->paciente['Funcionarios_id']; ?><!--" type="hidden" />-->
+                                                    <textarea rows="5" name="obs_gerais" class="form-control"></textarea>
+                                                    <!--                                                                    <input type="hidden" class="form-control" name="Paciente_id" value="--><?php //echo $this->paciente['Paciente_id'];?><!--">-->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                        <button type="submit" class="btn btn-primary">Enviar triagem</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- end modal triagem -->
+
+
+                        <?php  endforeach; ?>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="tab-pane fade in" id="tab3">
+
+                <br>
+                <h3>2</h3>
+
+            </div>
+            <div class="tab-pane fade in" id="tab4">
+
+                <h3>3</h3>
+
+            </div>
+            <div class="tab-pane fade in" id="tab5">
+
+                <h3>4</h3>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<script>
+    var options1 = {
+        valueNames: [ 'id1', 'name1', 'date1', 'numero1', 'idade1']
+    };
+
+    // Init list
+    var consultListAgend = new List('triagem', options1);
+
+
+    $('.bd-example-modal-turma').data('bs.modal').handleUpdate();
+</script>

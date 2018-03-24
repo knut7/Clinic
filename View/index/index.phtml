@@ -7,13 +7,13 @@
                 <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum soluta,</h2>
             </header>
             <div class="row">
-                <?php foreach ($this->Allcat as $key => $value) : ?>
+                <?php foreach ($this->treeCategory as $key => $value) : ?>
 
                     <div class="4u 12u(mobile)">
 
                     <!-- Feature -->
                     <section>
-                        <img class="img-thumbnail" style="height: 200px;" src="<?php  echo $value['path']; ?>" >
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php  echo URL.$value['path']; ?>" >
                         <header>
                             <h3><?php echo $value['nome']; ?></h3>
                         </header>
@@ -24,7 +24,7 @@
                 <?php endforeach; ?>
             </div>
             <ul class="actions">
-                <li><a href="<?php echo URL;?>categorias" class="button icon fa-file">Ver Mais Postagens</a></li>
+                <li><a href="<?php echo URL;?>categorias" class="button icon fa-file">Ver Mais Categorias</a></li>
             </ul>
         </section>
 
@@ -79,6 +79,7 @@
                                 <article class="box excerpt">
                                     <header>
                                         <span class="date"><?php echo $value['post_date']; ?></span>
+                                    
                                         <h3><?php echo $value['title']; ?></h3>
                                     </header>
                                     <p><?php echo $value['excerpt']; ?></p>
@@ -94,42 +95,28 @@
                     <!-- Highlights -->
                     <section>
                         <ul class="divided">
+
+                            <?php foreach ($this->sidebarCategory as $key => $value) : ?>
+                            
                             <li>
 
                                 <!-- Highlight -->
                                 <article class="box highlight">
                                     <header>
-                                        <h3><a href="#">Something of note</a></h3>
+                                        <h3><a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" ><?php echo $value['nome']; ?></a></h3>
                                     </header>
-                                    <a href="#" class="image left"><img src="<?php echo URL.DIR_FILE;?>Public/clinic/images/pic06.jpg" alt="" /></a>
-                                    <p>Phasellus  sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
-                                        viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
-                                        convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
-                                        facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
+                                    <a href="#" class="image left"><img class="img-thumbnail col-lg-2" src="<?php  echo URL.$value['path']; ?>" ></a>
+                        <p><?php echo $value['description']; ?></p>
                                     <ul class="actions">
-                                        <li><a href="#" class="button icon fa-file">Learn More</a></li>
+                                        <li> <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
+                    <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="button icon fa-file">Ler Mais</a>
+</li>
                                     </ul>
                                 </article>
 
                             </li>
-                            <li>
+                        <?php endforeach; ?>
 
-                                <!-- Highlight -->
-                                <article class="box highlight">
-                                    <header>
-                                        <h3><a href="#">Something of less note</a></h3>
-                                    </header>
-                                    <a href="#" class="image left"><img src="<?php echo URL.DIR_FILE;?>Public/clinic/images/pic07.jpg" alt="" /></a>
-                                    <p>Phasellus  sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
-                                        viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
-                                        convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
-                                        facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
-                                    <ul class="actions">
-                                        <li><a href="#" class="button icon fa-file">Learn More</a></li>
-                                    </ul>
-                                </article>
-
-                            </li>
                         </ul>
                     </section>
 

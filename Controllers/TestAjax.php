@@ -24,7 +24,11 @@
 namespace Module\Clinic\Controllers;
 
 
-use Ballybran\Core\Controller\AbstractController;
+use Ballybran\Core\{
+    Controller\AbstractController,
+    REST\Encodes, REST\RestUtilities,  REST\Client\ClientRest
+};
+
 
 class TestAjax extends AbstractController {
 
@@ -37,7 +41,7 @@ class TestAjax extends AbstractController {
     {
         $this->view->title = " TEXT DE SERACH";
 
-        $this->view->select = $this->model->select();
+        $this->view->select = $this->model->select( 'events', 'teste', 100, 'NOT NULL');
         $this->view->render($this, "index" );
     }
 
@@ -53,9 +57,48 @@ class TestAjax extends AbstractController {
 
     }
 
-    public function search()
+
+    public function getRest() {
+if(!empty($_POST['id'])) {
+
+         $rest = new ClientRest();
+
+         $for = $rest->get("http://localhost:8888/CLINIC/testajax/search/32");
+
+         var_dump($for); die;
+
+         foreach ($for as $key => $value) {
+             echo $value->password;
+         }
+
+     }else {
+        echo "string";
+     }
+    }
+
+    public function search($id)
     {
-         echo json_encode($this->model->getUser());
+                // $this->view->render($this, "serach" );
+
+       $datas =  $this->model->getUser($id);
+
+       $RestUtilities = RestUtilities::processRequest();
+
+        $c = $RestUtilities->getMethod();
+
+
+switch ($c) {
+    case 'get':
+
+        return RestUtilities::sendResponse(404, Encodes::encodeJson($datas), "application/Json");
+ 
+        break;
+    
+    default:
+
+        break;
+}
+
 
     }
 }

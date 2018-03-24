@@ -63,7 +63,8 @@ class Index extends AbstractController {
 
         $this->view->public = $this->model->exibirAricle();
         $this->view->users = $this->model->getAllUser();
-        $this->view->Allcat = $this->model->_allCategorias();
+        $this->view->treeCategory = $this->model->_allCategorias();
+        $this->view->sidebarCategory = $this->model->sidebarCategorias();
         $this->view->GetTitile = $this->model->exibiAllTitle();
 
         $this->view->render($this, 'index');

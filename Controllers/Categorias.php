@@ -18,10 +18,13 @@ namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\vardump\Vardump;
 use Module\Entity\EntyCategory;
 use Module\Upload\ImageUpload;
+// use Ballybran\Helpers\Event\Registry;
+// use Ballybran\Helpers\Http\Hook; 
+use Ballybran\Helpers\Images\Resize;
+use Ballybran\Helpers\Security\Session;
+// use Ballybran\Helpers\Security\Validate;
 
 /**
  *
@@ -41,11 +44,12 @@ use Module\Upload\ImageUpload;
 
 
 class Categorias extends AbstractController {
-
-    public $width = 2000;
+ public $width = 2000;
     public $height = 2000;
     public $quality = 10;
     public $option = "perfil";
+    private $form;
+    private $imagem;
 
     public function __construct() {
         parent::__construct();
@@ -82,6 +86,14 @@ class Categorias extends AbstractController {
     }
 
     public function insertCategory() {
+
+            $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
+            $this->imagem->setWidth(2000);
+            $this->imagem->setHeight(2000);
+            $this->imagem->setOption("exact");
+            $this->imagem->setQuality(100);
+            $this->imagem->setColor("FFFFFF");
+            $this->imagem->setDegree(00);
 
         $img = new ImageUpload();
         $this->imagem->file('categorias');

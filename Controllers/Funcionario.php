@@ -94,7 +94,7 @@ class Funcionario extends AbstractController
         $this->form->post('Paciente_id')->val('maxlength', 1223)
             ->post('Funcionarios_id')->val('maxlength', 12)
             ->post('queixa_pri')->val('maxlength', 400)
-            ->post('historia')->val('maxlength', 123)
+            ->post('historia')->val('maxlength', 5000)
             ->post('prob_renais')->val('maxlength', 123)
             ->post('prob_artic_reum')->val('maxlength', 123)
             ->post('prob_cardiaco')->val('maxlength', 123)
@@ -107,25 +107,22 @@ class Funcionario extends AbstractController
             ->post('data')->val('maxlength', 123)
             ->post('uso_de_medicam')->val('maxlength', 123)->submit();
 
-
-
-
-
         $this->model->insertAnamnese($this->form->getPostData());
         Hook::Header("account/cpanel");
     }
 
     public function insertExameFisico() {
-        $this->form->post('Paciente_id')->val('maxlength', 1223)
-            ->post('Funcionarios_id')->val('maxlength', 12)
-            ->post('altura')->val('maxlength', 12)
+
+        if(!empty($_POST['Paciente_id'])) {
+        $this->form->post('altura')->val('maxlength', 1223)
             ->post('peso')->val('maxlength', 123)
             ->post('freq_cardiaca')->val('maxlength', 123)
             ->post('press_arte_sistolica')->val('maxlength', 123)
             ->post('press_arte_diastolica')->val('maxlength', 123)
-            ->post('obs_gerais')->val('maxlength', 123)->submit();
+            ->post('obs_gerais')->val('maxlength', 5000)->submit();
 
-        $this->model->insertExameFisico($this->form->getPostData());
+        $this->model->insertExameFisico($this->form->getPostData(), $_POST['Paciente_id']);
+    }
         Hook::Header("account/cpanel");
     }
 
@@ -133,7 +130,7 @@ class Funcionario extends AbstractController
     $this->form->post('Paciente_id')->val('maxlength', 1223)
         ->post('Funcionarios_id')->val('maxlength', 12)
         ->post('diagnostico')->val('maxlength', 12)
-        ->post('diag_obs')->val('maxlength', 123)->submit();
+        ->post('diag_obs')->val('maxlength', 5000)->submit();
 
 
     $this->model->insertHipoteseDiagnostico($this->form->getPostData());
@@ -143,7 +140,7 @@ class Funcionario extends AbstractController
     public function insertEvolucao() {
         $this->form->post('Paciente_id')->val('maxlength', 1223)
             ->post('Funcionarios_id')->val('maxlength', 12)
-            ->post('evolucao')->val('maxlength', 123)->submit();
+            ->post('evolucao')->val('maxlength', 5000)->submit();
 
         $this->model->insertEvolucao($this->form->getPostData());
         Hook::Header("account/cpanel");
@@ -174,7 +171,7 @@ class Funcionario extends AbstractController
             ->post('Medicamento_med_id')->val('maxlength', 123)
             ->post('posologia')->val('maxlength', 123)
             ->post('exame_id')->val('maxlength', 123)
-            ->post('observacao')->val('maxlength', 123)->submit();
+            ->post('observacao')->val('maxlength', 5000)->submit();
 
         $this->model->inserirReceita($this->form->getPostData());
         Hook::Header('');
@@ -192,5 +189,30 @@ class Funcionario extends AbstractController
         $this->model->inserirExame($this->form->getPostData());
 
     }
+
+    // public function joinPacienteAndFunc()
+    // {
+    //       if(!empty($_POST['Paciente_id']) && !empty($_POST['Funcionarios_id']) && !empty($_POST['Func_dt']) && !empty($_POST['start']) ) ) {
+    //         $dataa['Funcionarios_id'] = $_POST['Funcionarios_id'];
+    //         $dataa['Func_dt'] = $_POST['Func_dt'];
+    //         $dataa['start'] = $_POST['start'];
+    //         $dataa['Paciente_id'] = $_POST['Paciente_id'];
+
+    //           $this->form->post('altura')->val('maxlength', 1223)
+    //         ->post('Funcionarios_id')->val('maxlength', 2222)
+    //         ->post('Paciente_id')->val('maxlength', 2222)
+    //         ->post('peso')->val('maxlength', 123)
+    //         ->post('freq_cardiaca')->val('maxlength', 123)
+    //         ->post('press_arte_sistolica')->val('maxlength', 123)
+    //         ->post('press_arte_diastolica')->val('maxlength', 123)
+    //         ->post('obs_gerais')->val('maxlength', 123)->submit();
+
+    //         var_dump($this->form->getPostData());
+
+    //         $c[] = $this->model->insertExameFisico($this->form->getPostData() );
+    //         $[] =$this->model->joinPacienteAndFunc($dataa);
+
+    //         var_dump($c);
+    // }
 
 }

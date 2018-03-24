@@ -38,7 +38,6 @@ Sub_Menu::getSubMenu();
                     <th>Email</th>
                     <th>Privilegio</th>
                     <th>Satus</th>
-                    <th>Marcar Consulta</th>
                     <th>editar</th>
                     <th>deletar</th>
                 </tr>
@@ -51,16 +50,8 @@ Sub_Menu::getSubMenu();
                         <td><?php echo $value['email']; ?></td>
                         <td><?php echo $value['role']; ?></td>
                         <td><?php echo $value['status'] == 1 ? "Online" : "Ofline"; ?></td>
-                        </td>
-                        <?php if( empty($value['info'])) {?>
-                        <td><a class="btn btn-danger" href="<?php echo URL ?>paciente/marcarconsulta/<?php echo $value['id']; ?>"><i class="glyphicon glyphicon-pencil "></i></td>
-                        <?php } else{?>
-                            <td>Marcada</td>
-                       <?php } ?>
                         <td> <a class="btn btn-success glyphicon glyphicon-edit" id="edita" href="<?php echo URL; ?>secretaria/edit/<?php echo $value['id']; ?>"></a></td>
                         <td><a class="btn btn-danger" href="<?php echo URL ?>secretaria/deletes/<?php echo $value['id']; ?>"><i class="glyphicon glyphicon-trash "></i></td>
-
-
 
                     </tr>
                 <?php } ?>

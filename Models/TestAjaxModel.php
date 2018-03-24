@@ -38,9 +38,9 @@ class TestAjaxModel {
         $this->database = $database;
     }
 
-    public function getUser()
+    public function getUser($id)
     {
-        return $this->database->find("usuarios", "*");
+        return $this->database->selectManager("SELECT * FROM usuarios where id=$id");
     }
 
     public function Backup()
@@ -48,11 +48,12 @@ class TestAjaxModel {
         return $this->database->Backup("test.sql");
     }
 
-    public function select()
+    public function select($table, $column, $varchar, $null)
     {
-        return $this->database->selectManager("SELECT * FROM usuarios");
-
+        return $this->database->colum($table, $column, $varchar, $null);
     }
+
+
 
     public function insert($data, $id)
     {

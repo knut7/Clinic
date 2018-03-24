@@ -32,8 +32,8 @@ Module\Lib2\header::getHeader();
             <?php foreach ($this->Allcat as $key => $value) : ?>
                 <div class="col-lg-4 ">
                     <h4><?php echo $value['nome']; ?></h4>
-                    <img class="img-thumbnail" style="height: 200px;" src="<?php  echo $value['path']; ?>" >
-                    <?php echo $value['description']; ?>
+                    <img class="img-thumbnail" src="<?php  echo URL. $value['path']; ?>" >
+                    <p><?php echo $value['description']; ?></p>
                     <br>
                 <div class="group">
                     <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
