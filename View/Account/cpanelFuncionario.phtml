@@ -17,6 +17,10 @@
 
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Library\Form;
+?>
+<div class="text-center"><h1>MÉDICO</h1></div>
+
+<?php
 Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
 $c = new \Ballybran\Core\Caller\Caller('Module\Lib\Visitor', 'contagem');
@@ -71,8 +75,6 @@ $pacientesAtendidos[11] = $stmt->selectManager("SELECT DATE_FORMAT(Anamnese.data
 $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN Anamnese ON Anamnese.Paciente_id = Paciente.id  WHERE Anamnese.Funcionarios_id is null  and Funcionarios.usuarios_id =".\Ballybran\Helpers\Security\Session::get('ID') );
 
 ?>
-
-
 
 
 <div class="col-lg-12 col-sm-12">
@@ -806,7 +808,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Password</label>
-                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="password2" id="exampleInputPassword1">
+                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="oldPassword" id="exampleInputPassword1">
                                                                 <br>
                                                             </div>
                                                             <div class="form-group">

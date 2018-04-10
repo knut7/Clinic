@@ -30,11 +30,15 @@ Module\Lib2\header::getHeader();
         <div class="row ">
 
             <?php foreach ($this->Allcat as $key => $value) : ?>
-                <div class="col-lg-4 ">
+                <div class="col-lg-4">
                     <h4><?php echo $value['nome']; ?></h4>
-                    <img class="img-thumbnail" src="<?php  echo URL. $value['path']; ?>" >
+                    <div class="col-lg-9">
+                    <img  class=" img-thumbnail" src="<?php  echo URL. $value['path']; ?>" >
+                    </div>
+                    <div class="col-lg-9">
                     <p><?php echo $value['description']; ?></p>
                     <br>
+                </div>
                 <div class="group">
                     <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
                     <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="button icon fa-file">Ler Mais</a>

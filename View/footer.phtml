@@ -28,10 +28,15 @@ use Ballybran\Helpers\Copyright\Copyright;
     echo \Ballybran\Helpers\System::http_user_agent();
     echo \Ballybran\Helpers\Time\Timestamp::dataTime();
 
+    $command = escapeshellcmd('test.py');
+$output = shell_exec($command);
+echo($output);
+
     ?>
+
+
 </footer>
 <!-- Bootstrap -->
-<script src="<?php echo URL; ?>Public/js/jquery.js"></script>
 
 <script src="<?php echo URL; ?>Public/js/bootstrap.js"></script>
 

@@ -20,8 +20,9 @@ namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
+use Ballybran\Helpers\{
+    Security\Session, Security\Validate, Security\Val
+};
 use Module\Entity\Pessoa;
 
 class Secretaria extends AbstractController
@@ -31,7 +32,7 @@ class Secretaria extends AbstractController
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
     }
 
@@ -184,7 +185,10 @@ class Secretaria extends AbstractController
         }
     }
 
-     public function insertExameFisico() {
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
+    public function insertExameFisico() {
 
         $this->form->post('altura')->val('maxlength', 1223)
             ->post('Funcionarios_id')->val('maxlength', 2222)
@@ -201,6 +205,9 @@ class Secretaria extends AbstractController
         Hook::Header("account/cpanel");
     }
 
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
     public function insertEspecialidade()
     {
         $this->form->post('espValor')->val("maxlength", 100)
@@ -208,29 +215,38 @@ class Secretaria extends AbstractController
             ->post('TipoReceita_id')->val("maxlength", 100)->submit();
 
         $this->model->insertEspecialidade($this->form->getPostData());
-
-    }
-
-    public function deleleEspecialidade($id)
-    {
-            $this->model->deleleEspecialidade($id);
-            Hook::Header("account/cpanel");
-    }
-
-    public function createConvenio()
-    {
-    
-          $this->form->post('convNome')->val('maxlength', 300)
-            ->post('responsavel')->val('maxlength', 200)
-            ->post('email')->val('maxlength', 300)
-            ->post('telephone')->val('maxlength', 16)->submit();
-
-
-        $this->model->createConvenio($this->form->getPostData() );
         Hook::header("account/cpanel");
 
     }
 
+    public function deleteEspecialidade($id)
+    {
+            $this->model->deleteEspecialidade($id);
+            Hook::Header("account/cpanel");
+    }
+
+    public function deleteConvenio($id)
+    {
+            $this->model->deleteConvenio($id);
+            Hook::Header("account/cpanel");
+    }
+
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
+    public function createConvenio()
+    {
+        $this->form->post('convNome')->val('maxlength', 300)
+            ->post('responsavel')->val('maxlength', 100)
+            ->post('email')->val('maxlength', 100)
+            ->post('telephone')->val('digit', 17)->submit();
+
+
+        $this->model->createConvenio($this->form->getPostData());
+
+        Hook::header("account/cpanel");
+
+    }
 
 
 }

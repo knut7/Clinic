@@ -25,12 +25,9 @@ namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\Http\Cookie;
-use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
-use Ballybran\Helpers\vardump\Vardump;
-use Module\Lib\Receita;
+use Ballybran\Helpers\{
+    Security\Session, Security\Validate, Security\Val
+};
 
 class Paciente extends AbstractController
 {
@@ -39,7 +36,7 @@ class Paciente extends AbstractController
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
 
 

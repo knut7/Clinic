@@ -27,14 +27,18 @@ namespace Module\Clinic\Controllers;
 use Ballybran\Core\{
     Controller\AbstractController, REST\Encodes, REST\RestUtilities
 };
+use Ballybran\Exception\Exception;
 use Ballybran\Helpers\{
-    Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate
+    Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate,Security\Val,
+     Utility\Hash
 };
 
-use Module\Entity\Pessoa;
+use Module\Clinic\Entity\Pessoa;
 use Module\Lib\SendMail;
 use Module\Upload\ImageUpload;
 use PHPMailer\PHPMailer\PHPMailer;
+use Ballybran\Core\Collections\Collection\{IteratorCollection, RecursiveIteratorIterator
+};
 use Module\Clinic\Controllers\CTrait\Prints;
 
 
@@ -42,7 +46,7 @@ class Account extends AbstractController
 {
     use Prints;
 
- 
+
     private $form;
     private $imagem;
 
@@ -52,7 +56,7 @@ class Account extends AbstractController
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
 
 
@@ -124,7 +128,7 @@ class Account extends AbstractController
             }
 
             if(Session::get('role') == 'enfermeiro') {
-                $this->view->pacieteMedico = $this->model->getPacienteParaTriagem();
+                $this->view->pacienteMedico = $this->model->getPacienteParaTriagem();
 
                 $this->view->render($this, 'cpanelEnfermagem');
             }
@@ -135,13 +139,6 @@ class Account extends AbstractController
         }
     }
 
-    public function FunctionName($id)
-    {
-        echo json_encode($this->view->getNum = $this->model->getNumPacientForMedic($id));
-
-    }
-
-   
 
     public function getInfoPaciente($id) {
         return ($this->model->getAllInfoForPrint($id));
@@ -376,13 +373,14 @@ class Account extends AbstractController
         $entity = new Pessoa();
 
 
-        if ($_POST['id'] && !empty($_POST['password']) && !empty($_POST['password2'])) {
-            $new =  $entity->setPassword($_POST['password2']);
-            $old = $this->model->getUser(Session::get("ID"))[0]['password'];
+        if ($_POST['id'] && !empty($_POST['password']) && !empty($_POST['oldPassword'])) {
+            $youPassword = $_POST['oldPassword'];
+            $oldPassword = $this->model->getUser(Session::get("ID"))[0]['password'];
 
 
-            if ($new == $old) {
-                $data['password'] = $entity->setPassword($_POST['password']);
+            if (Hash::verify_password($youPassword, $oldPassword) ) {
+                $entity->setPassword($_POST['password']);
+                $data['password']= $entity->getPassword();
                 $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou sua senha");
                  $this->model->managePassword($data, $_POST['id']);
 
@@ -399,6 +397,9 @@ class Account extends AbstractController
 
                 $mail->send();
                 $mail->body();
+                Hook::Header('Account/cpanel');
+
+
             } else {
                 echo "NADA FOI ATUALIZADO  porque a password antiga nao existe";
             }
@@ -440,12 +441,13 @@ class Account extends AbstractController
     {
 
         if (Session::get('role') == 'paciente' || Session::get('role') == 'secretaria') {
-            $this->form->post('info')->val('maxlength', 1223)
-                ->post('ante')->val('maxlength', 1223)
-                ->post('create_dt')->val('maxlength', 1223)
-                ->post('Convenio_id')->val('maxlength', 1223)
-                ->post('Especialidade_id')->val('maxlength', 1223)
-                ->post('usuarios_id')->val('maxlength', 1223)->submit();
+
+                $this->form->post('info')->val('maxlength', 1223)
+                    ->post('ante')->val('maxlength', 1223)
+                    ->post('create_dt')->val('maxlength', 1223)
+                    ->post('Convenio_id')->val('maxlength', 1223)
+                    ->post('Especialidade_id')->val('maxlength', 1223)
+                    ->post('usuarios_id')->val('maxlength', 1223)->submit();
 
 
             $paciente = $this->model->getUser(Session::get("ID"))[0];
@@ -482,6 +484,27 @@ class Account extends AbstractController
     public function events()
     {
         echo json_encode($this->model->getEvent2());
+    }
+
+public function a(){
+
+}
+    public function teste($value='')
+    {
+      $menu = array('home' => 'Home', 'PHP'=> 'POO', 'java'=> 'DP' );
+
+      $array = array();
+
+        $it2 = new IteratorCollection($array);
+        $it2->add("a");
+        $it2->add("b");
+        $it2->add("c");
+        $it2->add("d");
+
+        echo $it2->contains('dd');
+
+
+    var_dump($it2->toArray()[0]);
     }
 
 

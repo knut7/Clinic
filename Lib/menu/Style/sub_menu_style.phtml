@@ -48,14 +48,6 @@ use Ballybran\Helpers\Security\Session;
                         <li class="active" ><a href="<?php echo URL; ?>laboratorio">Ver exames</a></li>
 
                     </ul>
-                <?php endif;
-
-                if ( Session::get('role') == 'secretaria'): ?>
-                <ul>
-                    <li class="active" ><a href="<?php echo URL; ?>secretaria/consultas">Gerir Consultas</li>
-                    <li><a href="<?php echo URL; ?>secretaria/customers">Gerir Pacienete</a></li>
-
-                </ul>
                 <?php endif;?>
             </li>
             <li>

@@ -23,7 +23,7 @@
 
 namespace Module\Clinic\Models;
 
-
+use Ballybran\Exception\Exception;
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 
 class SecretariaModel
@@ -123,16 +123,30 @@ class SecretariaModel
         $this->entity->insert("Especialidade", $data);
     }
 
-    public function deleleEspecialidade($id)
+    public function deleteEspecialidade($id)
     {
         $this->entity->delete("Especialidade", "id=$id", 1);
 
     }
 
+    public function deleteConvenio($id)
+    {
+        $this->entity->delete("Convenio", "id=$id", 1);
+    }
+
     public function createConvenio($data)
     {
-        $this->entity->insert("Convenio", $data);
-  
+        if(is_array($data)){
+            try{
+                $this->entity->insert("Convenio", $data);
+
+            }catch (\Exception $e) {
+                echo "meu erro".$e->getMessage();
+            }
+
+        }
+
+
     }
 
 

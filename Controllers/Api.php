@@ -39,7 +39,7 @@ use Ballybran\Helpers\Security\{ Hash, vardump\Vardump};
  * Class Index
  * @package Module\Clinic\Controllers
  */
-class Index extends AbstractController {
+class Api extends AbstractController {
 
     /**
      * Index constructor.
@@ -56,15 +56,18 @@ class Index extends AbstractController {
      */
     public function index() {
 
-        $this->view->title = "home";
+        $data = RestUtilities::processRequest();
+     
+       switch ($data->getMethod()) :
+           case 'get':
+               $property = $this->model->getAllUser();
+               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
+               break;
+           default:
+               # code...
+               break;
+       endswitch;
 
-        $this->view->public = $this->model->exibirAricle();
-        $this->view->users = $this->model->getAllUser();
-        $this->view->treeCategory = $this->model->_allCategorias();
-        $this->view->sidebarCategory = $this->model->sidebarCategorias();
-        $this->view->GetTitile = $this->model->exibiAllTitle();
-
-        $this->view->render($this, 'index');
 
     }
     public function rest(){

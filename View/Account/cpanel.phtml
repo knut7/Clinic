@@ -817,7 +817,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Password</label>
-                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="password2" id="exampleInputPassword1">
+                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="oldPassword" id="exampleInputPassword1">
                                                                 <br>
                                                             </div>
                                                             <div class="form-group">
@@ -1010,6 +1010,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                     label: 'Atendidos',
                     data: [
 
+                        
                         [<?php echo json_encode(count($pacientesAtendidos[0]))?>],
                         [<?php echo json_encode(count($pacientesAtendidos[1]))?>],
                         [<?php echo json_encode(count($pacientesAtendidos[2]))?>],
@@ -1269,30 +1270,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 //                    eventLimit: false, // allow "more" link when too many events
                         events: $.parseJSON(data),
 //                    eventColor: '#378006',
-                        eventDrop: function(event, delta, revertFunc){
-
-                            var newId = event.id;
-                            var newStard =$.fullCalendar.moment(event.start).format();
-                            var newEnd = $.fullCalendar.moment(event.end).format();
-                            var newTitle = event.title;
-
-                            if (!confirm("Esta seguro??")) {
-                                revertFunc();
-                            }else{
-                                $.post('<?php echo URL;?>Events/updatEvent',
-                                    {
-                                        id:newId,
-                                        start:newStard,
-                                        end:newEnd,
-                                        title:newTitle
-                                    },
-                                    function(data){
-                                        if (data == 1) {
-                                            alert('Se actualizo correctamente');
-                                        }
-                                    });
-                            }
-                        },
+                       
                         eventResize: function(event, delta, revertFunc) {
                             var newId = event.id;
                             var newStard =$.fullCalendar.moment(event.start).format();

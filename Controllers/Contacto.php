@@ -26,9 +26,9 @@ namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
-use Ballybran\Helpers\Utility\Hash;
+use Ballybran\Helpers\{
+    Security\Session, Security\Validate, Security\Val
+};
 use Module\Lib\SendMail;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -39,7 +39,7 @@ class Contacto extends AbstractController
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod("POST");
     }
 
@@ -114,7 +114,7 @@ class Contacto extends AbstractController
         if (!empty($_POST['assunto']) && !empty($_POST['email']) && !empty($_POST['message']) && !empty($_POST['nome'])) {
 
 
-            $mail = new SendMail();
+            $mail = new SendMail(new PHPMailer());
             $mail->setFrom("marciozebedeu@gmail.com");
             $mail->setFromName($_POST['nome']);
             $mail->setMessage($_POST['message']);
@@ -124,6 +124,7 @@ class Contacto extends AbstractController
 
             $mail->send();
             $mail->body();
+            Hook::header();
 
 
 

@@ -45,7 +45,7 @@ if (!Session::exist()) :
                         <label class="control-label" for="input-firstname">Username</label>
 
                         <?php
-                        echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'email']);
+                        echo Form::input(['type' => 'text', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Insere seu numero ou email de Login']);
                         ?>
                         <p><strong><a class="text-blue right" href="<?php echo URL;?>user/formreset">Esqueceu sua senha?</a></strong></p>
                         <label class="control-label" for="input-password">Password</label>

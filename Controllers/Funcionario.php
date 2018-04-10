@@ -25,12 +25,10 @@ namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\Event\Registry;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
-use Ballybran\Helpers\vardump\Vardump;
-use Module\Lib\Notificacao;
+use Ballybran\Helpers\{
+    Security\Session, Security\Validate, Security\Val
+};
 
 class Funcionario extends AbstractController
 {
@@ -40,7 +38,7 @@ class Funcionario extends AbstractController
     {
         parent::__construct();
 
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
     }
 

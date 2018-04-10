@@ -30,8 +30,7 @@ use Ballybran\Library\fpdf\FPDF;
 class AllProntuario extends FPDF {
 
 
-private $prontuario;
-    private $id;
+
     private $info;
     private $footer;
 

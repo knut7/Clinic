@@ -25,8 +25,7 @@ namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\{
-    Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate
+use Ballybran\Helpers\{Http\Hook, Security\Session, Security\Validate, Security\Val
 };
 use Module\Clinic\Controllers\CTrait\Prints;
 
@@ -42,7 +41,7 @@ use Prints;
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
     }
 
@@ -117,9 +116,9 @@ use Prints;
             ->post('FormaPagamento_id')->val('maxlength', 111)->submit();
 
 
-        $this->form2 = new Validate();
+        $this->form2 = new Validate( new Val );
         $this->form2->setMethod('POST');
-        $this->form3 = new Validate();
+        $this->form3 = new Validate( new Val );
         $this->form3->setMethod('POST');
 
 

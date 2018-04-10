@@ -52,7 +52,7 @@ class UserModel {
      *  select all from usuarios
      */
     public function signIn($data) {
-        return $this->entity->selectManager("SELECT * FROM usuarios WHERE email=:email", $data, PDO::FETCH_ASSOC);
+        return $this->entity->selectManager("SELECT * FROM usuarios WHERE email=:email OR numero=:email", $data, PDO::FETCH_ASSOC);
     }
 
     /**

@@ -25,7 +25,7 @@ use Ballybran\Helpers\Ucfirst;
 use Ballybran\Helpers\Utility\Hash;
 use Ballybran\Helpers\vardump\Vardump;
 use Ballybran\Library\Email;
-use Module\Entity\Pessoa;
+use Module\Clinic\Entity\Pessoa;
 use Module\Lib\SendMail;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -58,7 +58,7 @@ class User extends AbstractController {
 
         $this->view->title = "Entrar";
 
-        if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['sexo'])) {
+        if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['sexo']) ) {
 
             $obj = new Pessoa();
             $obj->setFirstname($_POST['firstname']);
@@ -76,13 +76,14 @@ class User extends AbstractController {
             $data['email'] = $obj->getEmail();
             $data['confirmCod'] = rand();
             $data['create_time'] = Timestamp::dataTime();
+            $data['numero'] = Hash::simpleToken(4, '1234567890');
 
 
             $mail = new SendMail(new PHPMailer());
             $mail->setFrom("marciozebedeu@gmail.com");
             $mail->setFromName($_POST['firstname'] . "\t" . $_POST['lastname']);
-            $mail->setMessage("Clinic no link para confirmar teu cadastro : " ."\t". URL . "user/confirm/?email=" . $_POST['email'] . "&confirmCod=".$data['confirmCod']);
-            $mail->setAssunto("Recuperarção da Senha");
+            $mail->setMessage("Clique no link para confirmar teu cadastro : " ."\t". URL . "user/confirm/?email=" . $_POST['email'] . "&confirmCod=".$data['confirmCod']);
+            $mail->setAssunto("Confirma seu cadastro");
             $mail->setTo($_POST['email']);  // email d visitante vindo do form
             $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
 
@@ -100,6 +101,46 @@ class User extends AbstractController {
         $this->view->render($this, 'register');
     }
 
+    public function secretariaCreateNewPaciente() {
+
+        $this->view->title = "Entrar";
+
+        if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['sexo']) ) {
+
+            $obj = new Pessoa();
+            $obj->setFirstname($_POST['firstname']);
+            $obj->setLastname($_POST['lastname']);
+            $obj->setEmail($_POST['email']);
+            $obj->setPassword($_POST['password']);
+            $obj->setUsername($_POST['username']);
+            $obj->setSexo($_POST['sexo']);
+
+            $data['username'] = $obj->getUsername();
+            $data['password'] = $obj->getPassword();
+            $data['lastname'] = $obj->getLastname();
+            $data['firstname'] = $obj->getFirstname();
+            $data['sexo'] = $obj->getSexo();
+            $data['email'] = $obj->getEmail();
+            $data['confirmCod'] = rand();
+            $data['create_time'] = Timestamp::dataTime();
+            $data['numero'] = Hash::simpleToken(4, '1234567890');
+            $data['confirmed'] = 1;
+
+
+
+
+            if(!Session::exist()) {
+                Hook::Header('user/signIn');
+            }
+            Hook::Header('account/cpanel');
+            $this->model->signUp($data);
+
+
+
+        }
+        $this->view->render($this, 'register');
+    }
+
     /**
      *
      */
@@ -110,7 +151,6 @@ class User extends AbstractController {
         if (!empty($_POST["email"]) && !empty($_POST["password"])) {
 
             $obj->setUsername($_POST["email"]);
-            $obj->setPassword($_POST["password"]);
 
 
             if (!empty($this->model->signIn(array (':email' => $obj->getUsername())))) {
@@ -163,6 +203,8 @@ class User extends AbstractController {
 
                 $mail->send();
                 $mail->body();
+                Hook::header("account/cpanel");
+
             } else {
                 Hook::Header('user');
             }
