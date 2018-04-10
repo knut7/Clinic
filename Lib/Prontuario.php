@@ -84,7 +84,6 @@ private $prontuario;
 
         foreach ($this->info as $item => $value) {
 
-
             $this->SetXY(10, 40);
 
             // Title
@@ -93,28 +92,28 @@ private $prontuario;
             $this->Cell(33, 8, "Nome:", 0);
             $this->Cell(70, 8, $value['firstname'] . "\t" . $value['lastname'], 0);
             $this->Cell(20, 8, "Naturalidade:", 0);
-            $this->Cell(40, 8, $value['firstname'], 0);
+            $this->Cell(40, 8, $value['naturalidade'], 0);
 
 
             $this->Ln(4);
             $this->Cell(33, 8, "Sexo:", 0);
             $this->Cell(70, 8, $value['sexo'] == 'f' ? "Feminino" : "Masculino", 0);
             $this->Cell(20, 8, "Etnia:", 0);
-            $this->Cell(40, 8, $value['firstname'], 0);
+            $this->Cell(40, 8, $value['etnia'], 0);
 
             $this->Ln(4);
 
             $this->Cell(33, 8, "Telefone:", 0);
             $this->Cell(70, 8, $value['telephone'], 0);
             $this->Cell(20, 8, "Estado Civil:", 0);
-            $this->Cell(40, 8, $value['firstname'], 0);
+            $this->Cell(40, 8, $value['estaCivil'], 0);
 
 
             $this->Ln(4);
             $this->Cell(33, 8, "Celular:", 0);
             $this->Cell(70, 8, $value['telephone2'], 0);
             $this->Cell(20, 8, "Profissso:", 0);
-            $this->Cell(40, 8, $value['firstname'], 0);
+            $this->Cell(40, 8, $value['profissao'], 0);
 
             $this->Ln(4);
 
@@ -194,7 +193,9 @@ private $prontuario;
 
             $value['alergia'] != "" ? $this->Cell(33, 8, utf8_decode("Alergias:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['alergia']), 0). $this->Ln(4) : "";
 
-            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Epatite:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['hepatite']), 0). $this->Ln(4): "";
+            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Hepatite:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['hepatite']), 0). $this->Ln(4): "";
+
+            $value['diabete'] != "" ? $this->Cell(33, 8, utf8_decode("Diabete:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['diabete']), 0). $this->Ln(4): "";
 
             $value['gravides'] != "" ? $this->Cell(33, 8, utf8_decode("Gravidés:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['gravides']), 0). $this->Ln(4) : "";
 

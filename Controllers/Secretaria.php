@@ -14,28 +14,25 @@
  * @version   1.0.2
  */
 
-/**
- * Created by PhpStorm.
- * User: macbookpro
- * Date: 12/11/17
- * Time: 14:38
- */
 
 namespace Module\Clinic\Controllers;
 
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\Security\Session;
-use Ballybran\Helpers\Security\Validate;
+use Ballybran\Helpers\{
+    Security\Session, Security\Validate, Security\Val
+};
 use Module\Entity\Pessoa;
 
 class Secretaria extends AbstractController
 {
+    private $form;
+
     public function __construct()
     {
         parent::__construct();
-        $this->form = new Validate();
+        $this->form = new Validate( new Val );
         $this->form->setMethod('POST');
     }
 
@@ -90,7 +87,6 @@ class Secretaria extends AbstractController
         if (Session::exist()) {
             if (Session::get('role') == 'secretaria') {
                 $this->view->title = "Gestor da Secretaria | Add Paciente";
-                $this->view->title = "Customers";
                 $this->view->render($this, 'addPaciente');
             }
         }
@@ -146,11 +142,12 @@ class Secretaria extends AbstractController
             $pess->setAddress1($_POST["address_1"]);
             $pess->setAddress2($_POST["address_2"]);
             $pess->setPostcode($_POST["postcode"]);
-            $pess->setZoneId($_POST['zone_id']);
+            $pess->setZone($_POST['zone']);
             $pess->setCity($_POST['city']);
-            $pess->setCountryId($_POST['country']);
+            $pess->setCountry($_POST['country']);
             $pess->setRole($_POST['role']);
             $pess->setDataNascimento($_POST['dataNascimento']);
+            $pess->setSexo($_POST['sexo']);
 
 
             $data["firstname"] = $pess->getFirstname();
@@ -162,15 +159,16 @@ class Secretaria extends AbstractController
             $data["address_1"] = $pess->getAddress1();
             $data["address_2"] = $pess->getAddress2();
             $data["postcode"] = $pess->getPostcode();
-            $data['zone_id'] = $pess->getZoneId();
+            $data['zone'] = $pess->getZone();
             $data['city'] = $pess->getCity();
-            $data['country'] = $pess->getCountryId();
+            $data['country'] = $pess->getCountry();
             $data['role'] = $pess->getRole();
             $data['dataNascimento'] = $pess->getDataNascimento();
+            $data['sexo'] = $pess->getSexo();
 
 
             $this->model->updates($data, $pess->getId());
-            Hook::Header('Dashboard/customers');
+            Hook::Header('secretaria/customers');
         } else {
             echo "NADA FOI ATUALIZADO";
         }
@@ -185,6 +183,69 @@ class Secretaria extends AbstractController
                 Hook::Header('user/signUp');
             }
         }
+    }
+
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
+    public function insertExameFisico() {
+
+        $this->form->post('altura')->val('maxlength', 1223)
+            ->post('Funcionarios_id')->val('maxlength', 2222)
+            ->post('Paciente_id')->val('maxlength', 2222)
+            ->post('peso')->val('maxlength', 123)
+            ->post('freq_cardiaca')->val('maxlength', 123)
+            ->post('press_arte_sistolica')->val('maxlength', 123)
+            ->post('press_arte_diastolica')->val('maxlength', 123)
+            ->post('obs_gerais')->val('maxlength', 123)->submit();
+
+
+        $this->model->insertExameFisico($this->form->getPostData() );
+    
+        Hook::Header("account/cpanel");
+    }
+
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
+    public function insertEspecialidade()
+    {
+        $this->form->post('espValor')->val("maxlength", 100)
+            ->post('espNome')->val("maxlength", 100)
+            ->post('TipoReceita_id')->val("maxlength", 100)->submit();
+
+        $this->model->insertEspecialidade($this->form->getPostData());
+        Hook::header("account/cpanel");
+
+    }
+
+    public function deleteEspecialidade($id)
+    {
+            $this->model->deleteEspecialidade($id);
+            Hook::Header("account/cpanel");
+    }
+
+    public function deleteConvenio($id)
+    {
+            $this->model->deleteConvenio($id);
+            Hook::Header("account/cpanel");
+    }
+
+    /**
+     * @throws \Ballybran\Exception\Exception
+     */
+    public function createConvenio()
+    {
+        $this->form->post('convNome')->val('maxlength', 300)
+            ->post('responsavel')->val('maxlength', 100)
+            ->post('email')->val('maxlength', 100)
+            ->post('telephone')->val('digit', 17)->submit();
+
+
+        $this->model->createConvenio($this->form->getPostData());
+
+        Hook::header("account/cpanel");
+
     }
 
 

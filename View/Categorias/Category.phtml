@@ -13,7 +13,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
- echo Module\Lib2\header::getHeader();
+ Module\Lib2\header::getHeader();
 
 /**
  * Date: 2016/02/14
@@ -33,6 +33,8 @@
 
             <?php foreach ($this->category as $key => $value) : ?>
                 <div class="col-lg-4 ">
+                                        <img class="img-thumbnail" src="<?php  echo URL.$value['path']; ?>" >
+
                     <h4><?php echo $value['title']; ?></h4>
                     <p><?php echo $value['excerpt']; ?></p>
                 <div class="group">

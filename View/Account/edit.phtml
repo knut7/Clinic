@@ -16,7 +16,7 @@
  */
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Library\Form;
-use Module\menu\Sub_Menu;
+use Module\Clinic\Lib\menu\Sub_Menu;
 
 Sub_Menu::getSubMenu();
 ?>
@@ -131,7 +131,7 @@ Sub_Menu::getSubMenu();
                             <label class="control-label" for="input-firstname">Region/State</label>
 
                             <?php
-                            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone_id']]);
+                            echo Form::input(['type' => 'text', 'name' => 'zone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone']]);
                             ?>
 
                         </div>

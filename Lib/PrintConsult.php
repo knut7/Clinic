@@ -74,7 +74,6 @@ class PrintConsult extends FPDF {
         $this->Cell(80, 8, "Nome", 1);
         $this->Cell(40, 8, "idade", 1);
         $this->Cell(25, 8, "sexo", 1);
-        $this->Cell(25, 8, "Convenio", 1);
         $this->Ln(8);
         $this->SetFont("Arial", "",8);
 
@@ -84,7 +83,6 @@ class PrintConsult extends FPDF {
             $this->Cell(80, 8, utf8_decode($value["firstname"] . "\t " .$value["lastname"]), 1);
             $this->Cell(40, 8, (intval(Timestamp::dataTime("Y") -intval($value['dataNascimento']) ) ), 1);
             $this->Cell(25, 8, ucfirst($value['sexo']), 1);
-            $this->Cell(25, 8, $value['convNome'], 1);
             $this->Ln(8);
         }
 

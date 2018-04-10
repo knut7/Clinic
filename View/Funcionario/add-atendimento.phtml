@@ -17,7 +17,7 @@
 
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Library\Form;
-Module\menu\Sub_Menu::getSubMenu();
+Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
 
 
@@ -26,7 +26,7 @@ $d = $c->__init();
 
 $register = \Ballybran\Database\RegistryDatabase::getInstance();
 $stmt =  $register->get("PDO");
-$paciente = $stmt->selectManager("SELECT * FROM Exame");
+$paciente = $stmt->selectManager("SELECT * FROM Anamnese");
 $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id  WHERE Medicamento.Funcionarios_id is null  and Funcionarios.usuarios_id =".Session::get('ID') );
 
 ?>
@@ -34,7 +34,6 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 <div class="container" id="features" >
         <div class="col-sm-12">
             <div class="row ">
-                <div class="col-lg-12 card-radius">
 
                     <div class="col-lg-3 4u 12u(mobile)">
                         <?php  foreach ($this->UserPhoto as $key => $UserPhoto) { ?>
@@ -65,11 +64,10 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                         <strong>Cidade: </strong><?php echo  $this->paciente['city']; ?><br>
                         <strong>País: </strong><?php echo  $this->paciente['country']; ?><br>
 
-                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-12 col-sm-6">
+            <div class="col-lg-12 col-sm-12">
                 <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -287,10 +285,12 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                             <div class="tab-pane active" id="anamnese">
 
                                                 <br><br>
+
+                                                <div id="result"></div>
                                                 <!-- Anamnese form-->
                                                 <strong class="message"></strong>
                                                 <div class="content">
-                                                    <form id="anamneseForm", method="post", action="<?php echo URL;?>Funcionario/insertAnamnese">
+                                                    <form id="anamneseForm" method="post" action="<?php echo URL;?>Funcionario/insertAnamnese">
                                                         <div class="row">
                                                             <div class="col-md-5">
                                                                 <div class="form-group">
@@ -300,8 +300,8 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
-                                                                    <label>História</label>
-                                                                    <input type="text" class="form-control" name="historia" >
+                                                                    <label>História da Enfermidade Actual</label>
+                                                                    <textarea  class="form-control" name="historia" ></textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
@@ -429,7 +429,6 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                         <div class="clearfix"></div>
                                                     </form>
 
-                                                    <span id="result"></span>
 
                                                     <script>
                                                         //
@@ -440,6 +439,9 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                 clearInfo();
                                                                 hideForm();
                                                                 showSucessMessage();
+                                                                $("result").html("");
+
+
 
                                                             });
                                                         });
@@ -464,7 +466,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                                                         function showSucessMessage() {
                                                             $(".message").each(function () {
-                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> mensagem inserida com sucess").show();
+                                                                $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Anamnese inserida com sucess").show();
                                                             })
                                                         }
 
@@ -479,24 +481,30 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                                                 <strong class="message"></strong>
                                                 <div class="content">
-                                                    <form id="ExameFisicoForm", method="post", action="<?php echo URL;?>Funcionario/insertExameFisico">
+                                                    <form id="ExameFisicoForm" method="post" action="<?php echo URL;?>Funcionario/insertExameFisico">
+
+
+                                                        <?php
+
+                                                        $exame = $stmt->selectManager("SELECT * FROM Exame_Fisico INNER JOIN Paciente ON Exame_Fisico.Paciente_id = Paciente.id WHERE Paciente.id = ". $this->paciente['Paciente_id']); ?>
+
                                                         <div class="row">
                                                             <div class="col-md-5">
                                                                 <div class="form-group">
                                                                     <label>Altura </label>
-                                                                    <input type="text" class="form-control" name="altura"> m
+                                                                    <input type="text" class="form-control" name="altura" value="<?php echo $exame[0]['altura'] ?? "";?>" disabled="disabled"> m
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>Peso</label>
-                                                                    <input type="text" class="form-control" name="peso"> Kg
+                                                                    <input type="text" class="form-control" name="peso" value="<?php echo $exame[0]['peso'] ?? "";?>" disabled="disabled"> Kg
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Frequência Cardiaca</label>
-                                                                    <input type="text" class="form-control" name="freq_cardiaca" > Batimentos por minutos
+                                                                    <input type="text" class="form-control" name="freq_cardiaca" value="<?php echo $exame[0]['freq_cardiaca'] ?? "";?>" disabled="disabled"> Batimentos por minutos
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -505,17 +513,16 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Pressão Arterial Sitótelica</label>
-                                                                    <input type="text" class="form-control" name="press_arte_sistolica"> mmHg
+                                                                    <input type="text" class="form-control" name="press_arte_sistolica" value="<?php echo $exame[0]['press_arte_sistolica'] ?? "";?>" disabled="disabled"> mmHg
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Pressão Arterial Diastótelica</label>
-                                                                    <input type="text" class="form-control" name="press_arte_diastolica"/> mmHg
+                                                                    <input type="text" class="form-control" name="press_arte_diastolica" value="<?php echo $exame[0]['press_arte_diastolica'] ?? "";?>" disabled="disabled" /> mmHg
                                                                 </div>
                                                             </div>
                                                         </div>
-
 
 
                                                         <div class="row">
@@ -523,7 +530,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                                 <div class="form-group">
                                                                     <label>Observações Gerais</label>
                                                                     <input  name="Funcionarios_id" value="<?php echo $this->paciente['Funcionarios_id']; ?>" type="hidden" />
-                                                                    <textarea rows="5" name="obs_gerais" class="form-control"></textarea>
+                                                                    <textarea rows="5" name="obs_gerais" class="form-control" disabled="disabled"><?php echo $exame[0]['obs_gerais'] ?? "";?> </textarea>
                                                                     <input type="hidden" class="form-control" name="Paciente_id" value="<?php echo $this->paciente['Paciente_id'];?>">
                                                                 </div>
                                                             </div>
@@ -533,7 +540,6 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                         <div class="clearfix"></div>
                                                     </form>
 
-                                                    <span id="result"></span>
 
                                                     <script>
 
@@ -584,7 +590,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                                                 <strong class="message"></strong>
                                                 <div class="content">
-                                                    <form id="HipoDiagno", method="post", action="<?php echo URL;?>Funcionario/insertHipoteseDiagnostico">
+                                                    <form id="HipoDiagno" method="post" action="<?php echo URL;?>Funcionario/insertHipoteseDiagnostico">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
@@ -660,7 +666,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
 
                                                 <strong class="message"></strong>
                                                 <div class="content">
-                                                    <form id="evolucaoForm", method="post", action="<?php echo URL;?>Funcionario/insertEvolucao">
+                                                    <form id="evolucaoForm" method="post" action="<?php echo URL;?>Funcionario/insertEvolucao">
 
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -677,7 +683,6 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                         <div class="clearfix"></div>
                                                     </form>
 
-                                                    <span id="result"></span>
 
                                                     <script>
                                                         //
@@ -727,7 +732,7 @@ $pacientes =  $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has
                                                 <strong class="message"></strong>
                                                 <div class="content">
 
-                                                    <form id="presciaoForm" method="post" action="<?php echo URL; ?>funcionario/inserMedicamento">
+                                                    <form id="presciaoFormsss" method="post" action="<?php echo URL; ?>funcionario/inserMedicamento">
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">

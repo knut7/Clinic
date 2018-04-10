@@ -16,7 +16,7 @@
  */
 
 use Ballybran\Library\Form;
-\Module\menu\Sub_Menu::getSubMenu();
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
 ?>
 
@@ -74,6 +74,22 @@ use Ballybran\Library\Form;
             echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['email']]);
             ?>
 
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Data de Nascimento</label>
+
+            <?php
+            echo Form::input(['type' => 'date', 'name' => 'dataNascimento', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['dataNascimento']]);
+            ?>
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Sexo</label>
+            <select name="sexo" title="sexo name">
+                <option value="f" <?php if( $this->UserData['sexo'] == "f") echo "selected"; ?>>Feminino</option>
+                <option value="m"  <?php if( $this->UserData['sexo'] == "m") echo "selected"; ?>>Masculino</option>
+            </select>
         </div>
         <small>Your Address</small>
         <hr>
@@ -133,7 +149,7 @@ use Ballybran\Library\Form;
             <label class="control-label" for="input-firstname">Region/State</label>
 
             <?php
-            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone_id']]);
+            echo Form::input(['type' => 'text', 'name' => 'zone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['zone']]);
             echo Form::input(['type' => 'hidden', 'name' => 'id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->UserData['id']]);
             ?>
             <button class=" glyphicon glyphicon-floppy-save align-content-center" ></button>

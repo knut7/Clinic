@@ -1,0 +1,119 @@
+<?php
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+
+use Ballybran\Helpers\Security\Session;
+?>
+<div class=" text-center ">
+    <nav id="nav">
+        <ul class="bg-success">
+            <?php
+            /**
+             *
+             *
+             *
+             *  Menu Painel
+             *
+             *
+             */
+            ?>
+            <li><a class="icon fa-home" href="<?php echo URL; ?>"><span>Home</span></a>
+            <li><a class="" href="<?php echo URL; ?>account/cpanel"><span>Painel</span></a>
+                <?php
+                //             if user is admin our owner
+                if(Session::get('role') == 'admin' || Session::get('role') == 'owner') :?>
+
+                <ul>
+                    <li class="active" ><a href="<?php echo URL; ?>article/publish">Publicar Artigo</a></li>
+                    <li><a href="<?php echo URL; ?>faq/insertFaq">Inserir Faq</a></li>
+                    <li><a href="<?php echo URL;?>contacto/contactoinfo">Atualizar Contacto</a></li>
+                </ul>
+               <?php endif;
+
+                if ( Session::get('role') == 'laboratorio'): ?>
+                    <ul>
+
+                        <li class="active" ><a href="<?php echo URL; ?>laboratorio">Ver exames</a></li>
+
+                    </ul>
+                <?php endif;?>
+            </li>
+            <li>
+                <?php
+                /**
+                *
+                *
+                *
+                *  Menu Configuração
+                *
+                *
+                */
+                ?>
+                <?php if(Session::get('role') == 'owner') :?>
+                <a href="<?php echo URL; ?>finance" class="icon icon fa-cog"><span>Finanças</span></a>
+                <ul>
+                    <li class="active" ><a href="<?php echo URL; ?>finance/contasapagar">Contas a Pagar</a></li>
+                    <li><a href="<?php echo URL; ?>finance/contasareceber">Contas a Receber</a></li>
+
+                </ul>
+                <?php endif;?>
+            </li>
+
+            <?php
+            /**
+             *
+             *
+             *
+             *  Menu Consultas
+             *
+             *
+             */
+            if (Session::get('role') == 'paciente') :?>
+                <li><a class="icon fa-retweet" href="<?php echo URL; ?>paciente"><span>Marcar uma consulta</span></a></li>
+
+                <?php endif;
+
+            /**
+             *
+             *
+             *
+             *  Menu Históricos
+             *
+             *
+             */
+            ?>
+            <li><a class="icon fa-sitemap" href="#"><span>Históricos</span></a></li>
+            <li>
+                <?php if(\Ballybran\Helpers\Security\Session::exist()) : ?>
+                    <a href="#" class="icon fa-bar-chart-o"><span><?php echo \Ballybran\Helpers\Security\Session::get('U_NAME'); ?></span></a>
+                    <ul>
+                        <li><a href="<?php echo URL;?>account/cpanel">Painel</a></li>
+                        <li><a href="<?php echo URL;?>User/DestroySession">Teminar</a></li>
+                    </ul>
+                <? else : ?>
+
+                    <a href="#" class="icon fa-bar-chart-o"><span>Entrar</span></a>
+                    <ul>
+                        <li><a href="<?php echo URL;?>user/login">Login</a></li>
+                        <li><a href="<?php echo URL;?>user/signUp">Registrar</a></li>
+                    </ul>
+                <?php endif; ?>
+
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="container" id="features" >
+    <hr>

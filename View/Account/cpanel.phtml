@@ -16,7 +16,7 @@
  */
 
 use Ballybran\Helpers\Security\Session;
-use Module\menu\Sub_Menu;
+use Module\Clinic\Lib\menu\Sub_Menu;
 
 
 use Ballybran\Library\Form;
@@ -86,8 +86,6 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
     <div class="col-sm-12">
 
         <div class="row ">
-            <div class="col-lg-12 card-radius">
-
                 <div class="col-lg-3 4u 12u(mobile)">
 
                     <?php if (!empty($this->UserPhoto['path'])) { ?>
@@ -125,12 +123,10 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                     <strong>País: </strong><?php echo  $this->user['country']; ?><br>
                 </div>
 
-            </div>
-
         </div>
     </div>
 
-    <div class="col-lg-12 col-sm-6">
+    <div class="col-lg-12 col-sm-12">
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
             <div class="btn-group" role="group">
                 <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -342,7 +338,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="header">
                                     <h5 class="titles">Estatistica Mensal de Pciente</h5>
@@ -362,7 +358,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                             </div>
                         </div><!-- end -->
 
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="header">
                                     <h4 class="titles">Estatistica de Funcionario</h4>
@@ -480,6 +476,13 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
                                         </div>
                                         <div class="form-group">
+
+                                            <select name="sexo" id="">
+                                                <option value="f">Feminino</option>
+                                                <option value="m">Masculino</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="control-label" for="input-firstname">Email</label>
 
                                             <?php
@@ -551,7 +554,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                                                     <tr>
                                                         <td class="id" style="display:none;"><?php echo $item['id']+1;?></td>
                                                         <td class="name1"><?php echo $allPacientes['firstname'] . "\t" .  $allPacientes['lastname'];?></td>
-                                                        <td class="aria1"><?php echo $allPacientes['aria'];?></td>
+                                                        <td class="aria1"><?php echo $allPacientes['espNome'];?></td>
                                                         <td class="date1"><?php echo $allPacientes['dtPag'];?></td>
                                                         <td class="status1"><?php echo $allPacientes['situ_nome'];?></td>
                                                         <td class="medico1"><?php echo $allPacientes['titulo'];?></td>
@@ -670,9 +673,15 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                                     </div>
                                     <div class="tab-pane" id="info">
                                         <br><br>
-                                        <form method="POST" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
+                                        <form method="post" action="<?php echo URL; ?>account/insertImageUser" enctype="multipart/form-data">
                                             <label for="pic">Faça o Uploads de uma foto para o perfil:</label>
                                             <input type="file" name="archive[]" id="pic" />
+                                            <label for="colorWell">Qualidade:</label>
+                                            <input type="number" value="50" name="quality"/>
+                                            <label for="colorWell">Rotação:</label>
+                                            <input type="number"  value="00" name="degree" />
+                                            <label for="colorWell">Color:</label>
+                                            <input type="color" name="color" value="#ff0000" class="contact-form" id="colorWell" />
                                             <input type="submit" value="Carregar" />
                                         </form>
 
@@ -779,7 +788,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                                             <label class="control-label" for="input-firstname">Region/State</label>
 
                                             <?php
-                                            echo Form::input(['type' => 'text', 'name' => 'zone_id', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone_id']]);
+                                            echo Form::input(['type' => 'text', 'name' => 'zone', 'class' => 'form-control', 'id' => 'user-name', 'value' => $this->user['zone']]);
                                             ?>
 
                                         </div>
@@ -808,7 +817,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Password</label>
-                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="password2" id="exampleInputPassword1">
+                                                                <input type="password" class="form-control" placeholder="Senha antiga" name="oldPassword" id="exampleInputPassword1">
                                                                 <br>
                                                             </div>
                                                             <div class="form-group">
@@ -853,9 +862,8 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
                                     <div class="tab-pane active" id="log">
 
-                                        <?php $log = new \Ballybran\Helpers\Log\Log("logoAccess.txt");
-                                       echo  $log->open();
-                                        ?>
+                                        <?php $log = new \Ballybran\Helpers\Log\Log("logoAccess.txt");?>
+                                        <p class="btn btn-danger"> <?php  echo  $log->open(); ?></p>
                                     </div>
                                     <div class="tab-pane" id="profile3">
                                         <?php $secret = new \Ballybran\Helpers\Log\Log("logActividadeCecretria.txt");
@@ -1002,6 +1010,7 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
                     label: 'Atendidos',
                     data: [
 
+                        
                         [<?php echo json_encode(count($pacientesAtendidos[0]))?>],
                         [<?php echo json_encode(count($pacientesAtendidos[1]))?>],
                         [<?php echo json_encode(count($pacientesAtendidos[2]))?>],
@@ -1231,118 +1240,148 @@ $enfermeiros =  $stmt->selectManager("SELECT  usuarios.* FROM usuarios WHERE usu
 
     $(document).ready(function() {
 
-        $.post('<?php echo URL;?>account/event',
-            function(data){
-                //alert(data);
+        var localeCode = "pt-br";
 
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,basicWeek,basicDay'
-                    },
-                    defaultDate: new Date(),
-                    navLinks: true, // can click day/week names to navigate views
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    editable: true,
-                    events: $.parseJSON(data),
-                    eventDrop: function(event, delta, revertFunc){
-                        var newId = event.id;
-                        var newStard =$.fullCalendar.moment(event.start).format();
-                        var newEnd = $.fullCalendar.moment(event.end).format();
+            $.post( '<?php echo URL;?>account/getEvent2',
+                function(data){
+//                alert(data)
 
-                        if (!confirm("Esta seguro??")) {
-                            revertFunc();
-                        }else{
-                            $.post('<?php echo URL;?>account/updatEvent',
-                                {
-                                    id:newId,
-                                    start:newStard,
-                                    end:newEnd
-                                },
-                                function(data){
-                                    if (data == 1) {
-                                        alert('Se actualizo correctamente');
-                                    }else{
-                                        alert('ERROR.');
-                                    }
-                                });
-                        }
-                    },
-                    eventResize: function(event, delta, revertFunc) {
-                        var newId = event.id;
-                        var newStard =$.fullCalendar.moment(event.start).format();
-                        var newEnd = $.fullCalendar.moment(event.end).format();
+                    $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        buttonText: {
+                            today:    'Hoje',
+                            month:    'Mês',
+                            week:     'Semana',
+                            day:      'Dia'
+                        },
+                        theme: true,
+                        themeSystem:'bootstrap3',
+                        locale: localeCode,
+                        defaultDate: new Date(),
+                        navLinks: true, // can click day/week names to navigate views
+                        editable: true,
+                        selectable: true,
+                        selectHelper: true,
+                        allDaySlot: true,
+//                    eventLimit: false, // allow "more" link when too many events
+                        events: $.parseJSON(data),
+//                    eventColor: '#378006',
+                       
+                        eventResize: function(event, delta, revertFunc) {
+                            var newId = event.id;
+                            var newStard =$.fullCalendar.moment(event.start).format();
+                            var newEnd = $.fullCalendar.moment(event.end).format();
+                            var newTitle = "Consulta";
 
-                        if (!confirm("Esta seguro de cambiar la fecha?")) {
-                            revertFunc();
-                        }else{
-                            $.post('<?php echo URL;?>account/updatEvent',
-                                {
-                                    id:newId,
-                                    start:newStard,
-                                    end:newEnd
-                                },
-                                function(data){
-                                    if (data == 1) {
-                                        alert('Se cambio correctamente');
-                                    }else{
-                                        alert('ERROR.');
-                                    }
-                                });
-                        }
-                    },
-                    eventClick: function(event, jsEvent, view) {
 
-                        // alert(event.title);
-                        $('#mhdnIdEvento').val(event.id);
-                        $('#mtitulo').html(event.title);
-                        $('#txtBandaRP').val(event.title);
-                        $('#modalEvento').modal();
 
-                        if (event.url) {
-                            window.open(event.ui);
-                            return false;
-                        }
-
-                    },
-                    eventRender: function(event, element) {
-                        var el = element.html();
-                        element.html("<div style='width:90%;float:left;'>" + el + "</div>" +
-                            "<div style='color:red;text-align:right;' class='closeE'>" +
-                            "<i class='fa fa-trash'></i>" +
-                            "</div>");
-
-                        element.find('.closeE').click(function(){
-                            if (!confirm("Esta seguro de eliminar el evento?")) {
-                                return false;
+                            if (!confirm("Esta seguro de cambiar la fecha?")) {
+                                revertFunc();
                             }else{
-                                var id = event.id;
-                                $.post('<?php echo URL;?>account/event',
+                                $.post('<?php echo URL;?>Events/updatEvent',
                                     {
-                                        id:id
+                                        id:newId,
+                                        start:newStard,
+                                        end:newEnd,
+                                        title:newTitle
+
                                     },
                                     function(data){
-                                        alert(data);
                                         if (data == 1) {
-                                            $('#calendar').fullCalendar( 'removeEvents', event.id);
-                                            alert('Se elimino correctamente');
-                                        }else{
-                                            alert('ERROR.');
+                                            alert('Se cambio correctamente');
                                         }
                                     });
+                            }
+                        },
+                        eventClick: function(event, jsEvent, view) {
 
+                            // alert(event.title);
+                            $('#mhdnIdEvento').val(event.id);
+                            $('#title').val(event.title);
+                            $('#nome').html(event.firstname + " " + event.lastname);
+                            $('#telefone').html(event.telephone);
+                            $('#address_1').html(event.address_1);
+                            $('#address_2').html(event.address_2);
+                            $('#sexo').html(event.sexo);
+                            $('#bairro').html(event.bairro);
+                            $('#city').html(event.city);
+                            $('#email').html(event.email);
+                            $('#infos').html(event.info);
+                            $('#id').html(event.usuarios_id);
+                            $('#modalEvento').modal();
+
+                            if (event.url) {
+                                window.open(event.id);
+                                return false;
                             }
 
-                        });
-                    }
+                        },
 
+                        eventAfterRender: function (event, element, view) {
+                            var dataHoje = new Date();
+                            if (event.start < dataHoje && event.end > dataHoje) {
+                                //event.color = "#FFB347"; //Em andamento
+                                element.css('background-color', '#FFB347');
+                            } else if (event.start < dataHoje && event.end < dataHoje) {
+                                //event.color = "#77DD77"; //Concluído OK
+                                element.css('background-color', '#77DD77');
+                            } else if (event.start > dataHoje ) {
+                                //event.color = "#AEC6CF"; //Não iniciado
+                                element.css('background-color', '#AEC6CF');
+                            }
+                        },
+
+                        eventRender: function(event, element) {
+                            var el = element.html();
+                            element.html("<div style='width:90%;float:left;'>" + el + "</div>" +
+                                "<div style='color:red;text-align:right;' class='closeE'>" +
+                                "<i class='fa fa-trash'></i>" +
+                                "</div>");
+
+                            element.find('.closeE').click(function(){
+                                if (!confirm("Esta seguro de eliminar el evento?")) {
+                                    return false;
+                                }else{
+                                    var id = event.Paciente_id;
+
+                                    $.post('<?php echo URL;?>Events/deleteEvent',
+                                        {
+                                            Paciente_id:id
+                                        },
+                                        function(data){
+                                            if (data === 1) {
+                                                $('#calendar').fullCalendar( 'removeEvents', event.Paciente_id);
+                                                alert('Se elimino correctamente');
+                                            }
+                                        });
+
+                                }
+
+                            });
+                        }
+
+                    });
                 });
-            });
 
 
 
     });
+
+    //    var colorWell;
+//    var defaultColor = "#0000ff";
+//
+//    window.addEventListener("load", startup, false);
+//
+//    function startup() {
+//        colorWell = document.querySelector("#colorWell");
+//        colorWell.value = defaultColor;
+//        colorWell.addEventListener("input", updateFirst, false);
+//        colorWell.addEventListener("change", updateAll, false);
+//        colorWell.select();
+//    }
 
 </script>

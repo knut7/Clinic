@@ -1,68 +1,105 @@
 <?php
 use Ballybran\Library\Form;
-\Module\menu\Sub_Menu::getSubMenu();
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
-    <div class="col-lg-12 ">
-        <div class="row">
-            <div class="col-lg-5">
+
+<div class="col-lg-12 col-sm-6">
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div class="hidden-xs">Conctactos</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
+                <div class="hidden-xs">Redes Sociais</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <div class="hidden-xs">Configurações de E-mail</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                <div class="hidden-xs">Backup</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="agenda" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <div class="hidden-xs">Agenda</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-info col-sm-12">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <br><br>
                 <h3>Contacto </h3>
 
                 <?php
-echo Form::open(['method'=> "post", 'action'=> URL.'contacto/insertContacto']);
-?>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">Endereço</label>
-        <?php
-        echo Form::input(['type'=>'hidden', 'name'=> 'id', 'value' => $this->contacto['id'], 'class'=> 'form-control']);
-        echo Form::input(['type'=>'text', 'name'=> 'endereco', 'value' => $this->contacto['endereco'], 'class'=> 'form-control']);
-?>
-    </div>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">Telefone:</label>
-        <?php
-        echo Form::input(['type'=>'text', 'name'=> 'telefone', 'value'=> $this->contacto['telefone'], 'class'=> 'form-control']);
-        ?>
-    </div>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">Bairro:</label>
-        <?php
-        echo Form::input(['type'=>'text', 'name'=> 'bairro', 'value'=> $this->contacto['bairro'], 'class'=> 'form-control']);
-        ?>
-    </div>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">Cidade:</label>
-        <?php
-        echo Form::input(['type'=>'text', 'name'=> 'cidade', 'value'=> $this->contacto['cidade'], 'class'=> 'form-control']);
-        ?>
-    </div>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">E-mail:</label>
-        <?php
-        echo Form::input(['type'=>'text', 'name'=> 'email','value'=> $this->contacto['email'], 'class'=> 'form-control']);
-        ?>
-    </div>
-    <div class="form-group">
-        <label for="recipient-name" class="form-control-label">Fax:</label>
-        <?php
-        echo Form::input(['type'=>'text', 'name'=> 'fax', 'value'=> $this->contacto['fax'], 'class'=> 'form-control']);
-        ?>
-    </div>
+                echo Form::open(['method'=> "post", 'action'=> URL.'contacto/insertContacto']);
+                ?>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Endereço</label>
+                    <?php
+                    echo Form::input(['type'=>'hidden', 'name'=> 'id', 'value' => $this->contacto['id'], 'class'=> 'form-control']);
+                    echo Form::input(['type'=>'text', 'name'=> 'endereco', 'value' => $this->contacto['endereco'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Telefone:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'telefone', 'value'=> $this->contacto['telefone'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Bairro:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'bairro', 'value'=> $this->contacto['bairro'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Cidade:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'cidade', 'value'=> $this->contacto['cidade'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">E-mail:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'email','value'=> $this->contacto['email'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Fax:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'fax', 'value'=> $this->contacto['fax'], 'class'=> 'form-control']);
+                    ?>
+                </div>
 
-     <div class="form-group">
-          <label for="recipient-name" class="form-control-label">Site:</label>
-          <?php
-          echo Form::input(['type'=>'text', 'name'=> 'site', 'value'=> $this->contacto['site'], 'class'=> 'form-control']);
-          ?>
-     </div>
-<?php
-echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
-echo Form::close();
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Site:</label>
+                    <?php
+                    echo Form::input(['type'=>'text', 'name'=> 'site', 'value'=> $this->contacto['site'], 'class'=> 'form-control']);
+                    ?>
+                </div>
+                <?php
+                echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
+                echo Form::close();
 
-?>
+                ?>
             </div>
-            <div class="col-lg-5">
-                <h3>Social </h3>
+
+
+            <div class="tab-pane fade in" id="tab2">
+                <br>
+
+                <div class="col-lg-5">
+                    <h3>Social </h3>
                     <?php
                     echo Form::open(['method'=> "post", 'action'=> URL.'contacto/insertSocial']);
                     ?>
@@ -96,5 +133,155 @@ echo Form::close();
                     echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
                     echo Form::close();
                     ?>
+                </div>
+
             </div>
+            <div class="tab-pane fade in" id="tab3">
+
+
+                <br><br>
+                <h3>Contacto </h3>
+
+                <?php
+                echo Form::open(['method'=> "post", 'action'=> URL.'contacto/updatEmailConfig']);
+                ?>
+                <div class="col-sx-12">
+                    <div class="row">
+
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Seu Email</label>
+                            <?php
+                            echo Form::input(['type'=>'hidden', 'name'=> 'id', 'value' => $this->mailConfig['id'], 'class'=> 'form-control']);
+                            echo Form::input(['type'=>'text', 'name'=> 'Username', 'value' => $this->mailConfig['Username'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Password:</label>
+                            <?php
+                            echo Form::input(['type'=>'password', 'name'=> 'Password', 'value'=> $this->mailConfig['Password'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Email do Destinatario:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'From', 'value'=> $this->mailConfig['From'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Nome do Destinatario :</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'FromName', 'value'=> $this->mailConfig['FromName'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Message 1:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Message1','value'=> $this->mailConfig['Message1'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-sx-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Message 2:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Message2', 'value'=> $this->mailConfig['Message2'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label"> Message 3:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Message3', 'value'=> $this->mailConfig['Message3'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Host:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Host', 'value'=> $this->mailConfig['Host'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Linguage:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Lang', 'value'=> $this->mailConfig['Lang'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Port:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Port', 'value'=> $this->mailConfig['Port'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Auth :</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Auth', 'value'=> $this->mailConfig['Auth'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Secure :</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Secure', 'value'=> $this->mailConfig['Secure'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Charset:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Charset','value'=> $this->mailConfig['Charset'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label"> Html:</label>
+                            <?php
+                            echo Form::input(['type'=>'text', 'name'=> 'Html', 'value'=> $this->mailConfig['Html'], 'class'=> 'form-control']);
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                echo Form::submit(['type' => 'submit', 'value'=> 'publicar']);
+                echo Form::close();
+
+                ?>
+
+            </div>
+            <div class="tab-pane fade in" id="tab4">
+
+                <br>
+
+                <?php 
+                echo Form::open(['action'=> URL.'contacto/createbackup', 'method'=>'get']);
+                echo Form::input(['type'=>'hidden', 'name'=>'backup', 'value'=>'send_backup']);
+                echo Form::input(['type'=>'submit', 'value'=>'Backup']);
+                echo Form::close();
+
+                ?>
+
+
+            </div>
+            <div class="tab-pane fade in" id="tab5">
+
+
+            </div>
+
         </div>
+    </div>
+</div>
+
+

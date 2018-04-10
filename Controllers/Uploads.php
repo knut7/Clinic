@@ -35,7 +35,7 @@ use Ballybran\Core\Controller\AbstractController;
  * @version   1.0.0
  */
 
-class Uploads extends AbstractController {
+class FileSystem extends AbstractController {
 
     function __construct() {
         parent::__construct();

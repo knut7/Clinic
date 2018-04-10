@@ -23,7 +23,7 @@
 
 namespace Module\Clinic\Models;
 
-
+use Ballybran\Exception\Exception;
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 
 class SecretariaModel
@@ -71,7 +71,7 @@ class SecretariaModel
      */
     public function getUser($id)
     {
-        return $this->entity->selectManager('SELECT * FROM usuarios WHERE id =' . $id);
+        return $this->entity->selectManager('SELECT * FROM usuarios WHERE  id =' . $id);
     }
 
     public function getusers($user)
@@ -113,5 +113,41 @@ class SecretariaModel
     {
          $this->entity->insert('Paciente', $data);
     }
+
+     public function insertExameFisico($data) {
+        $this->entity->insert("Exame_Fisico", $data);
+    }
+
+    public function insertEspecialidade($data)
+    {
+        $this->entity->insert("Especialidade", $data);
+    }
+
+    public function deleteEspecialidade($id)
+    {
+        $this->entity->delete("Especialidade", "id=$id", 1);
+
+    }
+
+    public function deleteConvenio($id)
+    {
+        $this->entity->delete("Convenio", "id=$id", 1);
+    }
+
+    public function createConvenio($data)
+    {
+        if(is_array($data)){
+            try{
+                $this->entity->insert("Convenio", $data);
+
+            }catch (\Exception $e) {
+                echo "meu erro".$e->getMessage();
+            }
+
+        }
+
+
+    }
+
 
 }

@@ -8,7 +8,7 @@
  * Time: 11:11 AM
  */
 use Ballybran\Library\Form;
-\Module\menu\Sub_Menu::getSubMenu();
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
 ?>
 
@@ -57,6 +57,13 @@ use Ballybran\Library\Form;
             echo Form::input(['type' => 'email', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'email']);
             ?>
 
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="input-firstname">Sexo</label>
+            <select name="sexo" title="sexo name">
+                <option value="f">Feminino</option>
+                <option value="m">Masculino</option>
+            </select>
         </div>
         <div class="form-group">
             <label class="control-label" for="input-firstname">Password</label>

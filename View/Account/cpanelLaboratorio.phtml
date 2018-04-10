@@ -16,8 +16,11 @@
  */
 
 use Ballybran\Helpers\Security\Session;
-use Module\menu\Sub_Menu;
+use Module\Clinic\Lib\menu\Sub_Menu;
+?>
+<div class="text-center"><h1>LABORATÓRIO</h1></div>
 
+<?php
 Sub_Menu::getSubMenu();
 ?>
 
@@ -66,3 +69,218 @@ Sub_Menu::getSubMenu();
 
             </div>
     </div>
+
+
+
+<div class="col-lg-12 col-sm-6">
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div class="hidden-xs">Home</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon fa fa-picture-o" aria-hidden="true"></span>
+                <div class="hidden-xs">Creator</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-wo" aria-hidden="true"></span>
+                <div class="hidden-xs">Portfolio</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                <div class="hidden-xs">Configurações</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="agenda" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <div class="hidden-xs">Agenda</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-info col-sm-12">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <br><br>
+
+            </div>
+
+
+            <div class="tab-pane fade in" id="tab2">
+
+                <br>
+                <h3>Slides</h3>
+
+
+                <!-- Classe modal -->
+                <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-class">Criar Classe</button>
+
+                <div class="modal fade bd-example-modal-class" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <?php
+
+                            echo Form::open(['action'=>URL.'creator/createclasse', 'method'=>'post']);
+                            echo Form::input(['type'=>"text", "name"=>'classNome', "class"=>"form-control", "placeholder"=>'Nome da Classe']);
+                            echo Form::submit(['type'=>'submit', 'value'=>'crear', "class"=>"form-control btn btn-primary"]);
+                            echo Form::close();
+
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Turma modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sala">Criar Sala</button>
+
+                <div class="modal fade bd-example-modal-sala" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <?php
+
+                            echo Form::open(['action'=>URL.'creator/createSala', 'method'=>'post']);
+                            echo Form::input(['type'=>"text", "name"=>'salaNum', "class"=>"form-control", "placeholder"=>'Numero da Sala']);
+                            echo Form::submit(['type'=>'submit', 'value'=>'crear', "class"=>"form-control btn btn-primary"]);
+                            echo Form::close();
+
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Turma modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-periodo">Criar Periodo</button>
+
+                <div class="modal fade bd-example-modal-periodo" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <?php
+
+                            echo Form::open(['action'=>URL.'creator/createperiodo', 'method'=>'post']);
+                            echo Form::input(['type'=>"text", "name"=>'periodo', "class"=>"form-control", "placeholder"=>'Nome do Periodo']);
+                            echo Form::submit(['type'=>'submit', 'value'=>'crear', "class"=>"form-control btn btn-primary"]);
+                            echo Form::close();
+
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Turma modal -->
+                <button  type="button" onloadstart="return" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-turma">Criar Turma</button>
+
+                <div class="modal fade bd-example-modal-turma" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <?php
+
+                            echo Form::open(['action'=>URL.'creator/createturma', 'method'=>'post']);
+                            echo Form::input(['type'=>"text", "name"=>'turmNome', "class"=>"form-control", "placeholder"=>'Nome da Turma']);
+                            ?>
+
+                            <select name="Sala_id" id="">
+                                <option value="">---</option>
+                                <?php
+                                foreach ($this->sala as $key => $sala) : ?>
+                                <option value="<?php echo $sala['id']?>"><?php echo $sala['salaNum'];?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <select name="Classe_id" id="">
+                                <option value="">---</option>
+                                <?php  foreach ($this->classe as $key => $classe) : ?>
+                                <option value="<?php echo $classe['id']?>"><?php echo $classe['classNome'];?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <?php
+                            echo Form::submit(['type'=>'submit', 'value'=>'crear', "class"=>"form-control btn btn-primary"]);
+                            echo Form::close();
+
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="tab-pane fade in" id="tab3">
+
+                <br>
+                <h3>Matricula</h3>
+                <br>
+
+
+                            <!-- Tab panes -->
+
+                                    <div id="listAlunos">
+                                        <input type="text" class="search form-control" placeholder="Pesquisar Candidatos"  />
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th class="sort" data-sort="name1">Name </th>
+                                                <th class="sort" data-sort="date1">Data de Increso</th>
+                                                <th class="sort" data-sort="numero1">Numero da Incrição</th>
+                                                <th class="sort" data-sort="idade1">Idade</th>
+
+                                                <th class="sort" data-sort="hora1"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="list">
+
+                                            <?php foreach ($this->alunos as $key => $value) :?>
+                                                <tr>
+                                                    <td class="id" style="display:none;"><?php echo $key['id']+1;?></td>
+                                                    <td class="name1"><?php echo $value['firstname'] . "\t" .  $value['lastname'];?></td>
+                                                    <td class="date1"><?php echo $value['dataIngresso'];?></td>
+                                                    <td class="numero1"><?php echo $value['alunNum'];?></td>
+                                                    <td class="idade1"><?php echo (intval(\Ballybran\Helpers\Time\Timestamp::dataTime('Y')) - intval($value['nascimento']) );?></td>
+
+                                                    <td ><a href="<?php echo URL; ?>funcionario/prontuario/<?php echo $value['id'];?>"> Fazer Matricula</a></td>
+                                                </tr>
+
+                                            <?php  endforeach; ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+            </div>
+            <div class="tab-pane fade in" id="tab4">
+
+
+            </div>
+            <div class="tab-pane fade in" id="tab5">
+
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<script>
+    var options1 = {
+        valueNames: [ 'id1', 'name1', 'date1', 'numero1', 'idade1']
+    };
+
+    // Init list
+    var consultListAgend = new List('listAlunos', options1);
+
+
+    $('.bd-example-modal-turma').data('bs.modal').handleUpdate();
+</script>
+
+

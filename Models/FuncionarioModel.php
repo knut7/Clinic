@@ -73,13 +73,12 @@ class FuncionarioModel
     }
 
 
-
     public function insertAnamnese($data) {
         $this->database->insert("Anamnese", $data);
     }
 
-    public function insertExameFisico($data) {
-        $this->database->insert("Exame_Fisico", $data);
+    public function insertExameFisico($data, $id) {
+        $this->database->update("Exame_Fisico", $data, "Paciente_id=$id");
     }
 
     public function insertHipoteseDiagnostico($data) {

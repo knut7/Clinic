@@ -32,11 +32,8 @@ namespace Module\Clinic\Controllers;
  */
 
 
-use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Core\REST\Encodes;
-use Ballybran\Core\REST\RestUtilities;
-use Ballybran\Helpers\Security\Hash;
-use Ballybran\Helpers\vardump\Vardump;
+use Ballybran\Core\{ Controller\AbstractController, REST\Encodes, REST\RestUtilities};
+use Ballybran\Helpers\Security\{ Hash, vardump\Vardump};
 
 /**
  * Class Index
@@ -63,7 +60,8 @@ class Index extends AbstractController {
 
         $this->view->public = $this->model->exibirAricle();
         $this->view->users = $this->model->getAllUser();
-        $this->view->Allcat = $this->model->_allCategorias();
+        $this->view->treeCategory = $this->model->_allCategorias();
+        $this->view->sidebarCategory = $this->model->sidebarCategorias();
         $this->view->GetTitile = $this->model->exibiAllTitle();
 
         $this->view->render($this, 'index');
@@ -76,7 +74,7 @@ class Index extends AbstractController {
        switch ($data->getMethod()) :
            case 'get':
                $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(200, Encodes::encodeJson($property), 'application/json');
+               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
                break;
            default:
                # code...

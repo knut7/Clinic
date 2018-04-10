@@ -17,8 +17,11 @@
 
 namespace Module\Clinic\Controllers;
 
+use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
+use Ballybran\Helpers\Images\Resize;
 use Ballybran\Helpers\Security\Session;
+use Module\Upload\ImageUpload;
 
 /**
  * Created by PhpStorm.
@@ -36,6 +39,7 @@ class Galery extends AbstractController {
     public $name;
     public $size;
     public $type;
+    private $imagem;
 
     public function __construct() {
 
@@ -54,17 +58,37 @@ class Galery extends AbstractController {
         $this->view->render($this, 'index');
     }
 
-    public function getImage() {
+    public function getImage()
+    {
 
-        $this->imagem->file('../Galeria');
-        if (!empty($_POST['legenda'])) {
+        if (!empty($_POST['legenda']) && !empty($_POST['quality']) && !empty($_POST['color']) && !empty($_POST['degree'])) {
 
-            $data['type'] = $this->imagem->type;
-            $data['size'] = $this->imagem->size;
-            $data['path'] = $this->imagem->path;
-            $data['name'] = $this->imagem->name;
+            $color = substr($_POST['color'], 1);
+
+
+            $this->imagem = new \Ballybran\Helpers\Http\FileSystem(new Resize());
+            $this->imagem->setWidth(2000);
+            $this->imagem->setHeight(2000);
+            $this->imagem->setOption("exact");
+            $this->imagem->setQuality($_POST['quality']);
+            $this->imagem->setColor($color);
+            $this->imagem->setDegree($_POST['degree']);
+
+
+            $this->imagem->file('perfil');
+            $image = new ImageUpload();
+            $image->setName($this->imagem->name);
+            $image->setType($this->imagem->type);
+            $image->setPath($this->imagem->path);
+            $image->setSize($this->imagem->size);
+
+            $data['type'] = $image->getType();
+            $data['size'] = $image->getSize();
+            $data['path'] = $image->getPath();
+            $data['name'] = $image->getName();
             $data['legenda'] = $_POST['legenda'];
             $this->model->insertImage($data);
+
         }
         $this->view->render($this, 'getImage');
     }

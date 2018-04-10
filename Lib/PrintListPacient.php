@@ -62,13 +62,25 @@ class PrintListPacient extends FPDF {
 
         $this->SetFont('Arial', 'B', 11);
         $this->Cell(70, 8, "", 0);
-        $this->Cell(100, 8, "Lista  dos Paciente", 0);
+        $this->Cell(60, 8, "Lista  dos Paciente Para o atendimento", 0);
         $this->Ln(20);
 
     }
 
-    public function body()
+    public function infoDoctor($data)
+    {      
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(15, 8, "Doutor(a): ");
+        $this->Cell(15, 8, utf8_decode($data['firstname']."\t" .$data['lastname']));
+        $this->Ln(8);
+
+    }
+
+
+    public function body($data)
     {
+        $this->infoDoctor($data);
+
         $this->SetFont("Arial", "B", 8);
         $this->SetFillColor(243, 200, 100);
         $this->Cell(15, 8, "Item", 1, '', '', true);
@@ -76,23 +88,25 @@ class PrintListPacient extends FPDF {
         $this->Cell(9, 8, "idade", 1,'', '', true);
         $this->Cell(8, 8, "sexo", 1,'', '', true);
         $this->Cell(25, 8, "Convenio", 1,'', '', true);
-        $this->Cell(25, 8, "Diag", 1,'', '', true);
-        $this->Cell(15, 8, "H. Cons", 1, '', '', true);
-        $this->Cell(25, 8, "H. Obs", 1, '', '', true);
+        // $this->Cell(25, 8, "Diag", 1,'', '', true);
+        // $this->Cell(15, 8, "H. Cons", 1, '', '', true);
+        // $this->Cell(25, 8, "H. Obs", 1, '', '', true);
         $this->Cell(25, 8, utf8_decode("N incrição"), 1, '', '', true);
         $this->Ln(8);
         $this->SetFont("Arial", "",8);
 
+
         foreach ($this->info as $item => $value) {
+
             $this->SetFont("Arial", "B", 8);
             $this->Cell(15, 8, $item+1, 1);
             $this->Cell(45, 8, utf8_decode($value["firstname"] . "\t " .$value["lastname"]), 1);
             $this->Cell(9, 8, (intval(Timestamp::dataTime("Y") - intval($value['dataNascimento']) ) ), 1);
             $this->Cell(8, 8, ucfirst($value['sexo']), 1);
             $this->Cell(25, 8, $value['convNome'], 1);
-            $this->Cell(25, 8, "", 1);
-            $this->Cell(15, 8, "", 1);
-            $this->Cell(25, 8, "", 1);
+            // $this->Cell(25, 8, "", 1);
+            // $this->Cell(15, 8, "", 1);
+            // $this->Cell(25, 8, "", 1);
             $this->Cell(25, 8, $value['id'], 1);
             $this->Ln(8);
         }

@@ -2,7 +2,7 @@
 <?php
 
 
-echo Module\Lib2\header::getHeader();
+ Module\Lib2\header::getHeader();
 
 ?>
 <!-- { col-2 | col-3 | col-4 } -->
@@ -14,162 +14,192 @@ foreach ($this->public as $key => $value) { ?>
 
 <div id="main-wrapper">
 
-    <section id="features" class="container">
+	<section id="features" class="container">
 
-        <div class="container col-lg-10">
-            <div class="row">
-                    <div class="thumbnail">
-                       <!--  <img src="<?php echo URL; ?>Public/assets/images/bootstrap.png" alt=""> -->
-                            <div>
+		<div class="container col-lg-10">
+			<div class="row">
+				 <header class="card-header col-lg-6">
+									<h3 class="btn btn-default"><?php echo $value['title']; ?>
+								   <strong><?php echo $value['post_date']; ?></strong></h3>
+								   
+								</header>
+					<div class="thumbnail">
+							<div>
+<img class="col-lg-4 l  img-responsive img-circle" style="margin-left: 100px;"  src="<?php echo URL. $value['path'];?>" alt="">
+						</div>
 
-                                <header class="card-header col-lg-6">
-                                    <h3 class="btn btn-default"><?php echo $value['title']; ?>
-                                   <strong><?php echo $value['post_date']; ?></strong></h3>
-                                </header>
+								<p> <?php echo $post = $value['content'] ?? null; ?></p>
 
-                                <p> <?php echo $post = $value['content'] ?? null; ?></p>
+								<?php
+								/*
+								  /* insert comments
+								 */
+								?>
 
-                                <?php
-                                /*
-                                  /* insert comments
-                                 */
-                                ?>
+					</div>
+					<a href="<?php echo URL; ?>article">Voltar</a>
+					<?php
+					if (Session::exist()) {
+						if (Session::get('role') == 'owner' || Session::get('role') == 'admin'):
+							?>
+							<a href=<?php echo URL; ?>article/editar/<?php echo $value['id_article'] ?>>editar</a>
+							<?php
+						endif;
+					}
+					?>
 
+				<?php } ?>
+			</div>
+		<hr>
+		<div class=" col-lg-6">
+				<div class="well">
 
-                        </div>
-                    </div>
-                    <a href="<?php echo URL; ?>article">Voltar</a>
-                    <?php
-                    if (Session::exist()) {
-                        if (Session::get('role') == 'owner' || Session::get('role') == 'admin'):
-                            ?>
-                            <a href=<?php echo URL; ?>article/editar/<?php echo $value['id_article'] ?>>editar</a>
-                            <?php
-                        endif;
-                    }
-                    ?>
+					<form method="post" name="signIn"  action="<?php echo URL; ?>Article/insertComments" id="anamneseForm" >
 
-                <?php } ?>
-            </div>
-            <br><hr>
-        <div class=" col-lg-6">
-                <div class="well">
+						<?php
+						if (Session::exist()) {
+							if (Session::get('role') == 'owner' || Session::get('role') == 'admin' || Session::get('role') == 'default' || Session::get('role') == 'funcionario' || Session::get('role') == 'paciente' || Session::get('role') == 'secretaria'):
+								?>
+								<div class="form-group">
+									<input type="text" name="nome" class="form-control" value="<?php echo $this->getUser['firstname']." ".$this->getUser['lastname']?>">
+								</div>
+								<div class="form-group">
+									<input type="text" name="email" class="form-control" value="<?php echo $this->getUser['email']?>">
+								</div>
+									<?php
+								endif;
+							} else {
+								?>
+								<div class="form-group">
+									<input type="text" name="nome" class="form-control" placeholder="Seu nome" >
+								</div>
+								<div class="form-group">
+									<input type="email" name="email" class="form-control" placeholder="E-mail" >
+								</div>
 
-                    <form method="post" action="<?php echo URL ?>article/insertComments">
+								<?php } ?>
 
-                        <?php
-                        if (Session::exist()) {
-                            if (Session::get('role') == 'owner' || Session::get('role') == 'admin' || Session::get('role') == 'default' || Session::get('role') == 'funcionario' || Session::get('role') == 'paciente' || Session::get('role') == 'secretaria'):
-                                ?>
-                                <div class="form-group">
-                                    <input type="text" name="nome" class="form-control" value="<?php echo Session::get('U_NAME'); ?>" disabled="disabled">
-                                    <?php
-                                endif;
-                            } else {
-                                ?>
-                                <div class="form-group">
-                                    <input type="text" name="nome" class="form-control" placeholder="Seu nome" >
-                                <?php } ?>
+						<div class="form-group">
+							<textarea type="text" name="comments"  class="form-control" placeholder="Coloca teu comenario aqui"></textarea>
 
-                            </div>
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="article_id" class="form-control" value="<?php echo $value['id_article']; ?>">
 
-                        </div>
-                        <div class="form-group">
-                            <textarea type="text" name="comments"  class="form-control" placeholder="Coloca teu comenario aqui"></textarea>
+						</div>
 
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="article_id" class="form-control" value="<?php echo $value['id_article']; ?>">
+						<div class="form-group">
+							<input type="hidden" name="post_date" class="form-control" value="<?php echo date('Y-m-d H:i:s'); ?>">
 
-                        </div>
-
-                        <div class="form-group">
-                            <input type="text" name="post_date" class="form-control" value="<?php echo date('Y-m-d H:i:s'); ?>">
-
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-outline-primary onclick="updateAricle(<?php echo $value['id_article']; ?>)" btn-block btn-default" type="submit">Comentar </button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <br>
-        <div class="container col-lg-10">
-
-            <table  class="table table-responsive">
-                <thead>
-                    <tr>
-                        <th style="width:20%; height: 10px;" >Nome</th>
-                        <th>Comentarios</th>
-                        <?php
-                        if (Session::exist()) {
-                            if (Session::get('role') == 'owner' || Session::get('role') == 'admin' ) {
-                                ?>
-                                <th>Deletar</th>
-                                <?php
-                            }
-                        }
-                        ?>
-
-                    </tr>
+						</div>
+					   <button type="submit" id="save"  class="btn btn-info btn-fill pull-right">Save</button>
+														<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
 
 
+  <div class="container col-lg-10">
 
-                </thead>
-                <tbody>
+			<table  class="table table-responsive">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th colspan="400">Comentarios</th>
+						<?php
+						if (Session::exist()) {
+							if (Session::get('role') == 'owner' || Session::get('role') == 'admin' ) {
+								?>
+								<th>Deletar</th>
+								<?php
+							}
+						}
+						?>
+					</tr>
 
-                    <?php foreach ($this->comments as $key => $comm) { ?>
-                        <tr>
+				</thead>
+				<tbody>
 
-                            <td><p class="glyphicon glyphicon-comment "><?php echo $comm['post_date']; ?> </p><em><?php echo "\n" . $comm['nome']; ?> | <?php Timestamp::_getDataTime_stemp($comm['post_date']); ?></em></td>
-                            <td><em><?php echo $comm['comments']; ?></em></td>
+					<?php foreach ($this->comments as $key => $comm) { ?>
+						<tr>
 
-                            <?php
-                            if (Session::exist()) {
-                                if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                                    ?>
+							<td colspan="400"><p class="glyphicon glyphicon-comment "><?php echo $comm['post_date']; ?> </p><em><?php echo "\n" . $comm['nome']; ?> <br> <?php echo Timestamp::distanceOfTimeInWords($comm['post_date'], time()); ?></em></td>
+							<td><em><?php echo $comm['comments']; ?></em></td>
 
-                                    <td><a  href="<?php echo URL; ?>/article/deleteComments/<?php echo $comm['id']; ?>"><p class="btn btn-outline-primary   btn-default">deletar</a></td>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
 
-                        </tr>
-                    <br/>
-                <?php } ?>
+							<?php
+							if (Session::exist()) {
+								if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+									?>
 
-                </tbody>
-            </table>
-        </div>
-    </section>
+									<td><a  href="<?php echo URL; ?>/article/deleteComments/<?php echo $comm['id']; ?>"><p class="btn btn-outline-primary   btn-default">deletar</p></a></td>
+											<?php
+										}
+									}
+									?>
+						</tr>
+				<?php } ?>
+
+				</tbody>
+			</table>
+		</div>
+	</section>
 </div>
 
 <script>
 
-    function insertComments(id_article) {
 
+	 // function signIn() {
+    //     var comments = $('form[name=signIn] input[name=comments]')[0].value;
+    //     var nome = $('form[name=signIn] input[name=nome]')[0].value;
+    //     var post_date = $('form[name=signIn] input[name=post_date]')[0].value;
+    //     var email = $('form[name=signIn] input[name=email]')[0].value;
 
-        $.ajax({
-            url: "<?php echo URL; ?>Article/insertComments",
-            data: {
-                id_article: id_article,
-                nome: nome,
-                post_date: post_date
-            }
-        }).done(function (resposta) {
-            if (resposta == true) {
-                alert(" atualizado com sucesso");
-            }
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "<?php echo URL; ?>Article/insertComments",
+    //         data: {comments: comments, nome: nome, post_date:post_date, email: email},
+    //     sucess: function (data) {
 
-        });
+    //         	alert(data);
 
-        alert("vc vai atualizar o artigo com o id:" + id);
-    }
+    //         // document.location= "<?php echo  URL;?>User/signIn";
 
+    //             alert("falhou");
+    //         }
+    //     });
+
+    // }
+
+	$("#save").click(function () {
+		var data = $("#anamneseForm :input").serializeArray();
+		$.post($("#anamneseForm").attr("action"), data, function (info) {
+			$("result").html(info);
+
+		});
+	});
+
+	$("#anamneseForm").submit(function () {
+		return false;
+	});
+
+	function clearInfo() {
+		$("#anamneseForm :input").each(function () {
+			$(this).val("");
+		});
+	};
+
+	function hideForm() {
+		$("#anamneseForm").each(function () {
+			$(this).hide("");
+		});
+	};
+
+	function showSucessMessage() {
+		$(".message").each(function () {
+			$(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> mensagem inserida com sucess").show();
+		});
+	};
 
 </script>
 
