@@ -27,13 +27,7 @@ use Ballybran\Helpers\Copyright\Copyright;
     echo \Ballybran\Helpers\System::time_start();
     echo \Ballybran\Helpers\System::http_user_agent();
     echo \Ballybran\Helpers\Time\Timestamp::dataTime();
-
-    $command = escapeshellcmd('test.py');
-$output = shell_exec($command);
-echo($output);
-
     ?>
-
 
 </footer>
 <!-- Bootstrap -->
@@ -56,8 +50,5 @@ echo($output);
 <!--[if lte IE 8]><script src="<?php echo URL. DIR_FILE;;?>Public/clinic/assets/js/ie/respond.min.js"></script><![endif]-->
 <script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/main.js"></script>
 <script src="<?php echo URL . DIR_FILE?>Public/js/jquery.searchable-1.1.0.min.js"></script>
-
-
-
 </body>
 </html>

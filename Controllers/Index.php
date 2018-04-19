@@ -32,8 +32,9 @@ namespace Module\Clinic\Controllers;
  */
 
 
-use Ballybran\Core\{ Controller\AbstractController, REST\Encodes, REST\RestUtilities};
-use Ballybran\Helpers\Security\{ Hash, vardump\Vardump};
+use Ballybran\Core\{
+    Controller\AbstractController, REST\Client\ClientRest, REST\Encodes, REST\RestUtilities
+};
 
 /**
  * Class Index
@@ -74,7 +75,7 @@ class Index extends AbstractController {
        switch ($data->getMethod()) :
            case 'get':
                $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
+               echo  RestUtilities::sendResponse(200, Encodes::encodeJson($property), 'application/json');
                break;
            default:
                # code...
@@ -87,6 +88,18 @@ class Index extends AbstractController {
        $d = $this->model->crearTable();
 
        var_dump($d);
+    }
+
+    public function cliente()
+    {
+        $cli = new ClientRest(false);
+      $return =   $cli->get("http://localhost:8888/clinic/index/rest");
+
+      foreach ($return as $key => $item) {
+          ?>
+        <img src="<?php echo URL . $item->path; ?>">
+<?php
+      }
     }
 
 

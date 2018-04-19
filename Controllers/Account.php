@@ -174,7 +174,7 @@ class Account extends AbstractController
             $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
             $this->imagem->setWidth(2000);
             $this->imagem->setHeight(2000);
-            $this->imagem->setOption("auto");
+            $this->imagem->setOption("perfil");
             $this->imagem->setQuality($_POST['quality']);
             $this->imagem->setColor($color);
             $this->imagem->setDegree($_POST['degree']);
@@ -256,7 +256,7 @@ class Account extends AbstractController
             $pess->setPostcode($_POST["postcode"]);
             $pess->setZone($_POST['zone']);
             $pess->setCity($_POST['city']);
-            $pess->setCountry($_POST['country']);
+            $pess->setCountryg($_POST['country']);
             $pess->setBairro($_POST['bairro']);
             $pess->setDataNascimento($_POST['dataNascimento']);
 
@@ -365,7 +365,6 @@ class Account extends AbstractController
     /**
      * update the role of users
      *
-     * @return data, id
      * @author
      * */
     public function managePassword()
@@ -485,27 +484,5 @@ class Account extends AbstractController
     {
         echo json_encode($this->model->getEvent2());
     }
-
-public function a(){
-
-}
-    public function teste($value='')
-    {
-      $menu = array('home' => 'Home', 'PHP'=> 'POO', 'java'=> 'DP' );
-
-      $array = array();
-
-        $it2 = new IteratorCollection($array);
-        $it2->add("a");
-        $it2->add("b");
-        $it2->add("c");
-        $it2->add("d");
-
-        echo $it2->contains('dd');
-
-
-    var_dump($it2->toArray()[0]);
-    }
-
 
 }

@@ -30,11 +30,15 @@ use Ballybran\Library\fpdf\FPDF;
 class Prescricao extends FPDF {
 
 
-private $prontuario;
-    private $id;
     private $info;
     private $footer;
 
+
+
+    public function __construct($orientation="P", $unit="mm", $size= "A4")
+    {
+        parent::__construct($orientation, $unit, $size);
+    }
 
     public function getId($info)
     {

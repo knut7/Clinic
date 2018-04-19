@@ -103,12 +103,13 @@
                                 <!-- Highlight -->
                                 <article class="box highlight">
                                     <header>
-                                        <h3><a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" ><?php echo $value['nome']; ?></a></h3>
+                                        <h3><a href="<?php   $NameCat ="";  echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" ><?php echo $value['nome']; ?></a></h3>
                                     </header>
                                     <a href="#" class="image left"><img class="img-thumbnail col-lg-2" src="<?php  echo URL.$value['path']; ?>" ></a>
                         <p><?php echo $value['description']; ?></p>
                                     <ul class="actions">
-                                        <li> <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
+                                        <li> <?php
+                                         $NameCat = str_replace(" ", "-", $value['nome']); ?>
                     <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="button icon fa-file">Ler Mais</a>
 </li>
                                     </ul>

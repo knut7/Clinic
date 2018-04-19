@@ -34,7 +34,7 @@ trait Prints
 
  public function pacienteAtendido()
     {
-     $pdf = new PacienteAtendido();
+     $pdf = new PacienteAtendido("L", "", "A1");
         $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -59,7 +59,7 @@ trait Prints
     public function printProntuario($id)
     {
 
-        $pdf = new  Prontuario();
+        $pdf = new  Prontuario( 'P', 'mm', 'A4');
         $pdf->getId($this->model->getAllInfoForPrint($id));
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -72,7 +72,7 @@ trait Prints
 public function printProntuarios()
     {
 
-        $pdf = new  AllProntuario();
+        $pdf = new  AllProntuario('P', 'mm', 'A4');
       
         $pdf->getId($this->model->getAllProntuarioById(Session::get("ID")));
         $pdf->AliasNbPages();
@@ -84,7 +84,7 @@ public function printProntuarios()
 
     public function printPrescricao($id) {
 
-        $pdf = new  Prescricao();
+        $pdf = new  Prescricao('P', 'mm', 'A4');
         $pdf->getId($this->model->getAllPrescricaoForPrint($id));
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -95,7 +95,7 @@ public function printProntuarios()
     public function printListPaciente()
     {
 
-        $pdf = new  PrintListPacient();
+        $pdf = new  PrintListPacient('P', 'mm', 'A4');
 
         $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
         $pdf->AliasNbPages();
@@ -110,7 +110,7 @@ public function printProntuarios()
     public function printListPacienteForConsult()
     {
 
-        $pdf = new  PrintListPacient();
+        $pdf = new  PrintListPacient('P', 'mm', 'A4');
         $pdf->getList($this->model->getPacientForConsulta(Session::get("ID")));
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -123,7 +123,7 @@ public function printProntuarios()
 
     public function printAllPacient()
     {
-        $pdf = new  PrintListOfAllPacient();
+        $pdf = new  PrintListOfAllPacient('P', 'mm', 'A4');
         $pdf->getList($this->model->getPacienteSemMedico());
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -137,7 +137,7 @@ public function printProntuarios()
 
     public function printAllPacientPayment()
     {
-        $pdf = new  PrintListPacientPayment();
+        $pdf = new  PrintListPacientPayment('P', 'mm', 'A4');
         $pdf->getList($this->model->getAllPaciente());
         $pdf->AliasNbPages();
         $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
@@ -153,7 +153,7 @@ public function printProntuarios()
     {
         if(Session::exist() ) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  PrintListFuncionario();
+                $pdf = new  PrintListFuncionario('P', 'mm', 'A4');
                 $pdf->getList($this->model->getAllUserAdmin());
                 $pdf->AliasNbPages();
                 $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
@@ -174,7 +174,7 @@ public function printProntuarios()
     {
          if(Session::exist() ) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasPagas();
+                $pdf = new  ContasPagas('P', 'mm', 'A4');
                 $pdf->getAllContasPagas($this->model->getAllContasPagas());
                 $pdf->totatDeAllContasPagas($this->model->sumAllContasPgas()[0]);
                 $pdf->AliasNbPages();
@@ -197,7 +197,7 @@ public function printProntuarios()
     {
          if(Session::exist() ) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasAPagar();
+                $pdf = new  ContasAPagar('P', 'mm', 'A4');
                 $pdf->getPagamento($this->model->getAllPagamento());
                 $pdf->totalAllPagamentos($this->model->sumAllPagamento()[0]);
                 $pdf->AliasNbPages();
@@ -220,7 +220,7 @@ public function printProntuarios()
     {
          if(Session::exist() ) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasAReceber();
+                $pdf = new  ContasAReceber('P', 'mm', 'A4');
                 $pdf->receber($this->model->getContaReceber());
                 $pdf->totalCrebito($this->model->sumTotalContaReceber()[0]);
                 $pdf->totalDebito($this->model->sumTotalDebito()[0]);

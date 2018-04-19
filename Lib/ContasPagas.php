@@ -33,6 +33,13 @@ class ContasPagas extends FPDF {
     private $contas;
     private $sum;
     private $footer;
+
+
+    public function __construct($orientation="P", $unit="mm", $size= "A4")
+    {
+        parent::__construct($orientation, $unit, $size);
+    }
+
     public function getAllContasPagas($contas)
     {
         $this->contas = $contas;

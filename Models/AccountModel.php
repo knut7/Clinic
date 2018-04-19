@@ -111,8 +111,8 @@ class AccountModel {
      * @param $id
      * @return mixed
      */
-    public function getImageUser($id) : array {
-        return $this->entity->selectManager("SELECT * FROM pic_perfil INNER JOIN usuarios on
+    public function getImageUser($id)  {
+        return $this->entity->selectManager(" SELECT * FROM pic_perfil INNER JOIN usuarios on
             pic_perfil.usuarios_id = usuarios.id WHERE pic_perfil.usuarios_id = $id  ORDER BY pic_perfil.id DESC ");
     }
 
@@ -127,7 +127,7 @@ class AccountModel {
      * @param $id
      * @return mixed
      */
-    public function deleteImagePerfil($id) : array {
+    public function deleteImagePerfil($id) {
         return $this->entity->delete('pic_perfil', "usuarios_id=$id", 1);
     }
 

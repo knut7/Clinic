@@ -17,14 +17,14 @@
 
 namespace Module\Clinic\Controllers;
 
+use Ballybran\Core\Collections\Collection\IteratorCollection;
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
 use Ballybran\Helpers\Security\Session;
+use Ballybran\Helpers\Security\Val;
+use Ballybran\Helpers\Security\Validate;
 use Ballybran\Helpers\Time\Timestamp;
-use Ballybran\Helpers\Ucfirst;
 use Ballybran\Helpers\Utility\Hash;
-use Ballybran\Helpers\vardump\Vardump;
-use Ballybran\Library\Email;
 use Module\Clinic\Entity\Pessoa;
 use Module\Lib\SendMail;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -60,36 +60,40 @@ class User extends AbstractController {
 
         if ( !empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['username']) && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['sexo']) ) {
 
-            $obj = new Pessoa();
-            $obj->setFirstname($_POST['firstname']);
-            $obj->setLastname($_POST['lastname']);
-            $obj->setEmail($_POST['email']);
-            $obj->setPassword($_POST['password']);
-            $obj->setUsername($_POST['username']);
-            $obj->setSexo($_POST['sexo']);
 
-            $data['username'] = $obj->getUsername();
-            $data['password'] = $obj->getPassword();
-            $data['lastname'] = $obj->getLastname();
-            $data['firstname'] = $obj->getFirstname();
-            $data['sexo'] = $obj->getSexo();
-            $data['email'] = $obj->getEmail();
-            $data['confirmCod'] = rand();
-            $data['create_time'] = Timestamp::dataTime();
-            $data['numero'] = Hash::simpleToken(4, '1234567890');
+            $_POST['create_time']= "";
+            $_POST['confirmCod']= "";
+            $_POST['numero']= 1;
+            $val = new Validate(new Val() );
+            $val->setMethod('POST');
+            $val->post('firstname')->text()->val('maxlength', 100)
+                ->post('lastname')->text()->val('maxlength', 100)
+                ->post('username')->text()->val('maxlength', 100)
+                ->post('email')->email()->val('maxlength', 100)
+                ->post('password')->text()->val('maxlength', 100)
+                ->post('sexo')->text()->val('maxlength', 100)
+                ->post('confirmCod')->text()->val('maxlength', 100)
+                ->post('create_time')->date()->val('maxlength', 100)
+                ->post('numero')->numeric()->val('maxlength', 100);
+
+            $it = new IteratorCollection($val->getPostData());
+            $it->set('password', Hash::hash_password($_POST['password']));
+            $it->set('confirmCod', rand());
+            $it->set('numero', Hash::simpleToken(4, "1234567890"));
+
 
 
             $mail = new SendMail(new PHPMailer());
             $mail->setFrom("marciozebedeu@gmail.com");
             $mail->setFromName($_POST['firstname'] . "\t" . $_POST['lastname']);
-            $mail->setMessage("Clique no link para confirmar teu cadastro : " ."\t". URL . "user/confirm/?email=" . $_POST['email'] . "&confirmCod=".$data['confirmCod']);
+            $mail->setMessage("Clique no link para confirmar teu cadastro : " ."\t". URL . "user/confirm/?email=" . $_POST['email'] . "&confirmCod=".$it->get('confirmCod') );
             $mail->setAssunto("Confirma seu cadastro");
             $mail->setTo($_POST['email']);  // email d visitante vindo do form
             $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
 
             $mail->send();
             $mail->body();
-            $this->model->signUp($data);
+            $this->model->signUp($it->toArray());
 
             if(!Session::exist()) {
                 Hook::Header('user/signIn');
@@ -155,7 +159,7 @@ class User extends AbstractController {
 
             if (!empty($this->model->signIn(array (':email' => $obj->getUsername())))) {
 
-                $resposta = $this->model->signIn(array (':email' => $obj->getUsername()));;
+                $resposta = $this->model->signIn(array (':email' => $obj->getUsername()));
                 $resposta = $resposta[0];
 
 
