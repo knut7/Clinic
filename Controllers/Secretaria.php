@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -14,47 +15,46 @@
  * @version   1.0.2
  */
 
-
 namespace Module\Clinic\Controllers;
-
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\{
-    Security\Session, Security\Validate, Security\Val
+
+use Ballybran\Helpers\ {
+    Images\Resize, Security\Session, Security\Validate, Security\Val
 };
+
 use Module\Entity\Pessoa;
+use Ballybran\Helpers\Http\FileSystem;
+use Module\Upload\ImageUpload;
 
-class Secretaria extends AbstractController
-{
+class Secretaria extends AbstractController {
+
     private $form;
+    private $imagem;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
-        $this->form = new Validate( new Val );
+        $this->form = new Validate(new Val);
         $this->form->setMethod('POST');
     }
 
-    public function index()
-    {
-
+    public function index() {
+        
     }
-    public function joinPacienteAndFunc()
-    {
+
+    public function joinPacienteAndFunc() {
         $this->form->post('Especialidade_id')->val('maxlength', 1223)
-            ->post('Paciente_id')->val('maxlength', 12)
-            ->post('horas')->val('maxlength', 123)->submit();
+                ->post('Paciente_id')->val('maxlength', 12)
+                ->post('horas')->val('maxlength', 123)->submit();
 
         $this->model->joinPacienteAndFunc($this->form->getPostData());
         Hook::Header('secretaria/customers');
     }
 
-
-    public function consultas()
-    {
-        if(Session::exist()) {
-            if(Session::get('role') == "secretaria") {
+    public function consultas() {
+        if (Session::exist()) {
+            if (Session::get('role') == "secretaria") {
                 $this->view->consultas = $this->model->getConsultas();
                 $this->view->func = $this->model->getFuncionarios();
                 $this->view->render($this, 'consultas');
@@ -63,23 +63,19 @@ class Secretaria extends AbstractController
             }
         } else {
             Hook::Header('');
-
         }
-
     }
 
     public function customers() {
         if (Session::exist()) {
-           if (Session::get('role') == 'secretaria') {
+            if (Session::get('role') == 'secretaria') {
                 $this->view->title = "Gestor da Secretaria";
                 $this->view->user = $this->model->getAllPaciente();
                 $this->view->render($this, 'customers-paciente');
             }
-        }else {
+        } else {
             Hook::Header('');
-
         }
-
     }
 
     public function add() {
@@ -90,14 +86,12 @@ class Secretaria extends AbstractController
                 $this->view->render($this, 'addPaciente');
             }
         }
-
     }
 
     /**
      * @param $data
      */
-    public function edit($id, $username = null)
-    {
+    public function edit($id, $username = null) {
 
         if (Session::exist()) {
             if (Session::get('role') == 'secretaria') {
@@ -109,9 +103,9 @@ class Secretaria extends AbstractController
         }
     }
 
-    public function inserPasciente(){
+    public function inserPasciente() {
 
-        if(!empty($_POST['Especialidade_id']) && !empty($_POST['usuarios_id']) && !empty($_POST['create_dt']) && !empty($_POST['info'])) {
+        if (!empty($_POST['Especialidade_id']) && !empty($_POST['usuarios_id']) && !empty($_POST['create_dt']) && !empty($_POST['info'])) {
 
             $data['info'] = $_POST['info'];
             $data['create_dt'] = $_POST['create_dt'];
@@ -191,62 +185,91 @@ class Secretaria extends AbstractController
     public function insertExameFisico() {
 
         $this->form->post('altura')->val('maxlength', 1223)
-            ->post('Funcionarios_id')->val('maxlength', 2222)
-            ->post('Paciente_id')->val('maxlength', 2222)
-            ->post('peso')->val('maxlength', 123)
-            ->post('freq_cardiaca')->val('maxlength', 123)
-            ->post('press_arte_sistolica')->val('maxlength', 123)
-            ->post('press_arte_diastolica')->val('maxlength', 123)
-            ->post('obs_gerais')->val('maxlength', 123)->submit();
+                ->post('Funcionarios_id')->val('maxlength', 2222)
+                ->post('Paciente_id')->val('maxlength', 2222)
+                ->post('peso')->val('maxlength', 123)
+                ->post('freq_cardiaca')->val('maxlength', 123)
+                ->post('press_arte_sistolica')->val('maxlength', 123)
+                ->post('press_arte_diastolica')->val('maxlength', 123)
+                ->post('obs_gerais')->val('maxlength', 123)->submit();
 
 
-        $this->model->insertExameFisico($this->form->getPostData() );
-    
+        $this->model->insertExameFisico($this->form->getPostData());
+
         Hook::Header("account/cpanel");
     }
 
     /**
      * @throws \Ballybran\Exception\Exception
      */
-    public function insertEspecialidade()
-    {
+    public function insertEspecialidade() {
         $this->form->post('espValor')->val("maxlength", 100)
-            ->post('espNome')->val("maxlength", 100)
-            ->post('TipoReceita_id')->val("maxlength", 100)->submit();
+                ->post('espNome')->val("maxlength", 100)
+                ->post('TipoReceita_id')->val("maxlength", 100)->submit();
 
         $this->model->insertEspecialidade($this->form->getPostData());
         Hook::header("account/cpanel");
-
     }
 
-    public function deleteEspecialidade($id)
-    {
-            $this->model->deleteEspecialidade($id);
-            Hook::Header("account/cpanel");
+    public function deleteEspecialidade($id) {
+        $this->model->deleteEspecialidade($id);
+        Hook::Header("account/cpanel");
     }
 
-    public function deleteConvenio($id)
-    {
-            $this->model->deleteConvenio($id);
-            Hook::Header("account/cpanel");
+    public function deleteConvenio($id) {
+        $this->model->deleteConvenio($id);
+        Hook::Header("account/cpanel");
     }
 
     /**
      * @throws \Ballybran\Exception\Exception
      */
-    public function createConvenio()
-    {
-        $this->form->post('convNome')->val('maxlength', 300)
-            ->post('responsavel')->val('maxlength', 100)
-            ->post('email')->val('maxlength', 100)
-            ->post('telephone')->val('digit', 17)->submit();
+    public function createConvenio() {
+        if (!empty($_POST['quality']) && !empty($_POST['color']) && !empty($_POST['degree'])) {
+
+            $color = substr($_POST['color'], 1);
 
 
-        $this->model->createConvenio($this->form->getPostData());
+            $this->imagem = new FileSystem(new Resize());
 
-        Hook::header("account/cpanel");
 
+            $this->imagem->setWidth(2000);
+            $this->imagem->setHeight(2000);
+            $this->imagem->setOption("perfil");
+            $this->imagem->setQuality($_POST['quality']);
+            $this->imagem->setColor($color);
+            $this->imagem->setDegree($_POST['degree']);
+
+
+            $this->imagem->file('perfil');
+            $image = new ImageUpload();
+            $image->setName($this->imagem->name);
+            $image->setType($this->imagem->type);
+            $image->setPath($this->imagem->path);
+            $image->setSize($this->imagem->size);
+
+            $data['type'] = $image->getType();
+            $data['size'] = $image->getSize();
+            $data['path'] = $image->getPath();
+            $data['name'] = $image->getName();
+            $data['convNome'] = $_POST['convNome'];
+            $data['responsavel'] = $_POST['responsavel'];
+            $data['description'] = $_POST['description'];
+            $data['email'] = $_POST['email'];
+            $data['telephone'] = $_POST['telephone'];
+
+//            var_dump($data); die;
+
+            $this->model->createConvenio($data);
+
+
+            Hook::header("account/cpanel");
+        }
     }
 
+    public function deletarAgendamento($id) {
+        $this->model->deletarAgendamento($id);
+        Hook::header("account/cpanel");
+    }
 
 }

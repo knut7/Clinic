@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -15,6 +16,7 @@
  */
 
 namespace Module\Clinic\Controllers;
+
 /**
  *
  * KNUT7 K7F (http://framework.artphoweb.com/)
@@ -30,10 +32,12 @@ namespace Module\Clinic\Controllers;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
-
-use Ballybran\Core\{ Controller\AbstractController, REST\Encodes, REST\RestUtilities};
-use Ballybran\Helpers\Security\{ Hash, vardump\Vardump};
+use Ballybran\Core\ {
+    Controller\AbstractController, REST\Encodes, REST\RestUtilities
+};
+use Ballybran\Helpers\Security\ {
+    Hash, vardump\Vardump
+};
 
 /**
  * Class Index
@@ -47,9 +51,7 @@ class Api extends AbstractController {
     public function __construct() {
 
         parent::__construct();
-
     }
-
 
     /**
      *
@@ -57,40 +59,37 @@ class Api extends AbstractController {
     public function index() {
 
         $data = RestUtilities::processRequest();
-     
-       switch ($data->getMethod()) :
-           case 'get':
-               $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
-               break;
-           default:
-               # code...
-               break;
-       endswitch;
 
-
+        switch ($data->getMethod()) :
+            case 'get':
+                $property = $this->model->getAllUser();
+                $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
+                break;
+            default:
+                # code...
+                break;
+        endswitch;
     }
-    public function rest(){
+
+    public function rest() {
 
         $data = RestUtilities::processRequest();
-     
-       switch ($data->getMethod()) :
-           case 'get':
-               $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
-               break;
-           default:
-               # code...
-               break;
-       endswitch;
 
+        switch ($data->getMethod()) :
+            case 'get':
+                $property = $this->model->getAllUser();
+                $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
+                break;
+            default:
+                # code...
+                break;
+        endswitch;
     }
 
-    public function crearTable(){
-       $d = $this->model->crearTable();
+    public function crearTable() {
+        $d = $this->model->crearTable();
 
-       var_dump($d);
+        var_dump($d);
     }
-
 
 }

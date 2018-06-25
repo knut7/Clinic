@@ -1,124 +1,116 @@
+
 <?php
-Module\Lib2\header::getHeader();
-?>
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
-<?php foreach ($this->contacto as $value) {
-
-
-    //    echo $value['bairro'];
-    //    echo $value['cidade'];
-    //    echo $value['fax'];
-    //
-
+foreach ($this->contacto as $value) :
     ?>
 
 
     <div class=" animated fadeIn">
 
-    <div class="row">
-        <h1 class="header-title"> Contact </h1>
-        <hr>
-        <div class="col-sm-12" id="parent">
-            <div class="col-sm-6">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.43927882436!2d13.266927514348643!3d-8.838629192929911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a51f16057b890d7%3A0xe2d0ef4ef71c7950!2sEspelho+Da+Terra+Nova!5e0!3m2!1spt-PT!2sao!4v1515141713544"
-                        width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-            </div>
-
-            <div class="col-sm-6">
-                <form action="<?php echo URL;?>contacto/sendmail" class="contact-form" method="post">
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="nome" placeholder="Nome" required=""
-                               autofocus="">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="assunto" placeholder="Assunto" required=""
-                               autofocus="">
-                    </div>
-
-                    <div class="form-group form_left">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="telefone" class="form-control" id="phone"
-                               onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13"
-                               placeholder="Mobile No." required="">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control textarea-contact" rows="5" id="comment" name="message"
-                                  placeholder="Sua messagem aqui" required=""></textarea>
-                        <br>
-                        <button class="btn btn-default btn-send"><span class="glyphicon glyphicon-send"></span> Send
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="container second-portion">
         <div class="row">
-            <!-- Boxes de Acoes -->
-            <div class="col-xs-12 col-sm-6 col-lg-4">
-                <div class="box">
-                    <div class="icon">
-                        <div class="image"><i class="fa fa-envelope" aria-hidden="true"></i></div>
-                        <div class="info">
-                            <h3 class="title">E-MAIL & WEBSITE</h3>
-                            <p>
-                                <i class="fa fa-envelope" aria-hidden="true"></i><?php echo $value['email']; ?>
-                                <br>
-                                <br>
-                                <i class="fa fa-globe" aria-hidden="true"></i><?php echo $value['site']; ?>
-                            </p>
+            <h1 class="header-title"> CONTACTO </h1>
+            <hr>
+            <div class="col-sm-12" id="parent">
+                <div class="col-sm-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.43927882436!2d13.266927514348643!3d-8.838629192929911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a51f16057b890d7%3A0xe2d0ef4ef71c7950!2sEspelho+Da+Terra+Nova!5e0!3m2!1spt-PT!2sao!4v1515141713544"
+                            width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
 
+                <div class="col-sm-6">
+                    <form action="<?php echo URL; ?>contacto/sendmail" class="contact-form" method="post">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" name="nome" placeholder="Nome" required=""
+                                   autofocus="">
                         </div>
-                    </div>
-                    <div class="space"></div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" name="assunto" placeholder="Assunto" required=""
+                                   autofocus="">
+                        </div>
+
+                        <div class="form-group form_left">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="telefone" class="form-control" id="phone"
+                                   onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13"
+                                   placeholder="Mobile No." required="">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control textarea-contact" rows="5" id="comment" name="message"
+                                      placeholder="Sua messagem aqui" required=""></textarea>
+                            <br>
+                            <button class="btn btn-default btn-send"><span class="glyphicon glyphicon-send"></span> Enviar
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="col-xs-12 col-sm-6 col-lg-4">
-                <div class="box">
-                    <div class="icon">
-                        <div class="image"><i class="fa fa-mobile" aria-hidden="true"></i></div>
-                        <div class="info">
-                            <h3 class="title">CONTACTO</h3>
-                            <p>
-                                <i class="fa fa-mobile" aria-hidden="true"></i> <?php echo $value['telefone']; ?>
-                                <br>
-                                <br>
-                                <i class="fa fa-mobile" aria-hidden="true"></i><?php echo $value['telefone2']; ?>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="space"></div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-lg-4">
-                <div class="box">
-                    <div class="icon">
-                        <div class="image"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-                        <div class="info">
-                            <h3 class="title">ADDRESS</h3>
-                            <p>
-                                <i class="fa fa-map-marker" aria-hidden="true"></i><?php echo $value['endereco']; ?>
-
-                            </p>
-                        </div>
-                    </div>
-                    <div class="space"></div>
-                </div>
-            </div>
-            <!-- /Boxes de Acoes -->
-
-            <!--My Portfolio  dont Copy this -->
-
         </div>
-    </div>
 
-    <?php Module\Lib2\header::getFooter();
-}
+        <div class="container second-portion">
+            <div class="row">
+                <!-- Boxes de Acoes -->
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <div class="box">
+                        <div class="icon">
+                            <div class="image"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                            <div class="info">
+                                <h3 class="title">E-MAIL & WEBSITE</h3>
+                                <p>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i><?php echo $value['email']; ?>
+                                    <br>
+                                    <br>
+                                    <i class="fa fa-globe" aria-hidden="true"></i><?php echo $value['site']; ?>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="space"></div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <div class="box">
+                        <div class="icon">
+                            <div class="image"><i class="fa fa-mobile" aria-hidden="true"></i></div>
+                            <div class="info">
+                                <h3 class="title">CONTACTO</h3>
+                                <p>
+                                    <i class="fa fa-mobile" aria-hidden="true"></i> <?php echo $value['telefone']; ?>
+                                    <br>
+                                    <br>
+                                    <i class="fa fa-mobile" aria-hidden="true"></i><?php echo $value['telefone2']; ?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="space"></div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <div class="box">
+                        <div class="icon">
+                            <div class="image"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                            <div class="info">
+                                <h3 class="title">ENDEREÇO</h3>
+                                <p>
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i><?php echo $value['endereco']; ?>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="space"></div>
+                    </div>
+                </div>
+                <!-- /Boxes de Acoes -->
+
+                <!--My Portfolio  dont Copy this -->
+
+            </div>
+        </div>
+
+    <?php endforeach; ?>

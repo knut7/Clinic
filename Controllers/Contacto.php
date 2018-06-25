@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: artphotografie
@@ -23,94 +23,84 @@
 
 namespace Module\Clinic\Controllers;
 
-
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\{
+
+use Ballybran\Helpers\ {
     Security\Session, Security\Validate, Security\Val
 };
+
 use Module\Lib\SendMail;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class Contacto extends AbstractController
-{
+class Contacto extends AbstractController {
+
     private $form;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
-        $this->form = new Validate( new Val );
+        $this->form = new Validate(new Val);
         $this->form->setMethod("POST");
     }
 
-    public function index()
-    {
+    public function index() {
 
         $this->view->title = "Contacto";
         $this->view->contacto = $this->model->getContacto();
         $this->view->render($this, 'index');
     }
 
-    public function sobre()
-    {
+    public function sobre() {
         $this->view->title = "Contacto";
         $this->view->render($this, 'sobre');
     }
 
-    public function contactoInfo()
-    {
+    public function contactoInfo() {
         if (Session::exist()) {
             if (Session::get("role") == "owner" || Session::get("role") == "admin") {
 
 
-                $this->view->title = "Insert";
-                $this->view->mailConfig =  $this->model->getMailSetting()[0];
+                $this->view->title = "Atualizar";
+                $this->view->mailConfig = $this->model->getMailSetting()[0];
                 $this->view->contacto = $this->model->getContacto()[0];
                 $this->view->social = $this->model->getSocial()[0];
                 $this->view->render($this, 'insert-contacto');
-
             } else {
                 Hook::Header("account/cpanel");
             }
         } else {
             Hook::Header("");
         }
-
     }
 
-    public function insertContacto()
-    {
+    public function insertContacto() {
         if ($_POST['id']) {
             $this->form->post("endereco")->val("maxlength", 122)
-                ->post("telefone")->val("maxlength", 122)
-                ->post("bairro")->val("maxlength", 122)
-                ->post("cidade")->val("maxlength", 122)
-                ->post("email")->val("maxlength", 122)
-                ->post("fax")->val("maxlength", 122)
-                ->post("site")->val("maxlength", 122)->submit();
+                    ->post("telefone")->val("maxlength", 122)
+                    ->post("bairro")->val("maxlength", 122)
+                    ->post("cidade")->val("maxlength", 122)
+                    ->post("email")->val("maxlength", 122)
+                    ->post("fax")->val("maxlength", 122)
+                    ->post("site")->val("maxlength", 122)->submit();
 
             $this->model->updateContacto($this->form->getPostData(), $_POST['id']);
             Hook::Header("contacto/contactoInfo");
         }
     }
 
-
-    public function insertSocial()
-    {
+    public function insertSocial() {
         if ($_POST['id']) {
 
             $this->form->post("instagram")->val("maxlength", 122)
-                ->post("facebook")->val("maxlength", 122)
-                ->post("dribbble")->val("maxlength", 122)
-                ->post("twitter")->val("maxlength", 122)->submit();
+                    ->post("facebook")->val("maxlength", 122)
+                    ->post("dribbble")->val("maxlength", 122)
+                    ->post("twitter")->val("maxlength", 122)->submit();
             $this->model->updateSocial($this->form->getPostData(), $_POST['id']);
             Hook::Header("contacto/contactoInfo");
-
         }
     }
 
-    public function sendMail()
-    {
+    public function sendMail() {
         if (!empty($_POST['assunto']) && !empty($_POST['email']) && !empty($_POST['message']) && !empty($_POST['nome'])) {
 
 
@@ -125,21 +115,11 @@ class Contacto extends AbstractController
             $mail->send();
             $mail->body();
             Hook::header();
-
-
-
-
         }
     }
 
-    public function updatEmailConfig()
-    {
-        if (!empty($_POST['id'])
-            && !empty($_POST['Lang']) && !empty($_POST['Auth']) && !empty($_POST['Charset'])
-            && !empty($_POST['Html']) && !empty($_POST['Port']) && !empty($_POST['Host'])
-            && !empty($_POST['Username']) && !empty($_POST['Password']) && !empty($_POST['Secure'])
-            && !empty($_POST['From']) && !empty($_POST['FromName'])
-            && !empty($_POST['Message1'])  && !empty($_POST['Message2']) && !empty($_POST['Message3'])) {
+    public function updatEmailConfig() {
+        if (!empty($_POST['id']) && !empty($_POST['Lang']) && !empty($_POST['Auth']) && !empty($_POST['Charset']) && !empty($_POST['Html']) && !empty($_POST['Port']) && !empty($_POST['Host']) && !empty($_POST['Username']) && !empty($_POST['Password']) && !empty($_POST['Secure']) && !empty($_POST['From']) && !empty($_POST['FromName']) && !empty($_POST['Message1']) && !empty($_POST['Message2']) && !empty($_POST['Message3'])) {
 
             $data['Lang'] = $_POST['Lang'];
             $data['Auth'] = $_POST['Auth'];
@@ -158,23 +138,30 @@ class Contacto extends AbstractController
 
             $this->model->updateMailConfig($data, $_POST['id']);
             Hook::Header("contacto/contactoInfo");
-
         }
-
     }
 
-    public function createBackup()
-    {
-        if(! empty($_GET['backup'])) {
-        $back = new \Ballybran\Database\MySQLDump();
-        $back->save(\Ballybran\Helpers\Utility\Hash::token().'-'.time().'txt');
-        Hook::Header("contacto/contactoInfo");
+    public function createSidebar() {
 
-        }else{
-            echo "nooo";
+        if (!empty($_POST["title"])) {
+            $this->form->setMethod('POST');
+            $this->form->post('title')->text()->val('maxlength', 100)
+                    ->post('content')->text()->val('maxlength', 25000);
+
+            $this->model->createSidebar($this->form->getPostData());
+        } else {
+            Hook::Header("");
         }
-    
     }
 
+    public function createBackup() {
+        if (!empty($_GET['backup'])) {
+            $back = new \Ballybran\Database\MySQLDump();
+            $back->save(\Ballybran\Helpers\Utility\Hash::token() . '-' . time() . 'txt');
+            Hook::Header("contacto/contactoInfo");
+        } else {
+            Hook::header();
+        }
+    }
 
 }

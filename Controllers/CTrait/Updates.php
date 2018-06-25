@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,9 +23,6 @@
 
 namespace Module\Clinic\Controllers\CTrait;
 
-
-trait Updates
-{
-
-
+trait Updates {
+    
 }

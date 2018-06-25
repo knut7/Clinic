@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -17,34 +18,18 @@
 namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
+use Ballybran\Helpers\Http\Cookie;
 use Ballybran\Helpers\Http\Hook;
-use Module\Entity\EntyCategory;
 use Module\Upload\ImageUpload;
+use Module\Clinic\Entity\EntyCategory;
 // use Ballybran\Helpers\Event\Registry;
 // use Ballybran\Helpers\Http\Hook; 
 use Ballybran\Helpers\Images\Resize;
 use Ballybran\Helpers\Security\Session;
-// use Ballybran\Helpers\Security\Validate;
-
-/**
- *
- * KNUT7 K7F (http://framework.artphoweb.com/)
- * KNUT7 K7F(tm) : Rapid Development Framework (http://framework.artphoweb.com/)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
- * @copyright (c) 2016.  APWEB  Software Technologies AO Inc. (http://www.artphoweb.com)
- * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
- * @author    Marcio Zebedeu - artphoweb@artphoweb.com
- * @version   1.0.0
- */
-
 
 class Categorias extends AbstractController {
- public $width = 2000;
+
+    public $width = 2000;
     public $height = 2000;
     public $quality = 10;
     public $option = "perfil";
@@ -64,6 +49,10 @@ class Categorias extends AbstractController {
 
         $this->view->title = "";
         $nameCat = str_replace("-", " ", $idName);
+
+        $this->view->nameOfTheCategorie = $data['nameCate'] = $nameCat;
+        $cookie = new Cookie();
+        $cookie->createCookie($data);
         $this->view->category = $this->model->category($nameCat);
         $this->view->categoryByNameTitle = $this->model->categoryByNameTitle($idName);
         if (!empty($id)) {
@@ -74,7 +63,7 @@ class Categorias extends AbstractController {
 
     public function createCategory() {
         if (Session::exist()) {
-            if (Session::get('role') == 'owner') {
+            if (Session::get('role') == 'admin' || Session::get('role') == 'owner' || Session::get('role') == 'markting') {
                 $this->view->title = "Add Categoria";
                 $this->view->delete = $this->model->_allCategorias();
 
@@ -87,13 +76,13 @@ class Categorias extends AbstractController {
 
     public function insertCategory() {
 
-            $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
-            $this->imagem->setWidth(2000);
-            $this->imagem->setHeight(2000);
-            $this->imagem->setOption("exact");
-            $this->imagem->setQuality(100);
-            $this->imagem->setColor("FFFFFF");
-            $this->imagem->setDegree(00);
+        $this->imagem = new \Ballybran\Helpers\Http\FileSystem(new Resize());
+        $this->imagem->setWidth(900);
+        $this->imagem->setHeight(500);
+        $this->imagem->setOption("exact");
+        $this->imagem->setQuality(100);
+        $this->imagem->setColor("FFFFFF");
+        $this->imagem->setDegree(00);
 
         $img = new ImageUpload();
         $this->imagem->file('categorias');
@@ -103,8 +92,8 @@ class Categorias extends AbstractController {
         $img->setType($this->imagem->type);
 
         $cate = new EntyCategory();
-        $cate->setNome( $_POST['nome']);
-        $cate->setDescription( $_POST['description']);
+        $cate->setNome($_POST['nome']);
+        $cate->setDescription($_POST['description']);
         $data['path'] = $img->getPath();
         $data['name'] = $img->getName();
         $data['type'] = $img->getType();
@@ -115,13 +104,12 @@ class Categorias extends AbstractController {
         $this->model->createCategory($data);
 
         Hook::Header('categorias/createcategory');
-
     }
 
     public function deleteCategory($id) {
         if (Session::exist()) {
-            if (Session::get('role') == 'owner') {
-              $file =   $this->model->deleteCategory($id);
+            if (Session::get('role') == 'admin' || Session::get('role') == 'owner' || Session::get('role') == 'markting') {
+                $file = $this->model->deleteCategory($id);
                 Hook::Header('Categorias/createCategory');
             }
         } else {

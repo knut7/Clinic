@@ -21,42 +21,106 @@
  * */
 use Ballybran\Helpers\Copyright\Copyright;
 
+$database = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt = $database->get("PDO");
+$contacto = $stmt->find("Contacto")[0];
+$social = $stmt->find("Social")[0];
+$sidebar = $stmt->find("Sidebar");
 ?>
-<footer class="footer panel-footer text-center ">
-    <?php echo  Copyright::copyright(null, 'KNUT 7 FRAMWORK') . '<br>';
-    echo \Ballybran\Helpers\System::time_start();
-    echo \Ballybran\Helpers\System::http_user_agent();
-    echo \Ballybran\Helpers\Time\Timestamp::dataTime();
 
-    $command = escapeshellcmd('test.py');
-$output = shell_exec($command);
-echo($output);
+<footer>
+    <div class="footer" id="footer">
+        <div class="container">
+            <div class="row">
 
-    ?>
+                <?php foreach ($sidebar as $k => $value) : ?>
+                    <div class="col-lg-3  col-md-2 col-sm-4 col-xs-6">
+                        <h3><?php echo $value['title']; ?></h3>
+                        <ul>
+                            <?php echo $value['content']; ?>                       
+                        </ul>
+                    </div>
+                <?php endforeach; ?>
 
 
+                <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                    <h3> SIDEBAR 4 </h3>
+                    <ul>
+                        <li>
+
+                        <li><form id="s-lg-srch-form" class="pad-top-med" role="search" action="srch.php">
+                                <div class="form-group">
+                                    <label for="s-lg-srch-input-q" class="sr-only">Go</label>
+                                    <div class="input-group">
+                                        <input type="text" id="s-lg-srch-input-q" name="q" class="form-control" value="" placeholder="Search for" aria-controls="s-lg-srch-content">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">Go</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="group_id" id="group_id" value="0">
+                            </form>
+                    </ul>
+                    <ul class="social">
+                        <li> <a href="<?php echo $social['facebook']; ?>"> <i class=" fa fa-facebook">   </i> </a> </li>
+                        <li> <a href="<?php echo $social['twitter']; ?>"> <i class="fa fa-twitter">   </i> </a> </li>
+                        <li> <a href="<?php echo $social['instagram']; ?>"> <i class="fa fa-instagram">   </i> </a> </li>
+                        <li> <a href="<?php echo $social['dribbble']; ?>"> <i class="fa fa-dribbble">   </i> </a> </li>
+
+                    </ul>
+
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </div>
+    <!--/.footer-->
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="pull-left">  <li> <i class="fa fa-sign-in" aria-hidden="true"></i>
+            </li><i class="fa fa-copyright" aria-hidden="true"></i>
+            <?php
+            echo Copyright::copyright(null, 'KNUT 7 FRAMWORK') . '<br>';
+            echo \Ballybran\Helpers\System::time_start();
+            echo \Ballybran\Helpers\System::http_user_agent();
+            echo \Ballybran\Helpers\Time\Timestamp::dataTime();
+            ?>
+            <div class="pull-right">
+            </div>
+        </div>
+    </div>
+    <!--/.footer-bottom-->
 </footer>
-<!-- Bootstrap -->
 
-<script src="<?php echo URL; ?>Public/js/bootstrap.js"></script>
+<!-- Bootstrap -->
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+-->
+<!--<script src="--><?php //echo URL;             ?><!--Public/js/bootstrap.js"></script>-->
 
 <!--- Clinic -->
-<script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/jquery.dropotron.min.js"></script>
-<script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/skel.min.js"></script>
-<script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/skel-viewport.min.js"></script>
-<script src="<?php echo URL;?>Public/js/tether.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/clinic/assets/js/jquery.dropotron.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/clinic/assets/js/skel.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/clinic/assets/js/skel-viewport.min.js"></script>
+<script src="<?php echo URL; ?>Public/js/tether.js"></script>
 
-<script src="<?php echo URL.DIR_FILE; ?>Public/fullcalendar/lib/moment.min.js"></script>
-<script src="<?php echo URL.DIR_FILE; ?>Public/fullcalendar/locale/pt.js"></script>
-<!--<script src="--><?php //echo URL.DIR_FILE; ?><!--Public/fullcalendar/gcal.js"></script>-->
-<script src="<?php echo URL.DIR_FILE; ?>Public/fullcalendar/fullcalendar.js"></script>
-<!--<script src="--><?php //echo URL.DIR_FILE; ?><!--Public/clinic/assets/js/script.js"></script>-->
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/lib/moment.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/locale/pt.js"></script>
+<!--<script src="--><?php //echo URL.DIR_FILE;             ?><!--Public/fullcalendar/gcal.js"></script>-->
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/lib/jquery-ui.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/lib/jquery.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/lib/jquery-ui.min.js"></script>
+<script src="<?php echo URL . DIR_FILE; ?>Public/fullcalendar/fullcalendar.js"></script>
+<!--<script src="--><?php //echo URL.DIR_FILE;             ?><!--Public/clinic/assets/js/script.js"></script>-->
 
-<script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/util.js"></script>
-<!--[if lte IE 8]><script src="<?php echo URL. DIR_FILE;;?>Public/clinic/assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="<?php echo URL. DIR_FILE;?>Public/clinic/assets/js/main.js"></script>
-<script src="<?php echo URL . DIR_FILE?>Public/js/jquery.searchable-1.1.0.min.js"></script>
-
+<script src="<?php echo URL . DIR_FILE; ?>Public/clinic/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="<?php
+echo URL . DIR_FILE;
+;
+?>Public/clinic/assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="<?php echo URL . DIR_FILE; ?>Public/clinic/assets/js/main.js"></script>
+<script src="<?php echo URL . DIR_FILE ?>Public/js/jquery.searchable-1.1.0.min.js"></script>
 
 
 </body>

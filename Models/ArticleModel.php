@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -33,21 +34,17 @@ use Ballybran\Database\Drives\AbstractDatabaseInterface;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
 class ArticleModel {
 
     private $entity;
 
-    public function __construct( AbstractDatabaseInterface $entity) {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }
 
-
-
-    public function getUser($id)
-    {
-       return $this->entity->selectManager("SELECT usuarios.id, usuarios.firstname, usuarios.lastname, usuarios.email FROM usuarios WHERE usuarios.id= $id");
+    public function getUser($id) {
+        return $this->entity->selectManager("SELECT usuarios.id, usuarios.firstname, usuarios.lastname, usuarios.email FROM usuarios WHERE usuarios.id= $id");
     }
 
     /**
@@ -71,7 +68,7 @@ class ArticleModel {
      * @param $data
      */
     public function insertArticle($data) {
-         $this->entity->insert("article", $data);
+        $this->entity->insert("article", $data);
     }
 
     public function deleteArticle($id) {
@@ -101,7 +98,7 @@ class ArticleModel {
      * @return bool
      */
     public function insertComments($data) {
-        return $this->entity->insert('comments', $data);
+        $this->entity->insert('Comments', $data);
     }
 
     public function deleteComments($id) {

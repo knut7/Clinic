@@ -1,5 +1,4 @@
 <?php
-
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -14,9 +13,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
-use Ballybran\Helpers\Security\Session;
-
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
 
@@ -37,17 +34,17 @@ use Ballybran\Helpers\Security\Session;
         </div>
         <div class="col-lg-4 4u 12u(mobile)">
             <h3> Dados</h3>
-            <h5><strong>Nome: </strong><small><?php echo $this->UserPhoto['firstname'] . "\t" .$this->UserPhoto['lastname'];?></small> </h5>
-            <h5><strong>E-mail: </strong><small>  <?php echo $this->UserPhoto['email'];?></small> </h5>
-            <h5><strong>Telefone: </strong><small>  <?php echo $this->UserPhoto['telephone'];?></small> </h5>
+            <h5><strong>Nome: </strong><small><?php echo $this->UserPhoto['firstname'] . "\t" . $this->UserPhoto['lastname']; ?></small> </h5>
+            <h5><strong>E-mail: </strong><small>  <?php echo $this->UserPhoto['email']; ?></small> </h5>
+            <h5><strong>Telefone: </strong><small>  <?php echo $this->UserPhoto['telephone']; ?></small> </h5>
 
         </div>
         <div class="col-lg-4 4u 12u(mobile) ">
             <h3>Endereço</h3>
-            <h5><strong>Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1'];?></small> </h5>
-            <h5><strong>Outro Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1'];?></small> </h5>
-            <h5><strong>Cidade: </strong><small>  <?php echo $this->UserPhoto['city'];?></small> </h5>
-            <h5><strong>País: </strong> <small> <?php echo $this->UserPhoto['country'];?></small> </h5>
+            <h5><strong>Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1']; ?></small> </h5>
+            <h5><strong>Outro Endereço: </strong><small>  <?php echo $this->UserPhoto['address_1']; ?></small> </h5>
+            <h5><strong>Cidade: </strong><small>  <?php echo $this->UserPhoto['city']; ?></small> </h5>
+            <h5><strong>País: </strong> <small> <?php echo $this->UserPhoto['country']; ?></small> </h5>
 
         </div>
     </div>

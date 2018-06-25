@@ -25,7 +25,6 @@ use Ballybran\Database\Drives\AbstractDatabaseInterface;
  * Date: 2016/06/22
  * Time: 3:13 PM
  */
-
 class FaqModel {
 
     /**
@@ -33,7 +32,7 @@ class FaqModel {
      */
     private $entity;
 
-    public function __construct( AbstractDatabaseInterface $entity) {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }
@@ -53,9 +52,8 @@ class FaqModel {
         return $this->entity->selectManager("SELECT * FROM faq");
     }
 
-    public function delete( $id )
-    {
-       return $this->entity->delete("faq", "id=$id", 1);
+    public function delete($id) {
+        return $this->entity->delete("faq", "id=$id", 1);
     }
 
 }

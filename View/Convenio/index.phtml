@@ -1,0 +1,39 @@
+
+<div id="features-wrapper">
+
+    <section id="features" class="container">
+        <div class="breadcrumb text-center">
+            <strong><a href="<?php echo URL; ?>convenio">CONVENIO</a></strong>
+        </div>
+        <div class="row ">
+
+            <?php
+            $page = new \Ballybran\Helpers\Event\Paginator('PDO', "SELECT * FROM Convenio  ORDER BY Convenio.id DESC", 6);
+            foreach ($page->getColum() as $key => $value) :
+                ?>
+                <div class="col-lg-4 ">
+                    <?php if (empty($value['path'])) { ?>
+
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . DIR_FILE . 'Public/images/default-article-img.jpg' ?>" >
+                    <?php } else { ?>
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . $value['path']; ?>" >
+                    <?php } ?>
+
+                    <h4><?php echo $value['convNome']; ?></h4>
+                    <p><?php echo $value['description']; ?></p>
+                    <div class="group">
+                        <!--                        <a href="--><?php //echo URL;             ?><!--article/art_pre_post/--><?php //echo $value['id_article'];             ?><!--" class="btn btn-primary">Ler Mais</a>-->
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+        <div class="text-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <?php echo $page->pagination(); ?>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</div>

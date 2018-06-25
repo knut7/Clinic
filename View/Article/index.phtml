@@ -1,9 +1,5 @@
 
-<?php
-
-Module\Lib2\header::getHeader();
-
-?>
+<?php ?>
 
 <div id="main-wrapper">
 
@@ -15,7 +11,7 @@ Module\Lib2\header::getHeader();
                     <footer><?php echo $value['post_date']; ?></footer>
                     <p><?php echo $value['excerpt']; ?></p>
                     <div class="group">
-                        <a href="<?php echo URL;?>Article/art_pre_post/<?php echo $value['id_article']; ?>"class="button icon fa-file"> ler mais </a>
+                        <a href="<?php echo URL; ?>Article/art_pre_post/<?php echo $value['id_article']; ?>" class="btn btn-primary"> ler mais </a>
                     </div>
                 </div>
             <?php endforeach; ?>

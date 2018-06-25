@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,16 +14,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 use Ballybran\Helpers\Security\Session;
-Module\Lib2\header::getHeader();
-
-/**
- * Created by PhpStorm.
- * User: artphotografie
- * Date: 2016/02/14
- * Time: 12:35 PM
- */
 ?>
 
 
@@ -39,11 +31,16 @@ Module\Lib2\header::getHeader();
                     <div class="panel-heading">
                         <div class="panel-title">
                             <a href="#collapse-<?php echo $value['id'] ?>"  data-toggle="collapse" data-parent="#accordion" >
-                               <strong><?php echo $value['quest']; ?></strong>
-                                <?php  if( Session::exist() ) :
-                                        if( Session::get('role') == 'owner' || Session::get('role') == 'admin') : ?>
+                                <strong><?php echo $value['quest']; ?></strong>
+                                <?php
+                                if (Session::exist()) :
+                                    if (Session::get('role') == 'owner' || Session::get('role') == 'admin') :
+                                        ?>
                                         <a  href="<?php echo URL; ?>faq/delete/<?php echo $value['id']; ?>"><p class="btn btn-outline-primary   btn-default">deletar</a>
-                                        <?php endif; endif; ?>
+                                        <?php
+                                    endif;
+                                endif;
+                                ?>
 
 
                             </a>

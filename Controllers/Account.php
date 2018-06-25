@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,29 +23,25 @@
 
 namespace Module\Clinic\Controllers;
 
-
-use Ballybran\Core\{
-    Controller\AbstractController, REST\Encodes, REST\RestUtilities
+use Ballybran\Core\ {
+    Controller\AbstractController
 };
-use Ballybran\Exception\Exception;
-use Ballybran\Helpers\{
-    Copyright\Copyright, Event\Registry, Http\Hook, Images\Resize, Security\Session, Security\Validate,Security\Val,
-     Utility\Hash
+
+use Ballybran\Helpers\Http\FileSystem;
+
+use Ballybran\Helpers\ {
+    Http\Hook, Http\HZip, Images\Resize, Security\Session, Security\Validate, Security\Val, StdLib\HydratorConverter, Utility\Hash
 };
 
 use Module\Clinic\Entity\Pessoa;
 use Module\Lib\SendMail;
 use Module\Upload\ImageUpload;
 use PHPMailer\PHPMailer\PHPMailer;
-use Ballybran\Core\Collections\Collection\{IteratorCollection, RecursiveIteratorIterator
-};
 use Module\Clinic\Controllers\CTrait\Prints;
 
+class Account extends AbstractController {
 
-class Account extends AbstractController
-{
     use Prints;
-
 
     private $form;
     private $imagem;
@@ -53,30 +49,22 @@ class Account extends AbstractController
     /**
      * Account constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
-        $this->form = new Validate( new Val );
+        $this->form = new Validate(new Val);
         $this->form->setMethod('POST');
-
-
     }
 
     /**
      *
      */
-    public function index()
-    {
-
+    public function index() {
         $this->view->title = "Lista de Usuarios";
         $this->view->users = $this->model->getAllUser();
         $this->view->render($this, 'index');
     }
 
-
-    public function Cpanel()
-    {
-
+    public function cpanel() {
         if (Session::exist()) {
 
             $this->view->title = "Cpanel";
@@ -88,22 +76,29 @@ class Account extends AbstractController
             }
 
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $this->view->userAdmin = $this->model->getAllUserAdmin();
+                $this->view->userAdmin = $this->model->getAllMedicos();
                 $this->view->allPaciente = $this->model->getAllPaciente();
+                $this->view->listaDeFuncionarios = $this->model->getAllFuncionarios();
                 $this->view->render($this, 'cpanel');
             }
-            if (Session::get('role') == 'funcionario') {
-                $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
-                $this->view->atendidos  = $this->model->getPacientForAtendimento(Session::get("ID"));
-                $this->view->render($this, 'cpanelFuncionario');
+            if (Session::get('role') == 'medico') {
 
+                $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
+                $this->view->atendidos = $this->model->getPacientForAtendimento(Session::get("ID"));
+                $this->view->unidadeInternacao = $this->model->getUnidadeInternacao();
+                $this->view->tipoAdmissao = $this->model->getTipoAdmissao();
+                $this->view->internados = $this->model->getPacientInternados(Session::get("ID"));
+                $this->view->render($this, 'cpanelMedico');
             }
             if (Session::get('role') == 'laboratorio') {
                 $this->view->render($this, 'cpanelLaboratorio');
-
+            }
+            if (Session::get('role') == 'markting') {
+                $this->view->render($this, 'cpanelMarkting');
             }
             if (Session::get('role') == 'paciente') {
 
+                $this->view->newConsulta = $this->model->getConsulta(Session::get('ID'));
                 $this->view->paciente = $this->model->getPacienteById(Session::get('ID'));
                 $this->view->convenio = $this->model->getConvenio();
 
@@ -111,7 +106,6 @@ class Account extends AbstractController
                 // $this->view->prontuario = $this->model->getProntuario(Session::get('ID'))[0];
 
                 $this->view->render($this, 'cpanelPaciente');
-
             }
             if (Session::get('role') == 'secretaria') {
                 $this->view->paciente = $this->model->getPacientForConsulta(Session::get('ID'));
@@ -122,23 +116,22 @@ class Account extends AbstractController
                 $this->view->formaPagamento = $this->model->getTypePagamento();
                 $this->view->pacieteMedico = $this->model->getPacienteSemMedico();
                 $this->view->convenio = $this->model->getAllConvenio();
+                $this->view->retornoDoPaciente = $this->model->getRetornoDoPaciente();
+
 
                 $this->view->render($this, 'cpanelSecretaria');
-
             }
 
-            if(Session::get('role') == 'enfermeiro') {
+            if (Session::get('role') == 'enfermeiro') {
                 $this->view->pacienteMedico = $this->model->getPacienteParaTriagem();
 
                 $this->view->render($this, 'cpanelEnfermagem');
             }
-
         } else {
 
             Hook::Header('');
         }
     }
-
 
     public function getInfoPaciente($id) {
         return ($this->model->getAllInfoForPrint($id));
@@ -147,8 +140,7 @@ class Account extends AbstractController
     /**
      *
      */
-    public function imageUser()
-    {
+    public function imageUser() {
         if (Session::exist()) {
 
             if (!empty($this->model->getUser(Session::get("ID")))) {
@@ -163,18 +155,19 @@ class Account extends AbstractController
     /**
      *
      */
-    public function insertImageUser()
-    {
+    public function insertImageUser() {
 
-        if(!empty($_POST['quality']) && !empty($_POST['color']) && !empty($_POST['degree'])) {
+        if (!empty($_POST['quality']) && !empty($_POST['color']) && !empty($_POST['degree'])) {
 
             $color = substr($_POST['color'], 1);
 
 
-            $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
+            $this->imagem = new FileSystem(new Resize());
+
+
             $this->imagem->setWidth(2000);
             $this->imagem->setHeight(2000);
-            $this->imagem->setOption("auto");
+            $this->imagem->setOption("perfil");
             $this->imagem->setQuality($_POST['quality']);
             $this->imagem->setColor($color);
             $this->imagem->setDegree($_POST['degree']);
@@ -201,12 +194,10 @@ class Account extends AbstractController
         }
     }
 
-
     /**
      *
      */
-    public function edit()
-    {
+    public function edit() {
         if (Session::exist()) {
             $this->view->UserData = $this->model->getUser(Session::get("ID"))[0];
             if ($this->model->getImageUser(Session::get("ID"))) {
@@ -222,8 +213,7 @@ class Account extends AbstractController
     /**
      * @param $id
      */
-    public function deletes($id)
-    {
+    public function deletes($id) {
         if (Session::exist()) {
 
             $this->model->deletes($id);
@@ -231,54 +221,37 @@ class Account extends AbstractController
             Hook::Header('user/signUp');
         } else {
             Hook::Header('user/signUp');
-
         }
     }
 
     /**
      *
      */
-    public function updates()
-    {
-        $pess = new Pessoa();
-        $pess->setId($_POST['id']);
-        if ($pess->getId()) {
-
-            $pess->setFirstname($_POST['firstname']);
-            $pess->setLastname(($_POST['lastname']));
-            $pess->setUsername($_POST['username']);
-            $pess->setEmail($_POST['email']);
-            $pess->setTelephone($_POST["telephone"]);
-            $pess->setTelephone2($_POST["telephone2"]);
-            $pess->setCompany($_POST["company"]);
-            $pess->setAddress1($_POST["address_1"]);
-            $pess->setAddress2($_POST["address_2"]);
-            $pess->setPostcode($_POST["postcode"]);
-            $pess->setZone($_POST['zone']);
-            $pess->setCity($_POST['city']);
-            $pess->setCountry($_POST['country']);
-            $pess->setBairro($_POST['bairro']);
-            $pess->setDataNascimento($_POST['dataNascimento']);
-
-            $data["firstname"] = $pess->getFirstname();
-            $data["lastname"] = $pess->getLastname();
-            $data['username'] = $pess->getUsername();
-            $data['email'] = $pess->getEmail();
-            $data["telephone"] = $pess->getTelephone();
-            $data["telephone2"] = $pess->getTelephone2();
-            $data["company"] = $pess->getCompany();
-            $data["address_1"] = $pess->getAddress1();
-            $data["address_2"] = $pess->getAddress2();
-            $data["postcode"] = $pess->getPostcode();
-            $data['zone'] = $pess->getZone();
-            $data['city'] = $pess->getCity();
-            $data['bairro'] = $pess->getBairro();
-            $data['dataNascimento'] = $pess->getDataNascimento();
-            $data['country'] = $pess->getCountry();
+    public function updates() {
+        if ($_POST['id']) {
 
 
-            $this->model->updates($data, $pess->getId());
-            $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou seus dados");
+            $data['id'] = $_POST['id'];
+            $data["firstname"] = $_POST['firstname'];
+            $data["lastname"] = $_POST['lastname'];
+            $data['username'] = $_POST['username'];
+            $data['email'] = $_POST['email'];
+            $data["telephone"] = $_POST["telephone"];
+            $data["company"] = $_POST["company"];
+            $data["address_1"] = $_POST["address_1"];
+            $data["address_2"] = $_POST["address_2"];
+            $data["postcode"] = $_POST["postcode"];
+            $data['zone'] = $_POST['zone'];
+            $data['city'] = $_POST['city'];
+            $data['bairro'] = $_POST['bairro'];
+            $data['dataNascimento'] = $_POST['dataNascimento'];
+            $data['country'] = $_POST['country'];
+
+            $hydrat = \Ballybran\Helpers\Stdlib\HydratorConverter::toObject($data, new Pessoa());
+            $array = \Ballybran\Helpers\Stdlib\HydratorConverter::toArray($hydrat);
+
+            $this->model->updates($array, $_POST['id']);
+            $this->model->logAccess(Session::get("U_NAME"), ":: Atualizou seus dados");
 
             Hook::Header('account/cpanel');
         } else {
@@ -289,8 +262,7 @@ class Account extends AbstractController
     /**
      *
      */
-    public function deleteImage()
-    {
+    public function deleteImage() {
         if (Session::exist()) {
             $file = $this->model->getImageUser(Session::get('ID'));
 
@@ -307,7 +279,6 @@ class Account extends AbstractController
             $this->model->deleteImagePerfil(Session::get('ID'));
 
             Hook::Header('account/cpanel');
-
         } else {
             Hook::Header('');
         }
@@ -316,8 +287,7 @@ class Account extends AbstractController
     /**
      * @param null $id
      */
-    public function profile($id = null)
-    {
+    public function profile($id = null) {
         $this->view->title = "LISTA USERS";
         if ($id != null) {
 
@@ -332,18 +302,16 @@ class Account extends AbstractController
         $this->view->render($this, 'profile');
     }
 
-
     /**
      * update the role of users
      *
      * @return data, id
      * @author
      * */
-    public function manageUser()
-    {
+    public function manageUser() {
         if ($_POST['id']) {
             $data['role'] = $_POST['role'];
-            $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou seus previlegios para " . $_POST['role']);
+            $this->model->logAccess(Session::get("U_NAME"), ":: Atualizou seus previlegios para " . $_POST['role']);
             return $this->model->manageUser($data, $_POST['id']);
         } else {
             echo "NADA FOI ATUALIZADO";
@@ -356,8 +324,7 @@ class Account extends AbstractController
      * @return data, id
      * @author
      * */
-    public function password()
-    {
+    public function password() {
         $this->view->password = $this->model->getUser(Session::get("ID"))[0];
         $this->view->render($this, 'password');
     }
@@ -365,11 +332,9 @@ class Account extends AbstractController
     /**
      * update the role of users
      *
-     * @return data, id
      * @author
      * */
-    public function managePassword()
-    {
+    public function managePassword() {
         $entity = new Pessoa();
 
 
@@ -378,18 +343,18 @@ class Account extends AbstractController
             $oldPassword = $this->model->getUser(Session::get("ID"))[0]['password'];
 
 
-            if (Hash::verify_password($youPassword, $oldPassword) ) {
+            if (Hash::verify_password($youPassword, $oldPassword)) {
                 $entity->setPassword($_POST['password']);
-                $data['password']= $entity->getPassword();
-                $this->model->logAccess( Session::get("U_NAME"), ":: Atualizou sua senha");
-                 $this->model->managePassword($data, $_POST['id']);
+                $data['password'] = $entity->getPassword();
+                $this->model->logAccess(Session::get("U_NAME"), ":: Atualizou sua senha");
+                $this->model->managePassword($data, $_POST['id']);
 
-                $paciente =  $this->model->getUser(Session::get("ID"))[0];
+                $paciente = $this->model->getUser(Session::get("ID"))[0];
 
 
-                $mail = new SendMail( new PHPMailer());
+                $mail = new SendMail(new PHPMailer());
                 $mail->setFrom("marciozebedeu@gmail.com");
-                $mail->setFromName($paciente['firstname']. "\t". $paciente['lastname']);
+                $mail->setFromName($paciente['firstname'] . "\t" . $paciente['lastname']);
                 $mail->setMessage("Tua senha foi aualizada com sucesso para : " . $_POST['password']);
                 $mail->setAssunto("Atualização da Senha");
                 $mail->setTo($paciente['email']);  // email d visitante vindo do form
@@ -398,114 +363,77 @@ class Account extends AbstractController
                 $mail->send();
                 $mail->body();
                 Hook::Header('Account/cpanel');
-
-
             } else {
                 echo "NADA FOI ATUALIZADO  porque a password antiga nao existe";
             }
         } else {
             Hook::Header('Account/cpanel');
-
         }
     }
-
 
     /**
      *   Times and Date
      */
-    public function horarios()
-    {
+    public function horarios() {
         $this->view->title = "Horarios";
-        if(Session::get('role') == 'funcionario') {
+        if (Session::get('role') == 'medico') {
             $this->view->horario = $this->model->getHorarioByFunc(Session::get('ID'));
             $this->view->render($this, 'horarios');
         }
 
-        if(Session::get('role') == 'secretaria') {
+        if (Session::get('role') == 'secretaria') {
             $this->view->horario = $this->model->getHorarioByFunc(Session::get('ID'));
             $this->view->render($this, 'horariosSecretaria');
         }
     }
 
-
-    public function deteleHoraroById($id)
-    {
+    public function deteleHoraroById($id) {
         if (!empty($id)) {
             $this->model->deteleHoraroById($id);
         }
         Hook::Header('Account/horarios');
-
     }
 
-    public function inserConsulta()
-    {
+    public function insertconsulta() {
 
         if (Session::get('role') == 'paciente' || Session::get('role') == 'secretaria') {
 
-                $this->form->post('info')->val('maxlength', 1223)
+            $this->form->post('info')->val('maxlength', 1223)
                     ->post('ante')->val('maxlength', 1223)
                     ->post('create_dt')->val('maxlength', 1223)
                     ->post('Convenio_id')->val('maxlength', 1223)
                     ->post('Especialidade_id')->val('maxlength', 1223)
                     ->post('usuarios_id')->val('maxlength', 1223)->submit();
 
-
             $paciente = $this->model->getUser(Session::get("ID"))[0];
 
-            $mail = new SendMail(new PHPMailer());
-            $mail->setFrom("marciozebedeu@gmail.com");
-            $mail->setFromName($paciente['firstname']. "\t". $paciente['lastname']);
-            $mail->setMessage($_POST['ante'] . "<br>" . $_POST['info']);
-            $mail->setAssunto("Nova Consulta");
-            $mail->setTo($paciente['email']);  // email d visitante vindo do form
-            $mail->setAddr("marciozebedeu@gmail.com"); // enviar para mim (secretaria)
-
-            $mail->send();
-            $mail->body();
-
+            // $mail = new SendMail(new PHPMailer());
+            // $mail->setFrom("marciozebedeu@gmail.com");
+            // $mail->setFromName($paciente['firstname']. "\t". $paciente['lastname']);
+            // $mail->setMessage($_POST['ante'] . "<br>" . $_POST['info']);
+            // $mail->setAssunto("Nova Consulta");
+            // $mail->setTo($paciente['email']);  // email d visitante vindo do form
+            // $mail->setAddr("marciozebedeu@gmail.com"); // enviar para mim (secretaria)
+            // $mail->send();
+            // $mail->body();
 
             $this->model->inserConsulta($this->form->getPostData());
             $this->model->logPaciente(Session::get("U_NAME"), ":: Fez uma Consulta");
 
             Hook::Header('account/cpanel');
-
         }
     }
-        public function event()
-    {
+
+    public function event() {
         echo json_encode($this->model->getEvent(Session::get('ID')));
     }
 
-    public function getEvent2()
-    {
+    public function getEvent2() {
         echo json_encode($this->model->getEvent2(Session::get('ID')));
     }
 
-    public function events()
-    {
+    public function events() {
         echo json_encode($this->model->getEvent2());
     }
-
-public function a(){
-
-}
-    public function teste($value='')
-    {
-      $menu = array('home' => 'Home', 'PHP'=> 'POO', 'java'=> 'DP' );
-
-      $array = array();
-
-        $it2 = new IteratorCollection($array);
-        $it2->add("a");
-        $it2->add("b");
-        $it2->add("c");
-        $it2->add("d");
-
-        echo $it2->contains('dd');
-
-
-    var_dump($it2->toArray()[0]);
-    }
-
 
 }

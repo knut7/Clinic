@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -16,86 +17,96 @@
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Library\Form;
 
-
 if (!Session::exist()) :
     ?>
 
-    <div class="container">
-        <section>
 
-            <div id="content" class="col-sm-6">
-                    <h2>Register Account</h2>
-                    <p>By creating an account you will be able to all faster, be up to date on an order's status, and keep track of the data you have previously made.</p>
+    <section id="features" class="container">
 
-                    <div class="form-group">
-                        <a href="<?php echo URL; ?>user/signUp" class="form-button-submit button">continue</a>
+        <div class="row">
+            <div class="cartao">
 
-                    </div>
-            </div> <!-- end contend and col-sm-6 -->
+                <h2>Registar Conta</h2>
+                <p><h5>Ao criar uma conta, você poderá agilizar tudo, manter-se atualizado sobre o status de um pedido e acompanhar os dados que você já fez.<h5></p>
+                        <br>
+                        <a href="<?php echo URL; ?>user/signUp" class="btn btn-info">continue</a>
 
 
-            <div id="content" class="col-sm-6">
+                        </div> <!-- cartao -->
 
-                    <h2>Login</h2>
+                        <div class="col-lg-12">
 
-                    <?php
-                    echo Form::open(['method' => 'post', 'action'=> URL.'User/signIn', 'name' => 'signIn', 'class' => 'form-horizontal', 'style' => 'margin-left:10%;']);
-                    ?>
+                            <div class="wrap">
 
-                        <label class="control-label" for="input-firstname">Username</label>
+                                <div class="col-lg-5">
+                                    <img class="col-lg-12  img-responsive img-circle" style="backgrund-color:red; margin-left:10px;" src="<?php echo URL . DIR_FILE; ?>Public/images/logo_clinic.jpg" alt="">
 
-                        <?php
-                        echo Form::input(['type' => 'text', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Insere seu numero ou email de Login']);
-                        ?>
-                        <p><strong><a class="text-blue right" href="<?php echo URL;?>user/formreset">Esqueceu sua senha?</a></strong></p>
-                        <label class="control-label" for="input-password">Password</label>
-
-                        <?php
-                        echo Form::input(['type' => 'password', 'name' => 'password', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Password']);
-                        ?>
-
-                        <?php
-                        echo Form::button(['type' => 'submit', 'class' => 'form-button-submit button', 'id' => 'send_request', 'value' => 'Login']);
-                        ?>
+                                </div>
 
 
-                    <?php
-                    echo Form::close();
-                    ?>
-            </div> <!-- end contend and col-sm-6 -->
+                                <div class="col-lg-5">
 
-        </section>
-    </div>
+                                    <h2>Login</h2>
 
-<?php else : ?>
-    <script>
+                                    <?php
+                                    echo Form::open(['method' => 'post', 'action' => URL . 'User/signIn', 'name' => 'signIn', 'class' => 'form-horizontal', 'style' => 'margin-left:10%;']);
+                                    ?>
 
-        location.href:"<?php URL;?>Cpanel";
-    </script>
+                                    <label class="control-label" for="input-firstname">Nome do Usuario</label>
+
+                                    <?php
+                                    echo Form::input(['type' => 'text', 'name' => 'email', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Insere seu numero ou email de Login']);
+                                    ?>
+                                    <p><strong><a class="text-blue right" href="<?php echo URL; ?>user/formreset">Esqueceu sua senha?</a></strong></p>
+                                    <label class="control-label" for="input-password">Password</label>
+
+                                    <?php
+                                    echo Form::input(['type' => 'password', 'name' => 'password', 'class' => 'form-control', 'id' => 'user-name', 'placeholder' => 'Password']);
+                                    ?>
+
+                                    <hr>
+                                    <?php
+                                    echo Form::button(['type' => 'submit', 'class' => 'btn btn-primary', 'id' => 'send_request', 'value' => 'Login']);
+                                    ?>
 
 
-<?php endif; ?>
+                                    <?php
+                                    echo Form::close();
+                                    ?>
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+
+                        </section>
+
+                    <?php else : ?>
+                        <script>
+
+                            location.href:"<?php URL; ?>Cpanel";</script>
 
 
-<script>
+                    <?php endif; ?>
 
-    function signIn() {
-        var username = $('form[name=signIn] input[name=username]')[0].value;
-        var password = $('form[name=signIn] input[name=password]')[0].value;
 
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo URL;?>User/signIn',
-            data: {username: username, password: password}
-        }).done(function (resposta) {
-            if (resposta == 1) {
+                    <script>
 
-            document.location= "<?php echo  URL;?>User/signIn";
-            } else {
+                                function signIn() {
+                                    var username = $('form[name=signIn] input[name=username]')[0].value;
+                                    var password = $('form[name=signIn] input[name=password]')[0].value;
 
-                alert("falhou");
-            }
-        });
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo URL; ?>User/signIn',
+                                        data: {username: username, password: password}
+                                    }).done(function (resposta) {
+                                        if (resposta == 1) {
 
-    }
-</script>
+                                            document.location = "<?php echo URL; ?>User/signIn";
+                                        } else {
+
+                                            alert("falhou");
+                                        }
+                                    });
+
+                                }
+                    </script>

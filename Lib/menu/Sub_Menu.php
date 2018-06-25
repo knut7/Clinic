@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: artphotografie
@@ -23,17 +23,13 @@
 
 namespace Module\Clinic\Lib\menu;
 
+class Sub_Menu {
 
-class Sub_Menu
-{
-
-    function __construct()
-    {
-
+    function __construct() {
+        
     }
 
-    public static function getSubMenu()
-    {
+    public static function getSubMenu() {
         include_once 'Style/sub_menu_style.phtml';
     }
 

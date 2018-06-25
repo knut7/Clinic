@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -21,43 +21,39 @@
  * Time: 12:55
  */
 
-namespace Module\Entity;
+namespace Module\Clinic\Entity;
 
+class EntyCategory {
 
-class EntyCategory
-{
     private $nome;
     private $description;
 
     /**
      * @return mixed
      */
-    public function getNome()
-    {
+    public function getNome() {
         return $this->nome;
     }
 
     /**
      * @param mixed $nome
      */
-    public function setNome($nome)
-    {
+    public function setNome($nome) {
         $this->nome = $nome;
     }
 
     /**
      * @return mixed
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
     /**
      * @param mixed $description
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -22,7 +22,6 @@
  */
 
 namespace Module\Clinic\Models;
-
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 use Module\Service\AbstractModel;
@@ -42,16 +41,13 @@ use Module\Service\AbstractModel;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
+class ApiModel {
 
-class ApiModel
-{
     /**
      * IndexModel constructor.
      * @param AbstractDatabaseInterface $entity
      */
-
-    public function __construct( AbstractDatabaseInterface $entity)
-    {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }
@@ -60,24 +56,21 @@ class ApiModel
      * select que vai pegar tudo da base de dados na ordem desc por id
      * @return array
      */
-    public function exibirAricle()
-    {
+    public function exibirAricle() {
         return $this->entity->selectManager("SELECT  *  FROM article ORDER BY id_article  DESC  limit 3 ");
     }
 
     /**
      * @return mixed
      */
-    public function exibiAllTitle()
-    {
+    public function exibiAllTitle() {
         return $this->entity->selectManager("SELECT  *  FROM article ORDER BY id_article  DESC  ");
     }
 
     /**
      * @return mixed
      */
-    public function getAllUser()
-    {
+    public function getAllUser() {
 
         return $this->entity->selectManager("SELECT * FROM  usuarios INNER JOIN pic_perfil on
             pic_perfil.usuarios_id = usuarios.id  ORDER BY usuarios.id DESC");
@@ -86,30 +79,26 @@ class ApiModel
     /**
      * @return mixed
      */
-    public function _allCategorias()
-    {
+    public function _allCategorias() {
         return $this->entity->selectManager("SELECT * FROM categoria  WHERE id_cat ORDER BY id_cat DESC  LIMIT 3");
     }
 
     /**
      * @return mixed
      */
-    public function sidebarCategorias()
-    {
+    public function sidebarCategorias() {
         return $this->entity->selectManager("SELECT * FROM categoria   ORDER BY RAND()   LIMIT 3");
     }
+
     /**
      * @return mixed
      */
-    public function crearTable()
-    {
+    public function crearTable() {
         return $this->entity->get_Data_definition('clinica');
-
     }
 
-    public function userCont()
-    {
-        return $this->entity->find('usuarios', 'sum(status)' );
+    public function userCont() {
+        return $this->entity->find('usuarios', 'sum(status)');
     }
 
 }

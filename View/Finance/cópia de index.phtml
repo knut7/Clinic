@@ -1,8 +1,6 @@
 <?php
-    use Ballybran\Library\Form;
 
-Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
-
+use Ballybran\Library\Form;
 ?>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
@@ -21,27 +19,27 @@ Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
             </div>
             <div class="modal-body">
                 <?php
-                echo Form::open(['method'=>'post', 'class'=> 'form-group', 'action'=> URL . 'finance/contapagar', 'style'=>'float:left; width:100%;' ] );
+                echo Form::open(['method' => 'post', 'class' => 'form-group', 'action' => URL . 'finance/contapagar', 'style' => 'float:left; width:100%;']);
                 ?>
                 <br>
                 <div class="form-group">
                     <label for="recipient-name" class="form-control-label">Data de Vencimento:</label>
-                <?php
-                echo Form::input(['type'=> 'date', 'name'=>'tdVenc', 'placeholder'=>'yyy/mm/dd/', 'class'=>'form-control']);
-                ?>
+                    <?php
+                    echo Form::input(['type' => 'date', 'name' => 'tdVenc', 'placeholder' => 'yyy/mm/dd/', 'class' => 'form-control']);
+                    ?>
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="form-control-label">Valor:</label>
-                <?php
-                echo Form::input(['type'=> 'text', 'name'=>'valor','placeholder'=>'valor', 'class'=>'form-control']);
-                ?>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'valor', 'placeholder' => 'valor', 'class' => 'form-control']);
+                    ?>
                 </div>
-               
+
                 <div class="form-group">
                     <label for="recipient-name" class="form-control-label">Descrição:</label>
-                <?php
-                echo Form::input(['type'=> 'text', 'name'=>'historico', 'placeholder'=>'historico','class'=>'form-control']);
-                ?>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'historico', 'placeholder' => 'historico', 'class' => 'form-control']);
+                    ?>
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="form-control-label">Situação:</label>
@@ -55,15 +53,17 @@ Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
                     <select class="form-control" name="TipoDespesa_id" id="exampleFormControlSelect1">
                         <?php foreach ($this->typeDesp as $key => $value) { ?>
 
-                            <option value="<?php echo $value['id']?>"><?php echo $value['Dnome']?></option>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['Dnome'] ?></option>
                         <?php } ?>
                     </select>
                 </div>
-                </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <?php  echo Form::button(['type'=> 'submit', 'value'=> 'pagar', 'style'=> 'margin-left:30%;']);
-                echo Form::close(); ?>
+                <?php
+                echo Form::button(['type' => 'submit', 'value' => 'pagar', 'style' => 'margin-left:30%;']);
+                echo Form::close();
+                ?>
             </div>
         </div>
     </div>
@@ -84,42 +84,42 @@ Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
             <div class="modal-body">
 
                 <?php
-                echo Form::open(['method'=>'post', 'action'=> URL . 'finance/debitar', 'style'=>'float:left; width:100%;' ] );
+                echo Form::open(['method' => 'post', 'action' => URL . 'finance/debitar', 'style' => 'float:left; width:100%;']);
                 ?>
                 <div class="form-group">
-                <?php
-                echo Form::input(['type'=> 'date', 'name'=>'dtPag', 'placeholder'=>'yyy/mm/dd/', 'class'=>'form-control']);
-                ?>
+                    <?php
+                    echo Form::input(['type' => 'date', 'name' => 'dtPag', 'placeholder' => 'yyy/mm/dd/', 'class' => 'form-control']);
+                    ?>
                 </div>
                 <div class="form-group">
                     <?php
-                echo Form::input(['type'=> 'text', 'name'=>'db_valor','placeholder'=>'valor', 'class'=>'form-control']);
-                ?>
+                    echo Form::input(['type' => 'text', 'name' => 'db_valor', 'placeholder' => 'valor', 'class' => 'form-control']);
+                    ?>
                 </div>
                 <div class="form-group">
-                <select class="form-control" name="ContaMovimento_id" id="exampleFormControlSelect2">
-                    <?php foreach ($this->moviento as $key => $value) { ?>
-                        <option value="<?php echo $value['id']?>"><?php echo $value['Cnome']?></option>
-                    <?php } ?>
-                </select>
-                </div>
-                <div class="form-group">
-
-                <select class="form-control" name="FormaPagamento_id" id="exampleFormControlSelect1">
-                    <?php foreach ($this->formaPagamento as $key => $value) { ?>
-
-                        <option value="<?php echo $value['id']?>"><?php echo $value['FPnome']?></option>
-                    <?php } ?>
-                </select>
+                    <select class="form-control" name="ContaMovimento_id" id="exampleFormControlSelect2">
+                        <?php foreach ($this->moviento as $key => $value) { ?>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['Cnome'] ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-group">
 
-                <select class="form-control" name="Pagar_id" id="exampleFormControlSelect1">
-                    <?php foreach ($this->pagar as $key => $value) { ?>
+                    <select class="form-control" name="FormaPagamento_id" id="exampleFormControlSelect1">
+                        <?php foreach ($this->formaPagamento as $key => $value) { ?>
 
-                        <option value="<?php echo $value['id']?>"><?php echo $value['historico']?></option>
-                    <?php } ?>
-                </select>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['FPnome'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+
+                    <select class="form-control" name="Pagar_id" id="exampleFormControlSelect1">
+                        <?php foreach ($this->pagar as $key => $value) { ?>
+
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['historico'] ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <br>
 
@@ -127,8 +127,7 @@ Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <?php
-
-                echo Form::button(['type'=> 'submit', 'value'=> 'Debito', 'style'=> 'margin-left:30%;']);
+                echo Form::button(['type' => 'submit', 'value' => 'Debito', 'style' => 'margin-left:30%;']);
                 echo Form::close();
                 ?>
 
@@ -138,105 +137,103 @@ Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 </div>
 
 
-        <h1>Conta a Pagar</h1>
-            <table class="table table-responsive ">
-                <thead>
-                <tr>
-                    <th>Data De pagamento</th>
-                    <th>Valor</th>
-                    <th>Historico</th>
-                    <th>Stuacão</th>
-                    <th>Tipo de Despesa</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($this->getPagamento as $item => $value) {?>
-                <tr>
-
-                    <td>
-                        <?php echo $value['tdVenc']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['valor']; ?>
-                    </td>
-              
-                    <td>
-                        <?php echo $value['historico']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['situacao']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['Dnome']; ?>
-                    </td>
-                </tr>
-
-                <?php }  ?>
-                </tbody>
-            </table>
-
-
-        <h1>Conta </h1>
-        <table class="table table-responsive ">
-            <thead>
+<h1>Conta a Pagar</h1>
+<table class="table table-responsive ">
+    <thead>
+        <tr>
+            <th>Data De pagamento</th>
+            <th>Valor</th>
+            <th>Historico</th>
+            <th>Stuacão</th>
+            <th>Tipo de Despesa</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getPagamento as $item => $value) { ?>
             <tr>
-                <th>Cliente</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Tipo de Conta</th>
-                <th>Valor a Pagar</th>
-                <th>Data de Pagamento</th>
-                <th>Data de vencimento</th>
-                <th>Stuacão</th>
-                <th>Forma de Pagamento</th>
-                <th>Valor pago</th>
-                <th>Em Falta</th>
 
+                <td>
+                    <?php echo $value['tdVenc']; ?>
+                </td>
+                <td>
+                    <?php echo $value['valor']; ?>
+                </td>
+
+                <td>
+                    <?php echo $value['historico']; ?>
+                </td>
+                <td>
+                    <?php echo $value['situacao']; ?>
+                </td>
+                <td>
+                    <?php echo $value['Dnome']; ?>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach ($this->debito as $item => $value) {?>
-                <tr>
 
-                    <td>
-                        <h4>Marcio Zebedeu</h4>
-                    </td>
-                    <td>
-                        <?php echo $value['historico']; ?>
-                    </td>
+        <?php } ?>
+    </tbody>
+</table>
 
-                    <td>
-                        <?php echo $value['Cnome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['Dnome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['valor']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['dtPag']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['tdVenc']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['situacao']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['FPnome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['db_valor']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['valor'] - $value['db_valor'] ; ?>
-                    </td>
-                </tr>
 
-            <?php }  ?>
-            </tbody>
-        </table>
+<h1>Conta </h1>
+<table class="table table-responsive ">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Tipo de Conta</th>
+            <th>Valor a Pagar</th>
+            <th>Data de Pagamento</th>
+            <th>Data de vencimento</th>
+            <th>Stuacão</th>
+            <th>Forma de Pagamento</th>
+            <th>Valor pago</th>
+            <th>Em Falta</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->debito as $item => $value) { ?>
+            <tr>
+
+                <td>
+                    <h4>Marcio Zebedeu</h4>
+                </td>
+                <td>
+                    <?php echo $value['historico']; ?>
+                </td>
+
+                <td>
+                    <?php echo $value['Cnome']; ?>
+                </td>
+                <td>
+                    <?php echo $value['Dnome']; ?>
+                </td>
+                <td>
+                    <?php echo $value['valor']; ?>
+                </td>
+                <td>
+                    <?php echo $value['dtPag']; ?>
+                </td>
+                <td>
+                    <?php echo $value['tdVenc']; ?>
+                </td>
+                <td>
+                    <?php echo $value['situacao']; ?>
+                </td>
+                <td>
+                    <?php echo $value['FPnome']; ?>
+                </td>
+                <td>
+                    <?php echo $value['db_valor']; ?>
+                </td>
+                <td>
+                    <?php echo $value['valor'] - $value['db_valor']; ?>
+                </td>
+            </tr>
+
+        <?php } ?>
+    </tbody>
+</table>
 

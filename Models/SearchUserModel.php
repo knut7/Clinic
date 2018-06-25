@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -33,14 +34,12 @@ use Ballybran\Database\Drives\AbstractDatabaseInterface;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
-
 class SearchUserModel {
 
     private $id = null;
     private $entity;
 
-    public function __construct( AbstractDatabaseInterface $entity) {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }

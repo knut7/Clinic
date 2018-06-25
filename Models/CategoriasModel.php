@@ -14,6 +14,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
+
 namespace Module\Clinic\Models;
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
@@ -23,7 +24,7 @@ class CategoriasModel {
 
     private $entity;
 
-    public function __construct( AbstractDatabaseInterface $entity) {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }
@@ -41,7 +42,6 @@ class CategoriasModel {
     public function getArcticleBycategory($id) {
 
         return $this->entity->selectManager("SELECT * FROM article inner join categoria on article.id_cat = categoria.id_cat WHERE article.id_article = $id");
-
     }
 
     public function getArcticleById() {
@@ -56,7 +56,7 @@ class CategoriasModel {
     }
 
     public function createCategory($data) {
-         $this->entity->insert('categoria', $data);
+        $this->entity->insert('categoria', $data);
     }
 
     public function deleteCategory($id) {

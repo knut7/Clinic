@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -22,7 +22,6 @@
  */
 
 namespace Module\Clinic\Models;
-
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 
@@ -33,11 +32,9 @@ class ContactoModel {
      */
     private $database;
 
-    function __construct(AbstractDatabaseInterface $database)
-    {
+    function __construct(AbstractDatabaseInterface $database) {
         $this->database = $database;
     }
-
 
     public function getContacto() {
 
@@ -49,27 +46,24 @@ class ContactoModel {
         return $this->database->find("Social");
     }
 
-    public function updateContacto($data, $id)
-    {
-         $this->database->update("Contacto", $data, "id=$id");
-
+    public function updateContacto($data, $id) {
+        $this->database->update("Contacto", $data, "id=$id");
     }
 
-    public function updateSocial($data, $id)
-    {
-         $this->database->update("Social", $data, "id=$id");
-
+    public function updateSocial($data, $id) {
+        $this->database->update("Social", $data, "id=$id");
     }
 
-    public function getMailSetting()
-    {
+    public function getMailSetting() {
         return $this->database->find("MailConfig", "*");
-
     }
 
-    public function updateMailConfig($data, $id)
-    {
+    public function updateMailConfig($data, $id) {
         $this->database->update("MailConfig", $data, "id=$id");
+    }
+
+    public function createSidebar($data) {
+        $this->database->insert("Sidebar", $data);
     }
 
 }

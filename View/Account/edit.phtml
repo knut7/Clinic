@@ -16,9 +16,8 @@
  */
 use Ballybran\Helpers\Security\Session;
 use Ballybran\Library\Form;
-use Module\Clinic\Lib\menu\Sub_Menu;
 
-Sub_Menu::getSubMenu();
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
 <div class="col-sm-12">
@@ -42,7 +41,7 @@ Sub_Menu::getSubMenu();
                         <hr>
 
                         <?php
-                        echo Form::open(['method' => 'post', 'action'=> URL .'account/updates', 'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+                        echo Form::open(['method' => 'post', 'action' => URL . 'account/updates', 'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
                         ?>
 
                         <div class="form-group">

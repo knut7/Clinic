@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,42 +23,33 @@
 
 namespace Module\Clinic\Models;
 
-
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 
-class LaboratorioModel
-{
+class LaboratorioModel {
 
     /**
      * @var AbstractDatabaseInterface
      */
     private $database;
 
-    function __construct(AbstractDatabaseInterface $database)
-    {
+    function __construct(AbstractDatabaseInterface $database) {
         $this->database = $database;
     }
 
-    public function getExamesByPaciente($id)
-    {
+    public function getExamesByPaciente($id) {
         return $this->database->selectManager("SELECT * FROM Exame INNER JOIN Paciente ON Exame.Paciente_id = Paciente.id WHERE  Paciente.usuarios_id = $id ");
-
     }
 
     public function getPacienteById($id) {
         return $this->database->selectManager(" SELECT  Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente on Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios on Paciente.usuarios_id = usuarios.id WHERE Paciente.usuarios_id =$id ORDER BY Paciente.id DESC");
     }
 
-    public function updateExame($data, $id)
-    {
+    public function updateExame($data, $id) {
         return $this->database->update("Exame", $data, "id_ex=$id");
     }
 
-    public function getListaDeExames()
-    {
+    public function getListaDeExames() {
         return $this->database->selectManager(" SELECT  Exame.*, Paciente.*, Funcionarios.titulo, usuarios.* FROM Exame INNER JOIN Paciente ON Exame.Paciente_id = Paciente.id INNER JOIN usuarios ON Paciente.usuarios_id = usuarios.id INNER JOIN Func_has_Paci ON Paciente.id = Func_has_Paci.Paciente_id INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id WHERE Exame.resultado = '' ORDER BY Exame.id_ex ASC");
     }
-
-
 
 }

@@ -15,12 +15,13 @@
  * @version   1.0.2
  */
 use Ballybran\Library\Form;
+
 \Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 <section>
     <div class="container col-sm-12">
         <div class="breadcrumb text-center title-top-center" id="features" >
-        <strong> <h3>Distribuição de Pacientes</h3></strong>
+            <strong> <h3>Distribuição de Pacientes</h3></strong>
         </div>
 
         <table class="col-lg-12 table  table-black table-responsive table-bordered pull-right">
@@ -43,32 +44,30 @@ use Ballybran\Library\Form;
                         <td><?php echo $value['telephone']; ?></td>
                         <td><?php echo $value['role']; ?></td>
                         <td><?php echo $value['info']; ?></td>
-                            <?php
-
-                            echo Form::open(['method'=> 'post', 'action'=> URL .'secretaria/joinPacienteAndFunc']);
-                        echo Form::input(['type'=> 'hidden', 'name'=> 'Paciente_id', 'value'=> $value['id'] ]);
+                        <?php
+                        echo Form::open(['method' => 'post', 'action' => URL . 'secretaria/joinPacienteAndFunc']);
+                        echo Form::input(['type' => 'hidden', 'name' => 'Paciente_id', 'value' => $value['id']]);
                         ?>
                         <td>
-                        <select name="Funcionarios_id" style='color:#000000;'>
-                            <?php foreach ($this->func as $keys => $val ) :?>
-                                ?
-                                <option>--</option>
-                            <option value="<?php echo $val['id']; ?>"><?php echo $val['firstname']; ?> </option>
+                            <select name="Funcionarios_id" style='color:#000000;'>
+                                <?php foreach ($this->func as $keys => $val) : ?>
+                                    ?
+                                    <option>--</option>
+                                    <option value="<?php echo $val['id']; ?>"><?php echo $val['firstname']; ?> </option>
 
-                            <?php endForeach; ?>
-                        </select>
+                                    <?php endForeach; ?>
+                            </select>
                         </td>
 
                         <td>
                             <?php
-                            echo Form::input(['type'=> 'time', 'name'=> 'horas', 'style'=>'color:#000000;', 'placeholder'=> 'horas' ]);
+                            echo Form::input(['type' => 'time', 'name' => 'horas', 'style' => 'color:#000000;', 'placeholder' => 'horas']);
                             ?>
                         </td>
                         <td>
-                            <?php echo Form::submit(['type'=> 'submit', 'value'=> 'Atualizar']); ?>
+                            <?php echo Form::submit(['type' => 'submit', 'value' => 'Atualizar']); ?>
                         </td>
                         <?php
-
                         echo Form::close();
                         ?>
                         <td><a class="btn btn-danger" href="<?php echo URL ?>secretaria/deletes/<?php echo $value['id']; ?>"><i class="glyphicon glyphicon-trash "></i></td>

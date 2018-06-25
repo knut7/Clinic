@@ -1,0 +1,547 @@
+<?php
+
+/**
+ * KNUT7 K7F (http://framework.artphoweb.com/)
+ * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
+ * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
+ * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
+ * @author    Marcio Zebedeu - artphoweb@artphoweb.com
+ * @version   1.0.2
+ */
+use Ballybran\Helpers\Security\Session;
+use \Ballybran\Library\Form;
+
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
+?>
+<div class="text-center"><h1>INTERNAMENTO</h1></div>
+
+
+<?php
+$c = new \Ballybran\Core\Caller\Caller('Module\Lib\Visitor', 'contagem');
+$d = $c->__init();
+
+$register = \Ballybran\Database\RegistryDatabase::getInstance();
+$stmt = $register->get("PDO");
+$paciente = $stmt->selectManager("SELECT * FROM Anamnese");
+$pacientes = $stmt->selectManager("SELECT Func_has_Paci.*, Paciente.*, Func_has_Paci.* , usuarios.* FROM Func_has_Paci INNER JOIN Paciente INNER JOIN Funcionarios ON Func_has_Paci.Funcionarios_id = Funcionarios.id AND Func_has_Paci.Paciente_id = Paciente.id INNER JOIN usuarios ON usuarios.id = Paciente.usuarios_id LEFT OUTER JOIN Medicamento ON Medicamento.Paciente_id = Paciente.id  WHERE Medicamento.Funcionarios_id is null  and Funcionarios.usuarios_id =" . Session::get('ID'));
+?>
+
+<div class="container" id="features" >
+    <div class="col-sm-12">
+        <div class="row ">
+
+            <div class="col-lg-12 cartao" >
+
+                <div class="col-lg-3">
+
+                    <?php if (!empty($this->UserPhoto['path'])) { ?>
+
+                        <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7  img-responsive img-circle" alt="<?php echo $this->UserPhoto['name']; ?>" />
+                    <?php } else {
+                        ?>
+                        <img  src="<?php echo URL . DIR_FILE ?>Public/images/profile-icon.png" class="col-lg-7  img-responsive img-circle" />
+                    <?php } ?>
+                </div>
+                <div class="col-lg-4 4u 12u(mobile) text-left">
+                    <h3>Contacto</h3>
+
+                    <strong>Nome: </strong><?php echo $this->paciente['firstname'] . "\t" . $this->paciente['lastname']; ?><br>
+                    <strong>Telefone: </strong><?php echo $this->paciente['telephone']; ?><br>
+                    <strong>Email: </strong><?php echo $this->paciente['email']; ?><br>
+                </div>
+                <div class="col-lg-4 4u 12u(mobile) text-left">
+                    <h3>Endereço</h3>
+                    <strong>Endereço 1: </strong><?php echo $this->paciente['address_1'] ?><br>
+                    <strong>Endereço 2: </strong><?php echo $this->paciente['address_2']; ?><br>
+                    <strong>Cidade: </strong><?php echo $this->paciente['city']; ?><br>
+                    <strong>País: </strong><?php echo $this->paciente['country']; ?><br>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12">
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <div class="hidden-xs">Informações do Internamento</div>
+                    </div>
+                </div>
+                <!-- <div class="btn-group" role="group"> -->
+                    <!-- <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
+                        <div class="hidden-xs">Atendimento</div>
+                    </div>
+                </div> -->
+                <?php /*
+                  <div class="btn-group" role="group">
+                  <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                  <div class="hidden-xs">Pacientes</div>
+                  </div>
+                  </div>
+                  <div class="btn-group" role="group">
+                  <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                  <div class="hidden-xs">Configurações</div>
+                  </div>
+                  </div>
+                  <div class="btn-group" role="group">
+                  <div  id="favorites" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  <div class="hidden-xs">Configuração</div>
+                  </div>
+                  </div>
+                  <div class="btn-group" role="group">
+                  <div  id="following" class="btn btn-default" href="#tab6" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                  <div class="hidden-xs">Historico</div>
+                  </div>
+                  </div>
+                 */ ?>
+
+            </div>
+
+            <div class="panel panel-info col-lg-12">
+                <div class="tab-content">
+                    <br>
+
+
+
+                    <div class="tab-pane fade in active" id="tab1">
+
+                        <div class="row" style="min-height:300px;">
+                            <div  class="col-lg-12">
+                                <br>
+                                <div class="col-xs-12">
+
+                                    <!-- required for floating -->
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs ">
+                                        <li class="active"><a href="#resumo" data-toggle="tab">Resumo</a></li>
+                                        <li><a href="#nova"  data-toggle="tab">novo Problema</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="resumo">
+
+
+                                            <!-- timer line of the resume -->
+
+
+                                            <!-- Timeline -->
+                                            <div class="timeline">
+
+                                                <!-- Line component -->
+                                                <div class="line text-muted"></div>
+                                                <?php /*
+
+                                                  <!-- Separator -->
+                                                  <div class="separator text-muted">
+                                                  <time>26. 3. 2015</time>
+                                                  </div>
+                                                  <!-- /Separator -->
+
+                                                  <!-- Panel -->
+
+                                                  <article class="panel panel-danger panel-outline">
+
+                                                  <!-- Icon -->
+                                                  <div class="panel-heading icon">
+                                                  <i class="glyphicon glyphicon-heart"></i>
+                                                  </div>
+                                                  <!-- /Icon -->
+
+                                                  <!-- Body -->
+                                                  <div class="panel-body">
+                                                  <strong>Someone</strong> favourited your photo.
+                                                  </div>
+                                                  <!-- /Body -->
+
+                                                  </article>
+                                                  <!-- /Panel -->
+
+                                                  <!-- Panel -->
+                                                  <article class="panel panel-default panel-outline">
+
+                                                  <!-- Icon -->
+                                                  <div class="panel-heading icon">
+                                                  <i class="glyphicon glyphicon-picture"></i>
+                                                  </div>
+                                                  <!-- /Icon -->
+
+                                                  <!-- Body -->
+                                                  <div class="panel-body">
+                                                  <img class="img-responsive img-rounded" src="//placehold.it/350x150" />
+                                                  </div>
+                                                  <!-- /Body -->
+
+                                                  </article>
+                                                  <!-- /Panel -->
+
+                                                  <!-- Panel -->
+                                                  <article class="panel panel-primary">
+
+                                                  <!-- Icon -->
+                                                  <div class="panel-heading icon">
+                                                  <i class="glyphicon glyphicon-plus"></i>
+                                                  </div>
+                                                  <!-- /Icon -->
+
+                                                  <!-- Heading -->
+                                                  <div class="panel-heading">
+                                                  <h2 class="panel-title">New content added</h2>
+                                                  </div>
+                                                  <!-- /Heading -->
+
+                                                  <!-- Body -->
+                                                  <div class="panel-body">
+                                                  Some new content has been added.
+                                                  </div>
+                                                  <!-- /Body -->
+
+                                                  <!-- Footer -->
+                                                  <div class="panel-footer">
+                                                  <small>Footer is also supported!</small>
+                                                  </div>
+                                                  <!-- /Footer -->
+
+                                                  </article>
+                                                  <!-- /Panel -->
+                                                 */ ?>
+
+                                                <!-- Separator -->
+
+                                                <?php foreach ($this->problema as $key => $problema) { ?>
+
+
+                                                    <div class="separator text-muted">
+                                                        <?php
+                                                        date_default_timezone_set('UTC');
+                                                        $data = new DateTime($problema['probData']);
+                                                        ?>
+
+                                                        <time><?php echo $data->format('F j, Y, g:i a'); ?></time>
+                                                    </div>
+                                                    <!-- /Separator -->
+
+
+                                                    <!-- Panel -->
+                                                    <article class="panel panel-success">
+
+                                                        <!-- Icon -->
+                                                        <div class="panel-heading icon">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </div>
+                                                        <!-- /Icon -->
+
+                                                        <!-- Heading  -->
+                                                        <div class="panel-heading">
+                                                            <h2 class="panel-title"><?php echo $problema['titulo']; ?></h2>
+                                                        </div>
+                                                        <!-- /Heading -->
+
+                                                        <!-- Body -->
+                                                        <div class="panel-body">
+                                                            <!-- Anything you can do with <code>.panel</code>, can be done in timeline too! -->
+                                                        </div>
+                                                        <!-- /Body -->
+
+                                                        <!-- List group -->
+                                                        <ul class="list-group">
+                                                            <?php
+                                                            $exp = explode(";", $problema['problema']);
+
+                                                            foreach ($exp as $key => $value) {
+                                                                ?>
+                                                                <li class="list-group-item"><?php echo $value; ?></li>
+
+                                                            <?php } ?>
+                                                        </ul>
+
+                                                    </article>
+
+                                                <?php } ?>
+                                                <!-- /Panel -->
+
+                                                <!-- Panel -->
+                                                <article class="panel panel-info panel-outline">
+
+                                                    <!-- Icon -->
+                                                    <div class="panel-heading icon">
+                                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                                    </div>
+                                                    <!-- /Icon -->
+
+                                                    <!-- Body -->
+                                                    <div class="panel-body">
+                                                        <!-- That is all. -->
+                                                    </div>
+                                                    <!-- /Body -->
+
+                                                </article>
+                                                <!-- /Panel -->
+
+                                            </div>
+                                            <!-- /Timeline -->
+                                        </div>
+
+
+
+                                        <div class="tab-pane" id="nova">
+                                            <br><br>
+
+                                            <?php echo Form::open(['method' => 'post', 'id' => 'problema', 'action' => URL . 'funcionario/inserirProblema']); ?>
+                                            <?php echo Form::input(['type' => 'hidden', 'name' => 'internamento_id', 'value' => $this->paciente['id'], 'class' => 'form-control']); ?>
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-firstname">Titulo Para o Probema</label>
+                                                <?php echo Form::input(['type' => 'text', 'name' => 'titulo', 'placeholder' => 'Titulo do Problema', 'class' => 'form-control', 'autocomplete' => "off"]); ?>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-firstname">Data do Probema</label>
+                                                <?php echo Form::textBox(['type' => 'text', 'name' => 'problema', 'placeholder' => 'Nota de Entrada', 'class' => 'form-control', 'autocomplete' => "off"]); ?>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-firstname">Data do Probema</label>
+                                                <?php echo Form::input(['type' => 'text', 'name' => 'probData', 'id' => 'datetimepicker' . $this->paciente['id'], 'placeholder' => 'Data do Problema', 'class' => 'form-control', 'autocomplete' => "off"]); ?>
+                                            </div>
+                                            <hr>
+                                            <?php echo Form::submit(['type' => 'submit', 'value' => 'OK', 'class' => 'btn btn-primary form-control', 'id' => 'save']); ?>
+                                            <?php echo Form::close(); ?>
+
+
+                                            <script>
+
+                                                jQuery.datetimepicker.setLocale('pt');
+
+                                                jQuery('#datetimepicker<?php echo $this->paciente['id']; ?>').datetimepicker({
+                                                });
+                                                $("#save").click(function () {
+
+                                                    var data = $("#problema :input").serializeArray();
+                                                    $.post($("#problema").attr("action"), data, function (info) {
+                                                        $("result").html(info);
+                                                        clearInfo();
+                                                        hideForm();
+                                                        $("result").html("");
+                                                        location.reload();
+
+
+
+                                                    });
+                                                });
+
+                                                $("#problema").submit(function () {
+                                                    return false;
+                                                });
+
+                                                function clearInfo() {
+
+                                                    $("#problema :input").each(function () {
+                                                        $(this).val("")
+                                                    });
+                                                }
+                                                ;
+
+                                                function hideForm() {
+                                                    $("#problema").each(function () {
+                                                        $(this).hide("");
+
+                                                    });
+                                                }
+                                                ;
+
+                                                function showSucessMessage() {
+                                                    $(".message").each(function () {
+                                                        $(".message").html("<div class='alert alert-info alert-with-icon' data-notify='container'> Anamnese inserida com sucess").show();
+                                                    })
+                                                }
+
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade in" id="tab2">
+                        <h1>Not found</h1>
+                    </div>
+                    <?php /*
+                      <div class="tab-pane fade in" id="tab3">
+                      3
+                      </div>
+                      <div class="tab-pane fade in" id="tab4">
+                      4
+                      </div>
+                      <div class="tab-pane fade in" id="tab5">
+                      5
+                      </div>
+                      <div class="tab-pane fade in" id="tab6">
+                      6
+                      </div>
+                     */
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    var PieChart = {
+        type: "pie",
+        data: {
+            datasets: [{
+                    data: [
+                        [<?php echo json_encode(count($pacientes)); ?>],
+                        [<?php echo json_encode(count($paciente)); ?>],
+                    ],
+                    backgroundColor: [
+                        "#f7464a",
+                        "#46BFBD",
+                        "#FDB45C",
+                        "#949FB1",
+                        "#4D5360",
+                    ],
+                }],
+            labels:
+                    [
+                        ' Em expera',
+                        'Atendidos'
+                    ]
+
+        },
+        options: {
+            responsive: true,
+        }
+    };
+    var pie = document.getElementById('barChart').getContext('2d');
+    window.line = new Chart(pie, PieChart);
+
+
+    var ctx = document.getElementById("totalPaciente").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "julho", "Agosto", "Setembro", "Outrubto", "Noembro", "Dezembro"],
+            datasets: [
+                {
+                    label: 'Pacientes em Espera', data:
+                            [
+<?php for ($i = 0; $i < 12; $i++) {
+    ?>,
+    <?php
+    echo json_encode(count($allPaciente[$i]));
+}
+?>],
+                    backgroundColor: [
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
+
+                    ],
+                    borderColor: [
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a",
+                        "#f7464a"
+                    ],
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Atendidos',
+                    data:
+                            [
+<?php for ($i = 0; $i < 12; $i++) {
+    ?>,
+    <?php
+    echo json_encode(count($pacientesAtendidos[$i]));
+}
+?>],
+                    backgroundColor: [
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                    ],
+                    borderColor: [
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                        "#46BFBD",
+                    ],
+                    borderWidth: 1,
+                }]
+        },
+        scales: {
+            yAxes: [{
+                    barPercentage: 0.5
+                }]
+        },
+        elements: {
+            rectangle: {
+                borderSkipped: 'left',
+            }
+        }
+
+
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

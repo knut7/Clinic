@@ -1,5 +1,4 @@
 <?php
-
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -14,17 +13,13 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-use Ballybran\Library\Form;
-
-use Module\Clinic\Lib\menu\Sub_Menu;
-
-Sub_Menu::getSubMenu();
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
 <section>
     <div class="container col-sm-12">
         <div class="breadcrumb text-center title-top-center" id="features" >
-           <h2><strong>Gerir todos os Paciêntes</strong></h2>
+            <h2><strong>Gerir todos os Paciêntes</strong></h2>
         </div>
         <div class="pull-right">
             <a href="<?php echo URL; ?>secretaria/add" data-toggle="tooltip" title class="btn btn-info" data-original-title="Add Noew" ><i class="glyphicon glyphicon-plus"></i></a>
@@ -39,7 +34,7 @@ Sub_Menu::getSubMenu();
                     <th>Privilegio</th>
                     <th>Satus</th>
                     <th>editar</th>
-                    <th>deletar</th>
+                    <th>deletar cadastro expirado</th>
                 </tr>
             </thead>
             <tbody>

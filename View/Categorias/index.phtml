@@ -1,54 +1,47 @@
-<?php
-/**
- * KNUT7 K7F (http://framework.artphoweb.com/)
- * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @link      http://github.com/zebedeu/artphoweb for the canonical source repository
- * @copyright (c) 2015.  KNUT7  Software Technologies AO Inc. (http://www.artphoweb.com)
- * @license   http://framework.artphoweb.com/license/new-bsd New BSD License
- * @author    Marcio Zebedeu - artphoweb@artphoweb.com
- * @version   1.0.2
- */
-/**
- * Date: 2016/02/14
- * Time: 11:13 AM
- */
-Module\Lib2\header::getHeader();
 
-?>
 
 <div id="features-wrapper">
 
     <section id="features" class="container">
         <div class="breadcrumb text-center">
-        <strong>CATEGORIAS</strong>
-    </div>
+            <strong>CATEGORIAS</strong>
+        </div>
         <div class="row ">
 
-            <?php foreach ($this->Allcat as $key => $value) : ?>
-                <div class="col-lg-4">
-                    <h4><?php echo $value['nome']; ?></h4>
-                    <div class="col-lg-9">
-                    <img  class=" img-thumbnail" src="<?php  echo URL. $value['path']; ?>" >
-                    </div>
-                    <div class="col-lg-9">
-                    <p><?php echo $value['description']; ?></p>
-                    <br>
-                </div>
-                <div class="group">
-                    <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
-                    <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="button icon fa-file">Ler Mais</a>
+            <?php
+            $page = new \Ballybran\Helpers\Event\Paginator('PDO', "SELECT * FROM categoria  WHERE id_cat ORDER BY id_cat DESC", 4);
 
+            foreach ($page->getColum() as $key => $value) :
+                ?>
+                <div class="col-lg-4">
+                    <header class="panel-heading header-title text-center">
+                        <h4><?php echo $value['nome']; ?></h4>
+                    </header>
+                    <?php if (empty($value['path'])) { ?>
+
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . DIR_FILE . 'Public/images/default-article-img.jpg' ?>" >
+                    <?php } else { ?>
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . $value['path']; ?>" >
+                    <?php } ?>
+                    <p><?php echo $value['description']; ?></p>
+                    <div class="group">
+                        <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
+                        <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="btn btn-primary">Ler Mais</a>
+
+                    </div>
                 </div>
-                </div>
+
             <?php endforeach; ?>
+        </div>
+        <div class="text-center">
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <?php echo $page->pagination(); ?>
+                </ul>
+            </nav>
         </div>
     </section>
 </div>
 
-<?php Module\Lib2\header::getFooter();
 

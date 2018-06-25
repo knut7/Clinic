@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,31 +23,29 @@
 
 namespace Module\Clinic\Lib;
 
-
 use Ballybran\Helpers\Time\Timestamp;
 use Ballybran\Library\fpdf\FPDF;
 
 class Prontuario extends FPDF {
 
-
-private $prontuario;
+    private $prontuario;
     private $id;
     private $info;
     private $footer;
 
-
-    public function getId($info)
-    {
-        $this->info = $info;
-
+    public function __construct($orientation = "P", $unit = "mm", $size = "A4") {
+        parent::__construct($orientation, $unit, $size);
     }
 
-    public function myFooter($footer)
-    {
+    public function getId($info) {
+        $this->info = $info;
+    }
+
+    public function myFooter($footer) {
         $this->footer = $footer;
     }
-    function Header()
-    {
+
+    function Header() {
 
         // Logo
 //        $this->Image('logo.png', 10, 6, 30);
@@ -56,7 +54,7 @@ private $prontuario;
         // Move to the right
         $this->Cell(18, 10, "", 0);
         // Title
-        $this->Image(URL . DIR_FILE . 'Lib/knut7.jpg', 20, 10, 20, 20, 'JPG');
+        $this->Image(URL . DIR_FILE . 'Public/images/logo_clinic.jpg', 20, 10, 20, 20, 'JPG');
         $this->Cell(180, 4, 'Prontuario:' . "\t" . Timestamp::dataTime(), '', '', 'R');
         $this->Ln(4);
         $this->Cell(180, 10, 'CINICA KNUT7', 0, "", 'C');
@@ -133,7 +131,7 @@ private $prontuario;
             $this->Ln(4);
             $this->Cell(33, 8, "Endereco 1", 0);
             $this->Cell(70, 8, $value['address_1'], 0);
-            $this->Cell(20, 8,  '', 0);
+            $this->Cell(20, 8, '', 0);
             $this->Cell(40, 8, '', 0);
             $this->Ln(4);
             $this->Cell(33, 8, "Endereco 2", 0);
@@ -151,7 +149,7 @@ private $prontuario;
             $this->Cell(70, 8, $value['states'], 0);
             $this->Ln(4);
             $this->Cell(33, 8, "Paciente Cadastrado em:", 0);
-            $this->Cell(70, 8, $value['create_time'], 0);
+            $this->Cell(70, 8, $value['createTime'], 0);
 
             $this->Ln(4);
             $this->Cell(33, 8, "Ultima Consulta:", 0);
@@ -164,85 +162,84 @@ private $prontuario;
 
             // Annamenese
             $this->SetFont('Arial', 'B', 8);
-            $value['queixa_pri'] != "" ? $this->Cell(100, 8, "Annamenese",  0, 0, '', true) : "";
-            $value['altura'] != "" ? $this->Cell(33, 8, utf8_decode("Exame Físico"),  0, 0, '', true) : "";
+            $value['queixa_pri'] != "" ? $this->Cell(100, 8, "Annamenese", 0, 0, '', true) : $this->Cell(100, 8, "Annamenese", 0, 0, '', true);
             $this->SetFont('Arial', '', 8);
 
             $this->Ln(8);
-            $value['queixa_pri'] != "" ? $this->Cell(33, 8, utf8_decode("Quiexa Principal:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['queixa_pri']), 0) : "";
-            $value['altura'] != "" ? $this->Cell(20, 8, "Altura:",  0) ." ".$this->Cell(40, 8,  $value['altura']. "\t m", 0) . $this->Ln(4) : "";
+            $value['queixa_pri'] != "" ? $this->Cell(33, 8, utf8_decode("Quiexa Principal:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['queixa_pri']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Quiexa Principal:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
+            $value['prob_respira'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Respiratprio:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['prob_respira']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Problemas Respiratprio:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
+            $value['prob_gastricos'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Gatricos:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['prob_gastricos']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Problemas Gatricos:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
+            $this->Cell(40, 8, "", 0) . $this->Ln(4);
 
-            $value['historia'] != "" ? $this->Cell(33, 8, utf8_decode("História:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['historia']), 0) : "";
-            $value['peso'] != "" ? $this->Cell(20, 8, "Peso:",  0) ." ".$this->Cell(40, 8,  $value['peso']. "\t Kg", 0) . $this->Ln(4) : "";
+            $value['alergia'] != "" ? $this->Cell(33, 8, utf8_decode("Alergias:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['alergia']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Alergias:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['prob_renais'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Renais:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['prob_renais']), 0) : "";
-            $value['freq_cardiaca'] != "" ? $this->Cell(30, 8, utf8_decode("Frequencia Cardiaca:"),  0) ." ".$this->Cell(40, 8,  $value['freq_cardiaca']. "\t Batimento por minutos", 0) . $this->Ln(4) : "";
+            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Hepatite:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['hepatite']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Hepatite:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['prob_artic_reum'] != "" ? $this->Cell(39, 8, utf8_decode("Problemas Art ou Rematismo:"),  0) ." ".$this->Cell(64, 8,  $value['prob_artic_reum'], 0): "";
-            $value['press_arte_sistolica'] != "" ? $this->Cell(33, 8, utf8_decode("P A A:"),  0) ." ".$this->Cell(40, 8,  $value['press_arte_sistolica']. "\t mmHg", 0) . $this->Ln(4) : "";
+            $value['diabete'] != "" ? $this->Cell(33, 8, utf8_decode("Diabete:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['diabete']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Diabete:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['prob_cardiaco'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Cardiaco"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['prob_cardiaco']), 0) : "";
-            $value['press_arte_diastolica'] != "" ? $this->Cell(33, 8, utf8_decode("P A D:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['press_arte_diastolica']). "\t mmHg", 0) . $this->Ln(4) : "";
+            $value['gravides'] != "" ? $this->Cell(33, 8, utf8_decode("Gravidés:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['gravides']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Gravidés:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['prob_respira'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Respiratprio:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['prob_respira']), 0): "";
-            $value['obs_gerais'] != "" ? $this->Cell(20, 8, utf8_decode("Obs Gerais:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['obs_gerais']), 0) . $this->Ln(4) : "";
+            $value['uso_de_medicam'] != "" ? $this->Cell(33, 8, utf8_decode("Uso d Medicamentos:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['uso_de_medicam']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Uso d Medicamentos:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['prob_gastricos'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Gatricos:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['prob_gastricos']), 0) : "";
-            $this->Cell(40, 8,  "", 0) . $this->Ln(4);
+            $value['prob_renais'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Renais:"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['prob_renais']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Problemas Renais:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
+            $value['prob_artic_reum'] != "" ? $this->Cell(33, 8, utf8_decode("Pro. Art ou Rem: "), 0) . " " . $this->Cell(70, 8, utf8_decode($value['prob_artic_reum']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Pro. Art ou Rem: "), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
 
-            $value['alergia'] != "" ? $this->Cell(33, 8, utf8_decode("Alergias:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['alergia']), 0). $this->Ln(4) : "";
+            $value['prob_cardiaco'] != "" ? $this->Cell(33, 8, utf8_decode("Problemas Cardiaco"), 0) . " " . $this->Cell(70, 8, utf8_decode($value['prob_cardiaco']), 0) . $this->Ln(4) : $this->Cell(33, 8, utf8_decode("Problemas Cardiaco"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
+            $this->SetXY(90, 125);
+            $value['historia'] != "" ? $this->Cell(12, 9, utf8_decode("História:"), 0) . " " . $this->MultiCell(90, 3, utf8_decode($value['historia']), 0) : $this->Cell(12, 9, utf8_decode("História:"), 0) . " " . $this->MultiCell(90, 3, "", 0);
 
-            $value['hepatite'] != "" ? $this->Cell(33, 8, utf8_decode("Hepatite:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['hepatite']), 0). $this->Ln(4): "";
+            $this->Cell(40, 8, "", 0) . $this->Ln(15);
+            $this->SetXY(10, 175);
+            $value['altura'] != "" ? $this->Cell(180, 8, utf8_decode("Exame Físico"), 0, 0, '', true) : $this->Cell(180, 8, utf8_decode("Exame Físico"), 0, 0, '', true);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(33, 4, "", 0) . $this->Ln(10);
+            $value['altura'] != "" ? $this->Cell(20, 8, "Altura:", 0) . " " . $this->Cell(40, 8, $value['altura'] . "\t m", 0) . $this->Ln(4) : $this->Cell(20, 8, "Peso:", 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
+            $value['peso'] != "" ? $this->Cell(20, 8, "Peso:", 0) . " " . $this->Cell(40, 8, $value['peso'] . "\t Kg", 0) . $this->Ln(4) : $this->Cell(20, 8, "Peso:", 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
+            $value['freq_cardiaca'] != "" ? $this->Cell(20, 8, utf8_decode("Fre. Card.:"), 0) . " " . $this->Cell(40, 8, $value['freq_cardiaca'] . "\t Batimento por minutos", 0) . $this->Ln(4) : $this->Cell(20, 8, utf8_decode("Fre. Card.:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
 
-            $value['diabete'] != "" ? $this->Cell(33, 8, utf8_decode("Diabete:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['diabete']), 0). $this->Ln(4): "";
+            $value['press_arte_sistolica'] != "" ? $this->Cell(20, 8, utf8_decode("P A A:"), 0) . " " . $this->Cell(40, 8, $value['press_arte_sistolica'] . "\t mmHg", 0) . $this->Ln(4) : $this->Cell(20, 8, utf8_decode("P A A:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
+            $value['press_arte_diastolica'] != "" ? $this->Cell(20, 8, utf8_decode("P A D:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['press_arte_diastolica']) . "\t mmHg", 0) . $this->Ln(4) : $this->Cell(20, 8, utf8_decode("P A D:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
 
-            $value['gravides'] != "" ? $this->Cell(33, 8, utf8_decode("Gravidés:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['gravides']), 0). $this->Ln(4) : "";
+            $this->SetXY(90, 185);
+            $value['obs_gerais'] != "" ? $this->Cell(18, 9, utf8_decode("Obs Gerais:"), 0) . " " . $this->MultiCell(90, 3, utf8_decode($value['obs_gerais']), 0) . $this->Ln(4) : $this->Cell(18, 9, utf8_decode("Obs Gerais:"), 0) . " " . $this->MultiCell(90, 3, "", 0) . $this->Ln(4);
 
-            $value['uso_de_medicam'] != "" ? $this->Cell(33, 8, utf8_decode("Uso d Medicamentos:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['uso_de_medicam']), 0) : "";
-
-
+            $this->SetXY(80, 206);
             // Hipotese Diagnóstico || Exame Físico
-            $this->Ln(15);
+            $this->Ln(4);
             $this->SetFont('Arial', 'B', 8);
-            $value['diagnostico'] != "" ? $this->Cell(180, 8, utf8_decode("Hipotese Diagnóstico"),  0, 0, '', true): "";
+            $value['diagnostico'] != "" ? $this->Cell(70, 8, utf8_decode("Hipotese Diagnóstico"), 0, 0, '', true) : $this->Cell(70, 8, utf8_decode("Hipotese Diagnóstico"), 0, 0, '', true);
             $this->SetFont('Arial', '', 8);
             $this->Ln(8);
-
-            $value['diagnostico'] != "" ? $this->Cell(33, 8, utf8_decode("Diagnóstico:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['diagnostico']), 0). $this->Ln(4): "";
-
-            $value['diag_obs'] != "" ? $this->Cell(25, 8, utf8_decode("Observções:"),  0).$this->Ln(8) ." ".$this->MultiCell(120, 4,  utf8_decode($value['diag_obs']), 0, 2) : "";
+            $value['diagnostico'] != "" ? $this->Cell(15, 8, utf8_decode("Diagnóstico: "), 0) . " " . $this->Cell(70, 8, utf8_decode($value['diagnostico']), 0) . $this->Ln(4) : $this->Cell(15, 8, utf8_decode("Diagnóstico:"), 0) . " " . $this->Cell(70, 8, "", 0) . $this->Ln(4);
+            $value['diag_obs'] != "" ? $this->Cell(25, 8, utf8_decode("Observções:"), 0) . $this->Ln(8) . " " . $this->MultiCell(90, 3, utf8_decode($value['diag_obs']), 0, 2) . $this->Ln(4) : $this->Cell(25, 8, utf8_decode("Observções:"), 0) . $this->Ln(8) . " " . $this->MultiCell(180, 4, "", 0, 2) . $this->Ln(4);
+            $this->Ln(8);
 
             // Evolucao
+
+            $this->SetXY(90, 210);
+
+            $this->SetFont('Arial', 'B', 8);
+            $value['Evolucao'] != "" ? $this->Cell(105, 8, utf8_decode("Evolução"), 0, 0, '', true) . $this->Ln(4) : $this->Cell(110, 8, utf8_decode("Evolução"), 0, 0, '', true) . $this->Ln(8);
+            $this->SetFont('Arial', '', 8);
+            $this->SetXY(90, 220);
+            $value['Evolucao'] != "" ? $this->Cell(12, 8, utf8_decode("Evolução:"), 0) . " " . $this->MultiCell(90, 3, utf8_decode($value['Evolucao']), 0) . $this->Ln(8) : $this->Cell(12, 9, utf8_decode("Evolução:"), 0) . " " . $this->MultiCell(170, 4, "", 0) . $this->Ln(4);
+
+//            // Prescrição Médica
             $this->Ln(8);
             $this->SetFont('Arial', 'B', 8);
-            $value['Evolucao'] != "" ? $this->Cell(100, 8, utf8_decode("Evolução"),  0, 0, '', true) : "";
+            $value['generico'] != "" ? $this->Cell(180, 8, utf8_decode("Prescrição Médica"), 0, 0, '', true) : $this->Cell(180, 8, utf8_decode("Prescrição Médica"), 0, 0, '', true);
             $this->SetFont('Arial', '', 8);
             $this->Ln(8);
-
-            $value['Evolucao'] != "" ? $this->Cell(33, 8, utf8_decode("Evolução:"),  0) ." ".$this->Cell(70, 8,  utf8_decode($value['Evolucao']), 0): "";
-
-            // Prescrição Médica
-            $this->Ln(8);
-            $this->SetFont('Arial', 'B', 8);
-            $value['generico'] != "" ? $this->Cell(33, 8, utf8_decode("Prescrição Médica"),  0, 0, '', true) : "";
-            $this->SetFont('Arial', '', 8);
-            $this->Ln(8);
-            $value['generico'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Genérico:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['generico']), 0). $this->Ln(4): "";
-            $value['comercial'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Comercial:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['comercial']), 0). $this->Ln(4): "";
-            $value['dose'] != "" ? $this->Cell(40, 8, utf8_decode("Dose:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['dose']), 0). $this->Ln(4): "";
-            $value['via_admin'] != "" ? $this->Cell(40, 8, utf8_decode("Via de Administração:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['via_admin']), 0). $this->Ln(4): "";
-            $value['interval'] != "" ? $this->Cell(40, 8, utf8_decode("Horario da Medicação:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['interval']), 0). $this->Ln(4): "";
-            $value['inicio'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do Inicio do Tratamento:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['inicio']), 0). $this->Ln(4): "";
-            $value['final'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"),  0) ." ".$this->Cell(40, 8,  utf8_decode($value['final']), 0). $this->Ln(4): "";
-
-
-
-
-
+            $value['generico'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Genérico:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['generico']), 0) : $this->Cell(40, 8, utf8_decode("Nome Genérico:"), 0) . " " . $this->Cell(40, 8, "", 0);
+            $value['comercial'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Comercial:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['comercial']), 0) . $this->Ln(4) : "";
+            $value['dose'] != "" ? $this->Cell(40, 8, utf8_decode("Dose:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['dose']), 0) . $this->Ln(4) : $this->Cell(40, 8, utf8_decode("Dose:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
+            $value['via_admin'] != "" ? $this->Cell(40, 8, utf8_decode("Via de Administração:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['via_admin']), 0) : $this->Cell(40, 8, utf8_decode("Via de Administração:"), 0) . " " . $this->Cell(40, 8, "", 0);
+            $value['interval'] != "" ? $this->Cell(40, 8, utf8_decode("Horario da Medicação:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['interval']), 0) . $this->Ln(4) : $this->Cell(40, 8, utf8_decode("Horario da Medicação:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
+            $value['inicio'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do Inicio do Tratamento:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['inicio']), 0) : $this->Cell(40, 8, utf8_decode("Data Do Inicio do Tratamento:"), 0) . " " . $this->Cell(40, 8, "", 0);
+            $value['final'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"), 0) . " " . $this->Cell(40, 8, utf8_decode($value['final']), 0) . $this->Ln(4) : $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"), 0) . " " . $this->Cell(40, 8, "", 0) . $this->Ln(4);
         }
     }
-
 
 // Page footer
     function Footer() {
@@ -251,6 +248,7 @@ private $prontuario;
         // Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         // Page number
-        $this->Cell(10, 10,  "Page " . $this->PageNo() . '/{nb}', 0, 0, 'R');
+        $this->Cell(10, 10, "Page " . $this->PageNo() . '/{nb}', 0, 0, 'R');
     }
+
 }

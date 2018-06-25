@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -25,26 +25,24 @@ namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
 use Ballybran\Helpers\Http\Hook;
-use Ballybran\Helpers\{
+
+use Ballybran\Helpers\ {
     Security\Session, Security\Validate, Security\Val
 };
 
-class Laboratorio extends AbstractController
-{
+class Laboratorio extends AbstractController {
 
     private $form;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
 
-        $this->form = new Validate( new Val );
+        $this->form = new Validate(new Val);
     }
 
-    public function index()
-    {
-        if(Session::exist()) {
-            if(Session::get('role')== 'laboratorio') {
+    public function index() {
+        if (Session::exist()) {
+            if (Session::get('role') == 'laboratorio') {
 
                 $this->view->title = "Laboratorio | Exame";
                 $this->view->list = $this->model->getListaDeExames();
@@ -52,44 +50,39 @@ class Laboratorio extends AbstractController
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("user/login");
         }
-
     }
 
     public function exame($id) {
-        if(Session::exist()) {
-            if(Session::get('role')== 'laboratorio') {
+        if (Session::exist()) {
+            if (Session::get('role') == 'laboratorio') {
 
                 $this->view->title = "Laboratorio | Exame";
-        $this->view->getExame = $this->model->getExamesByPaciente($id);
-        $this->view->paciente = $this->model->getPacienteById($id);
+                $this->view->getExame = $this->model->getExamesByPaciente($id);
+                $this->view->paciente = $this->model->getPacienteById($id);
 
-        $this->view->render($this, 'exame');
+                $this->view->render($this, 'exame');
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("user/login");
         }
     }
 
-
-    public function inserirExame()
-    {
+    public function inserirExame() {
         $this->form->post('Receitas_id')->val('maxlength', 1223)
-            ->post('nome')->val('maxlength', 122)
-            ->post('resultado')->val('maxlength', 122)
-            ->post('data')->val('maxlength', 12)->submit();
+                ->post('nome')->val('maxlength', 122)
+                ->post('resultado')->val('maxlength', 122)
+                ->post('data')->val('maxlength', 12)->submit();
 
         $this->model->inserirExame($this->form->getPostData());
-
     }
 
-    public function updateExame()
-    {
-        if($_POST['id_ex']) {
+    public function updateExame() {
+        if ($_POST['id_ex']) {
             $data['resultado'] = $_POST['resultado'];
             $this->model->updateExame($data, $_POST['id_ex']);
             Hook::Header("Laboratorio");

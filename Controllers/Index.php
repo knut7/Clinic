@@ -15,6 +15,7 @@
  */
 
 namespace Module\Clinic\Controllers;
+
 /**
  *
  * KNUT7 K7F (http://framework.artphoweb.com/)
@@ -30,10 +31,9 @@ namespace Module\Clinic\Controllers;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
-
-use Ballybran\Core\{ Controller\AbstractController, REST\Encodes, REST\RestUtilities};
-use Ballybran\Helpers\Security\{ Hash, vardump\Vardump};
+use Ballybran\Core\ {
+    Controller\AbstractController, REST\Client\ClientRest, REST\Encodes, REST\RestUtilities
+};
 
 /**
  * Class Index
@@ -47,47 +47,53 @@ class Index extends AbstractController {
     public function __construct() {
 
         parent::__construct();
-
     }
-
 
     /**
      *
      */
     public function index() {
 
-        $this->view->title = "home";
-
+        $this->view->title = "Home";
         $this->view->public = $this->model->exibirAricle();
-        $this->view->users = $this->model->getAllUser();
+        $this->view->medics = $this->model->getAllMedics();
         $this->view->treeCategory = $this->model->_allCategorias();
-        $this->view->sidebarCategory = $this->model->sidebarCategorias();
-        $this->view->GetTitile = $this->model->exibiAllTitle();
+        // $this->view->sidebarCategory = $this->model->sidebarCategorias();
+        // $this->view->GetTitile = $this->model->exibiAllTitle();
 
         $this->view->render($this, 'index');
-
     }
-    public function rest(){
+
+    public function rest() {
 
         $data = RestUtilities::processRequest();
-     
-       switch ($data->getMethod()) :
-           case 'get':
-               $property = $this->model->getAllUser();
-               $var = RestUtilities::sendResponse(203, Encodes::encodeJson($property), 'application/json');
-               break;
-           default:
-               # code...
-               break;
-       endswitch;
 
+        switch ($data->getMethod()) :
+            case 'get':
+                $property = $this->model->getAllUser();
+                echo RestUtilities::sendResponse(200, Encodes::encodeJson($property), 'application/json');
+                break;
+            default:
+                # code...
+                break;
+        endswitch;
     }
 
-    public function crearTable(){
-       $d = $this->model->crearTable();
+    public function crearTable() {
+        $d = $this->model->crearTable();
 
-       var_dump($d);
+        var_dump($d);
     }
 
+    public function cliente() {
+        $cli = new ClientRest(false);
+        $return = $cli->get("http://localhost:8888/clinic/index/rest");
+
+        foreach ($return as $key => $item) {
+            ?>
+            <img src="<?php echo URL . $item->path; ?>">
+            <?php
+        }
+    }
 
 }

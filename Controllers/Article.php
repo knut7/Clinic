@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -16,16 +17,15 @@
 
 namespace Module\Clinic\Controllers;
 
-
 use Ballybran\Core\Controller\AbstractController;
-use Ballybran\Helpers\{
+
+use Ballybran\Helpers\ {
     Http\Hook, Security\Session, vardump\Vardump, Images\Resize
 };
+
 use Module\Upload\ImageUpload;
 use Module\Lib\SendMail;
 use PHPMailer\PHPMailer\PHPMailer;
-
-
 use function date;
 
 /**
@@ -43,14 +43,13 @@ use function date;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
-
 class Article extends AbstractController {
 
-    public $width = 2000;
-    public $height = 2000;
+    public $width = 900;
+    public $height = 500;
     public $quality = 10;
-    public $option = "perfil";
+    public $option = "";
+
     /**
      * Article constructor.
      * call file js default
@@ -81,28 +80,26 @@ class Article extends AbstractController {
         /** @var int $id */
         $this->view->public = $this->model->_getArticleById($id);
         $this->view->comments = $this->model->getComments($id);
-        if(Session::exist()){
-        $this->view->getUser = $this->model->getUser(Session::get("ID"))[0];
-    }
+        if (Session::exist()) {
+            $this->view->getUser = $this->model->getUser(Session::get("ID"))[0];
+        }
         $this->view->render($this, 'art_pre_post');
     }
 
     public function publish() {
-      if( Session::exist() ){
-            if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
+        if (Session::exist()) {
+            if (Session::get('role') == 'owner' || Session::get('role') == 'admin' || Session::get('role') == 'markting') {
 
                 $this->view->title = 'Publish';
                 $this->view->cate = $this->model->_allCategorias();
                 $this->view->delete = $this->model->_getAllArticle();
-
             } else {
                 Hook::Header('');
             }
-        $this->view->render($this, 'publish');
-            }else {
-          Hook::Header('');
-      }
-
+            $this->view->render($this, 'publish');
+        } else {
+            Hook::Header('');
+        }
     }
 
     public function deleteArticle($id) {
@@ -117,11 +114,11 @@ class Article extends AbstractController {
     }
 
     public function insertArticle() {
-        if (!empty($_POST['title']) && !empty($_POST['excerpt']) && !empty($_POST['content']) && !empty($_POST['cote']) && !empty($_POST['post_date'])  && !empty($_POST['id_cat'])) {
-           $this->imagem = new \Ballybran\Helpers\Http\FileSystem( new Resize() );
-            $this->imagem->setWidth(690);
-            $this->imagem->setHeight(690);
-            $this->imagem->setOption("exact");
+        if (!empty($_POST['title']) && !empty($_POST['excerpt']) && !empty($_POST['content']) && !empty($_POST['cote']) && !empty($_POST['post_date']) && !empty($_POST['id_cat'])) {
+            $this->imagem = new \Ballybran\Helpers\Http\FileSystem(new Resize());
+            $this->imagem->setWidth(900);
+            $this->imagem->setHeight(500);
+            $this->imagem->setOption("crop");
             $this->imagem->setQuality(100);
             $this->imagem->setColor("FFFFFF");
             $this->imagem->setDegree(00);
@@ -179,17 +176,17 @@ class Article extends AbstractController {
             $data['comments'] = $_POST['comments'];
             $data['post_date'] = date('Y-m-d H:i:s');
 
-
-            $mail = new SendMail(new PHPMailer() );
-            $mail->setFrom("marciozebedeu@gmail.com");
-            $mail->setFromName($_POST['nome']);
-            $mail->setMessage($_POST['comments'] );
-            $mail->setAssunto("Commentarios dos usuarios");
-            $mail->setTo($_POST['email']);  // email d visitante vindo do form
-            $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
-
-            $mail->send();
-            $mail->body();
+//
+//            $mail = new SendMail(new PHPMailer() );
+//            $mail->setFrom("marciozebedeu@gmail.com");
+//            $mail->setFromName($_POST['nome']);
+//            $mail->setMessage($_POST['comments'] );
+//            $mail->setAssunto("Commentarios dos usuarios");
+//            $mail->setTo($_POST['email']);  // email d visitante vindo do form
+//            $mail->setAddr($_POST['email']); // enviar para mim (secretaria)
+//
+//            $mail->send();
+//            $mail->body();
 
             $this->model->insertComments($data);
             // Hook::Header('Article/');
@@ -209,28 +206,27 @@ class Article extends AbstractController {
         }
     }
 
-    public function rest(){
+    public function rest() {
 
         $data = \Ballybran\Core\REST\RestUtilities::processRequest();
-     $view = "";
-     if(isset($_GET["id_article"])) {
-         $view = $_GET["id_article"];
+        $view = "";
+        if (isset($_GET["id_article"])) {
+            $view = $_GET["id_article"];
 
-       switch ($data->getMethod()) {
-           case 'get':
-                $property = $this->model->_getAllArticleById($view);
-               $var = \Ballybran\Core\REST\RestUtilities::sendResponse(401, \Ballybran\Core\REST\Encodes::encodeHtml($property), 'application/text');
-               var_dump($property);
-               break;
-           
-           default:
-               # code...
-               break;
-       }
-}else {
-    echo "sem....";
+            switch ($data->getMethod()) {
+                case 'get':
+                    $property = $this->model->_getAllArticleById($view);
+                    $var = \Ballybran\Core\REST\RestUtilities::sendResponse(401, \Ballybran\Core\REST\Encodes::encodeHtml($property), 'application/text');
+                    var_dump($property);
+                    break;
 
+                default:
+                    # code...
+                    break;
+            }
+        } else {
+            echo "sem....";
+        }
     }
-}
 
 }

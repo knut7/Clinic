@@ -1,10 +1,9 @@
 
 <?php
+
 use Ballybran\Library\Form;
+
 \Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
-echo Module\Lib2\header::getHeader();
-
-
 ?>
 
 <div class="container">
@@ -14,16 +13,16 @@ echo Module\Lib2\header::getHeader();
         </div> <!-- End Page Header -->
 
         <div id="content" class="col-sm-9">
-            <?php echo Form::open(['action' => URL."Faq/insertFaq", 'method'=>'post', 'style'=>'margin-left:30%;'])?>
-                    <div class="form-group">
-                        <?php echo Form::input(['type'=>'text', 'name'=>'quest', 'class'=> 'form-control', 'placeholder'=> 'Pergunta']) ?>
-                    </div>
-                    <div class="form-group">
+            <?php echo Form::open(['action' => URL . "Faq/insertFaq", 'method' => 'post', 'style' => 'margin-left:30%;']) ?>
+            <div class="form-group">
+                <?php echo Form::input(['type' => 'text', 'name' => 'quest', 'class' => 'form-control', 'placeholder' => 'Pergunta']) ?>
+            </div>
+            <div class="form-group">
 
-                        <?php echo Form::textBox([ 'name'=>'respo', 'id'=>'elm1', 'class'=> 'form-control', 'placeholder'=> 'Pergunta']) ?>
+                <?php echo Form::textBox([ 'name' => 'respo', 'id' => 'elm1', 'class' => 'form-control', 'placeholder' => 'Pergunta']) ?>
 
-                    </div>
-                        <?php echo  Form::button([ 'type'=> 'submit', 'class'=>'form-button-submit button', 'value'=>'PUBLICAR'])?>
+            </div>
+            <?php echo Form::button([ 'type' => 'submit', 'class' => 'form-button-submit button', 'value' => 'PUBLICAR']) ?>
 
             <?php echo Form::close(); ?>
         </div>

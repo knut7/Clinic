@@ -14,10 +14,9 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 use Ballybran\Library\Form;
-\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
 <div class="container">
@@ -34,7 +33,7 @@ use Ballybran\Library\Form;
 
 
         <?php
-        echo Form::open(['method' => 'post','action' => URL.'secretaria/updates',  'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
+        echo Form::open(['method' => 'post', 'action' => URL . 'secretaria/updates', 'name' => 'perfil', 'class' => 'form-signin', 'style' => 'margin-left:30%;']);
         ?>
         <div class="form-group">
             <label class="control-label" for="input-firstname">Privilegio</label>
@@ -87,8 +86,8 @@ use Ballybran\Library\Form;
         <div class="form-group">
             <label class="control-label" for="input-firstname">Sexo</label>
             <select name="sexo" title="sexo name">
-                <option value="f" <?php if( $this->UserData['sexo'] == "f") echo "selected"; ?>>Feminino</option>
-                <option value="m"  <?php if( $this->UserData['sexo'] == "m") echo "selected"; ?>>Masculino</option>
+                <option value="f" <?php if ($this->UserData['sexo'] == "f") echo "selected"; ?>>Feminino</option>
+                <option value="m"  <?php if ($this->UserData['sexo'] == "m") echo "selected"; ?>>Masculino</option>
             </select>
         </div>
         <small>Your Address</small>

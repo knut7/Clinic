@@ -14,11 +14,9 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 use Ballybran\Helpers\Security\Session;
-use Module\Clinic\Lib\menu\Sub_Menu;
-use Ballybran\Library\Form;
-Sub_Menu::getSubMenu();
+
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 ?>
 
 
@@ -31,7 +29,7 @@ Sub_Menu::getSubMenu();
         <div class="col-lg-3 4u 12u(mobile)">
 
 
-            <?php  if (!empty($this->UserPhoto['path'])) { ?>
+            <?php if (!empty($this->UserPhoto['path'])) { ?>
 
                 <img  src="<?php echo URL . $this->UserPhoto['path']; ?>" class="col-lg-7 image img-responsive img-thumbnail" alt="<?php echo $this->UserPhoto['name']; ?>" />
                 <?php
@@ -39,29 +37,29 @@ Sub_Menu::getSubMenu();
                     ?>
                     <a href="<?php echo URL; ?>account/deleteImage"  class="glyphicon glyphicon-remove" >delete</a>
                     <?php
-
                 }
             } else {
                 echo "nao tem imagem";
-            } ?>
+            }
+            ?>
         </div>
 
         <div class="col-lg-4 4u 12u(mobile) text-left">
             <h3>Contacto</h3>
 
-            <strong>Nome: </strong><?php echo  $this->user['firstname'] . "\t" .  $this->user['lastname']; ?><br>
-            <strong>Telefone: </strong><?php echo  $this->user['telephone']; ?><br>
-            <strong>Email: </strong><?php echo  $this->user['email']; ?><br>
+            <strong>Nome: </strong><?php echo $this->user['firstname'] . "\t" . $this->user['lastname']; ?><br>
+            <strong>Telefone: </strong><?php echo $this->user['telephone']; ?><br>
+            <strong>Email: </strong><?php echo $this->user['email']; ?><br>
 
         </div>
 
         <div class="col-lg-4 4u 12u(mobile) text-left">
             <h3>Endereço</h3>
 
-            <strong>Endereço 1: </strong><?php echo  $this->user['address_1']; ?><br>
-            <strong>Endereço 2: </strong><?php echo  $this->user['address_2']; ?><br>
-            <strong>Cidade: </strong><?php echo  $this->user['city']; ?><br>
-            <strong>País: </strong><?php echo  $this->user['country']; ?><br>
+            <strong>Endereço 1: </strong><?php echo $this->user['address_1']; ?><br>
+            <strong>Endereço 2: </strong><?php echo $this->user['address_2']; ?><br>
+            <strong>Cidade: </strong><?php echo $this->user['city']; ?><br>
+            <strong>País: </strong><?php echo $this->user['country']; ?><br>
         </div>
 
     </div>
@@ -71,9 +69,9 @@ Sub_Menu::getSubMenu();
         <div class="breadcrumb text-center" id="features">
             <strong>PRONTUÁRIO DO PACIENTE</strong>
         </div>
-            <table class="table table-black table-responsive table-bordered">
-                <h3>Medicação</h3>
-                <thead>
+        <table class="table table-black table-responsive table-bordered">
+            <h3>Medicação</h3>
+            <thead>
                 <tr>
                     <th>Nome Generico</th>
                     <th>Nome Comercial</th>
@@ -85,19 +83,19 @@ Sub_Menu::getSubMenu();
                     <th>Médico</th>
                     <th>Resultado</th>
                 </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            </thead>
+            <tbody>
+                <tr>
 
-                    </tr>
+                </tr>
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <table class="table table-black table-bordered">
-                <h3>Exames</h3>
+        <table class="table table-black table-bordered">
+            <h3>Exames</h3>
 
-                <thead>
+            <thead>
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
@@ -105,12 +103,12 @@ Sub_Menu::getSubMenu();
                     <th>Data</th>
                     <th>Resultado</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 <tr>
                 </tr>
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
 </div>

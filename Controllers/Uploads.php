@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -15,7 +16,6 @@
  */
 
 namespace Module\Clinic\Controllers;
-
 
 use Ballybran\Core\Controller\AbstractController;
 
@@ -34,7 +34,6 @@ use Ballybran\Core\Controller\AbstractController;
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.0
  */
-
 class FileSystem extends AbstractController {
 
     function __construct() {

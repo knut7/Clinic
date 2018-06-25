@@ -1,130 +1,373 @@
-<?php Module\Lib2\header::getHeader(); ?>
-<div id="features-wrapper">
 
-    <!-- Features -->
-        <section id="features" class="container">
-            <header>
-                <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum soluta,</h2>
-            </header>
-            <div class="row">
-                <?php foreach ($this->treeCategory as $key => $value) : ?>
+<?php if (Ballybran\Helpers\System::is_mobile()) { ?>
+<?php } ?>
 
-                    <div class="4u 12u(mobile)">
-
-                    <!-- Feature -->
-                    <section>
-                        <img class="img-thumbnail" style="height: 200px;" src="<?php  echo URL.$value['path']; ?>" >
-                        <header>
-                            <h3><?php echo $value['nome']; ?></h3>
-                        </header>
-                        <p><?php echo $value['description']; ?></p>
-                    </section>
-
+<div class="slider">
+    <div class="items-group">
+        <div class="item">ac
+            <div class="block">
+                <span class="circleLight"></span>
+                <div class="text">
+                    <h2>Ola</h2>
+                    <p>Seja Bem Vindo(a)</p>
                 </div>
-                <?php endforeach; ?>
             </div>
-            <ul class="actions">
-                <li><a href="<?php echo URL;?>categorias" class="button icon fa-file">Ver Mais Categorias</a></li>
-            </ul>
-        </section>
-
-    <!-- Banner -->
-    <div id="banner-wrapper">
-        <div class="inner">
-            <section id="banner" class="container">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum soluta,</p>
-            </section>
+        </div>
+        <div class="item">
+            <div class="block">
+                <span class="circleLight"></span>
+                <div class="text">
+                    <h2>Hi</h2>
+                    <p>I`m cool card</p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="block">
+                <span class="circleLight"></span>
+                <div class="text">
+                    <h2>Hi</h2>
+                    <p>I`m cool card</p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="block">
+                <span class="circleLight"></span>
+                <div class="text">
+                    <h2>Hi</h2>
+                    <p>I`m cool card</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Main -->
-    <div id="main-wrapper">
-        <div id="main" class="container">
-            <div class="row">
-
-                <!-- Content -->
-                <div id="content" class="8u 12u(mobile)">
-
-                    <?php foreach ($this->public as $key => $value) : ?>
-
-                        <!-- Post -->
-                    <article class="box post">
-                        <header>
-                            <h2><?php echo $value['cote'];?><strong></strong> ...<br /></h2>
-                        </header>
-                        <a href="#" class="image featured"><img src="<?php echo URL.DIR_FILE;?>Public/clinic/images/pic04.jpg" alt="" /></a>
-                        <h3><?php echo $value['title']; ?></h3>
-
-                        <p><?php echo $value['excerpt']; ?></p>
-                        <ul class="actions">
-                            <li><a href="<?php echo URL;?>article/art_pre_post/<?php echo $value['id_article']; ?>" class="button icon fa-file">Continue a Ler</a></li>
-                        </ul>
-                    </article>
-
-                   <?php endforeach; ?>
-
-                </div>
-
-                <!-- Sidebar -->
-                <div id="sidebar" class="4u 12u(mobile)">
-
-                    <!-- Excerpts -->
-                    <section>
-                        <ul class="divided">
-                            <?php foreach ($this->public as $key => $value) : ?>
-
-                            <li>
-
-                                <!-- Excerpt -->
-                                <article class="box excerpt">
-                                    <header>
-                                        <span class="date"><?php echo $value['post_date']; ?></span>
-                                    
-                                        <h3><?php echo $value['title']; ?></h3>
-                                    </header>
-                                    <p><?php echo $value['excerpt']; ?></p>
-
-                                </article>
-
-                            </li>
-                            <?php endforeach; ?>
-
-                        </ul>
-                    </section>
-
-                    <!-- Highlights -->
-                    <section>
-                        <ul class="divided">
-
-                            <?php foreach ($this->sidebarCategory as $key => $value) : ?>
-                            
-                            <li>
-
-                                <!-- Highlight -->
-                                <article class="box highlight">
-                                    <header>
-                                        <h3><a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" ><?php echo $value['nome']; ?></a></h3>
-                                    </header>
-                                    <a href="#" class="image left"><img class="img-thumbnail col-lg-2" src="<?php  echo URL.$value['path']; ?>" ></a>
-                        <p><?php echo $value['description']; ?></p>
-                                    <ul class="actions">
-                                        <li> <?php $NameCat = str_replace(" ", "-", $value['nome']); ?>
-                    <a href="<?php echo URL; ?>Categorias/getCategoryById/<?php echo $NameCat; ?>" class="button icon fa-file">Ler Mais</a>
-</li>
-                                    </ul>
-                                </article>
-
-                            </li>
-                        <?php endforeach; ?>
-
-                        </ul>
-                    </section>
-
-                </div>
-
-            </div>
-        </div>
+    <div class="navigations">
+        <ul class="dots"></ul>
     </div>
 </div>
 
-<?php Module\Lib2\header::getFooter(); ?>
+
+
+<div class="container">
+    <div class="row">
+        <header class="page-header">
+            <h2 class="text-center">SERIÇOS OFERRECIDOS </h2>
+        </header>
+    </div>
+    <div class="row">
+
+        <?php foreach ($this->treeCategory as $key => $value) : ?>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <header>
+                        <h3><?php echo $value['nome']; ?></h3>
+                    </header>
+                    <span class="label label-info info"></span>
+                    <!-- Feature -->
+
+                    <?php if (empty($value['path'])) { ?>
+
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . DIR_FILE . 'Public/images/default-article-img.jpg' ?>" >
+                    <?php } else { ?>
+                        <img class="img-thumbnail" style="height: 200px;" src="<?php echo URL . $value['path']; ?>" >
+                    <?php } ?>
+
+                    <p><?php echo $value['description']; ?></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+
+        <?php endforeach; ?>
+    </div>
+
+</div>
+
+<div class="container">
+
+
+    <div class="line">
+        <hr/>
+    </div>
+
+    <!--    <div class="row steps">-->
+    <!--        <h3>3 Sencillos Pasos</h3>-->
+    <!--        <div class="col-md-4">-->
+    <!--            <center><img alt="Paso 1 - formulario online" src="http://legalprom.cl/wp-content/uploads/2013/12/paso1-formulario.jpg"/></center>-->
+    <!--            <h4>Responda un sencillo cuestionario en línea. No mas de 10 min.</h4>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-4">-->
+    <!--            <center><img alt="Paso 2 - generación y revisión de documentos" src="http://legalprom.cl/wp-content/uploads/2013/12/paso2-documentos.jpg"/></center>-->
+    <!--            <h4>Abogados revisarán sus respuestas y crearán sus documentos</h4>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-4">-->
+    <!--            <center><img alt="Paso 3 - Firma en notaria" src="http://legalprom.cl/wp-content/uploads/2013/12/paso3-firma.jpg"/></center>-->
+    <!--            <h4>Se firman y LegalProm se encarga del resto. Ud. ahorrará tiempo</h4>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
+    <!--    <h3 style="font-size: 36px;font-weight: 300;color: #057d9f;text-align: center;margin:50px 0 30px 0;">Lo que Opinan Nuestros Clientes</h3>-->
+    <!---->
+    <!--    <div class="row" id="opinion-left" style="background:url(http://legalprom.cl/wp-content/uploads/2014/05/engel-volkers.jpg) no-repeat center;">-->
+    <!--        <div class="col-md-6">-->
+    <!--            <h3>Seguro y rápido. Súper conforme</h3>-->
+    <!--            <p>Nelson del Villar</p>-->
+    <!--            <p>Co-Fundador de Antares, Concesionaria Engel & Volkers</p>-->
+    <!--            <p>Empresa creada con LegalProm</p>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
+    <!--    <h3 style="font-size: 36px;font-weight: 300;text-align: center;margin:70px 0;">El Servicio Legal que Necesita a un Precio a su Alcance</h3>-->
+
+    <div class="row features-home-right">
+        <div class="col-md-5">
+            <img alt="legalprom es economico" src="<?php echo URL . DIR_FILE . 'Public/images/podutividade.jpeg' ?> "/>
+        </div>
+        <div class="col-md-7">
+            <h3>Maior produtividade</h3>
+            <p>Pensamos em cada detalhe para organizar e facilitar seu dia a dia.</p>
+        </div>
+    </div>
+
+    <div class="row features-home-left">
+        <div class="col-md-7">
+
+            <h3>Completamente seguro</h3>
+            <p>Segurança é a nossa principal prioridade. Total privacidade e dados criptografados.</p>
+        </div>
+        <div class="col-md-5">
+            <img alt="rapidez de legalprom" src="<?php echo URL . DIR_FILE . 'Public/images/seguro.jpeg' ?>"/>
+        </div>
+    </div>
+
+    <div class="row features-home-right">
+        <div class="col-md-5">
+            <img alt="legalprom es economico" src="<?php echo URL . DIR_FILE . 'Public/images/rapidez.jpg' ?>"/>
+        </div>
+        <div class="col-md-7">
+
+            <h3>Sem taxa de instalação</h3>
+            <p>Política de preços transparente. Sem contrato de fidelidade.</p>
+        </div>
+    </div>
+
+    <div class="row features-home-left">
+        <div class="col-md-7">
+
+            <h3>Acesso remoto</h3>
+            <p>Software médico online, disponível de qualquer lugar e a qualquer momento.</p>
+        </div>
+        <div class="col-md-5">
+            <img alt="claridad y facilidad de legalprom" src="<?php echo URL . DIR_FILE . 'Public/images/acesso-remoto.jpeg' ?>"/>
+        </div>
+    </div>
+
+
+
+    <div class="line">
+        <hr/>
+    </div>
+
+
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">Postagens Recentes</h2>
+        <hr/>
+    </div>
+    <div class="row">
+
+        <?php foreach ($this->public as $key => $value) : ?>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <header>
+                        <h3><?php echo $value['title']; ?></h3>
+                        <span class="label label-info info"></span>
+                        <!-- Feature -->
+                        <?php if (empty($value['path'])) { ?>
+
+                            <img class="img-thumbnail"  src="<?php echo URL . DIR_FILE . 'Public/images/default-article-img.jpg' ?>" >
+                        <?php } else { ?>
+                            <img class="img-thumbnail"  src="<?php echo URL . $value['path']; ?>" >
+                        <?php } ?>
+
+                        <p><?php echo $value['excerpt']; ?></p>                    
+                    </header>
+                    <a href="<?php echo URL; ?>article/art_pre_post/<?php echo $value['id_article']; ?>" class="btn btn-primary col-xs-12" role="button">Ler Artigo</a>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
+    </div>
+</div>
+
+
+
+<!-- Team -->
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">NOSSA EQUIPE</h5>
+        <div class="row">
+            <!-- Team member -->
+
+            <?php foreach ($this->medics as $key => $value) : ?>
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                        <div class="mainflip">
+                            <div class="frontside">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p><img class=" img-fluid" src="<?php echo URL . $value['path']; ?>" alt="<?php echo $value['path']; ?>"></p>
+                                        <h4 class="card-title"><?php echo $value['firstname'] . "\t" . $value['lastname']; ?> </h4>
+                                        <p class="card-text"><?php echo $value['aria']; ?> </p>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="backside">
+                                <div class="card">
+                                    <div class="card-body text-center mt-4">
+                                        <h4 class="card-title"><?php echo $value['firstname'] . "\t" . $value['lastname']; ?></h4>
+                                        <p class="card-text"><?php echo $value['description']; ?></p>
+                                        <!--                                    <ul class="list-inline">-->
+                                        <!--                                        <li class="list-inline-item">-->
+                                        <!--                                            <a class="social-icon text-xs-center" target="_blank" href="#">-->
+                                        <!--                                                <i class="fa fa-facebook"></i>-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        <li class="list-inline-item">-->
+                                        <!--                                            <a class="social-icon text-xs-center" target="_blank" href="#">-->
+                                        <!--                                                <i class="fa fa-twitter"></i>-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        <li class="list-inline-item">-->
+                                        <!--                                            <a class="social-icon text-xs-center" target="_blank" href="#">-->
+                                        <!--                                                <i class="fa fa-skype"></i>-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        <li class="list-inline-item">-->
+                                        <!--                                            <a class="social-icon text-xs-center" target="_blank" href="#">-->
+                                        <!--                                                <i class="fa fa-google"></i>-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                    </ul>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./Team member -->
+            <?php endforeach; ?>
+
+        </div><script>
+            // Hy! You can really help me if you donate me leastways 1 dollor :)
+            // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            var mouse = {
+                X: 0,
+                Y: 0,
+                CX: 0,
+                CY: 0
+            },
+            block = {
+                X: mouse.X,
+                Y: mouse.Y,
+                CX: mouse.CX,
+                CY: mouse.CY
+            },
+            imags = [
+                '<?php echo URL . DIR_FILE . "Public/images/bg-banner.jpg"; ?>'
+
+                        // 'https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?w=940&h=650&auto=compress&cs=tinysrgb',
+                        // 'https://images.pexels.com/photos/210546/pexels-photo-210546.jpeg?w=940&h=650&auto=compress&cs=tinysrgb',
+                        // 'https://images.pexels.com/photos/203319/pexels-photo-203319.jpeg?w=940&h=650&auto=compress&cs=tinysrgb',
+
+                        // 'https://images.pexels.com/photos/30361/pexels-photo-30361.jpg?w=940&h=650&auto=compress&cs=tinysrgb'
+            ];
+
+            $('.block').on('mousemove', function (e) {
+                mouse.X = (e.pageX - $(this).offset().left) - $('.block').width() / 2;
+                mouse.Y = (e.pageY - $(this).offset().top) - $('.block').height() / 2;
+            });
+
+            $('.block').on('mouseleave', function (e) {
+                mouse.X = mouse.CX;
+                mouse.Y = mouse.CY;
+            });
+
+            setInterval(function () {
+
+                block.CY += (mouse.Y - block.CY) / 12;
+                block.CX += (mouse.X - block.CX) / 12;
+
+                $('.block .circleLight').css('background', 'radial-gradient(circle at ' + mouse.X + 'px ' + mouse.Y + 'px, #fff, transparent)')
+                $('.block').css({
+                    transform: 'scale(1.03) translate(' + (block.CX * 0.05) + 'px, ' + (block.CY * 0.05) + 'px) rotateX(' + (block.CY * 0.05) + 'deg) rotateY(' + (block.CX * 0.05) + 'deg)'
+                })
+
+            }, 20);
+
+            $('.slider .item').each(function (i) {
+
+                if (i == 0) {
+
+                    $(this).addClass('active');
+                    $(this).next().addClass('next');
+                    $(this).prev().addClass('prev');
+                }
+
+                $(this).attr('id', 'slide-' + i);
+
+                $(this).prepend(
+                        $('<div>', {class: 'blur', style: 'background-image: url(' + imags[i] + ');'}),
+                        $('<div>', {class: 'bg', style: 'background-image: url(' + imags[i] + ');'})
+                        );
+
+                $(this).find('.block').css('background-image', 'url(' + imags[i] + ')')
+
+                $('.navigations .dots').append(
+                        $('<li>', {class: i == 0 ? 'active' : '', id: i}).on('click', function () {
+                    var cSlide = $('.slider #slide-' + $(this).attr('id'));
+
+                    $('.navigations .dots li').removeClass('active');
+                    $(this).addClass('active');
+
+                    $('.slider .item').removeClass('active prev next');
+                    cSlide.addClass('active');
+                    cSlide.next().addClass('next');
+                    cSlide.prev().addClass('prev');
+                })
+                        )
+            })
+
+        </script>
+    </div>
+</section>
+<!-- Team -->
+

@@ -8,79 +8,91 @@
  * Time: 11:11 AM
  */
 use Ballybran\Library\Form;
-
 ?>
 
 
 <section id="features" class="container">
 
     <div class="row">
-        <div class="4u 12u(mobile)">
+        <div class="cartao">
 
-            <!-- Feature -->
-            <section>
 <!--                <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>-->
-                <header>
-                    <h3>Login</h3>
-                </header>
-                <p>If you already have an account with us, please login at the </p>
-
-                <a href="<?php echo URL; ?>user" class="form-button-submit button">continue</a>
-            </section>
+            <header>
+                <h3>Login</h3>
+            </header>
+            <p><h5>Se você já possui uma conta conosco, faça o login</h5> </p>
+            <br>
+            <a href="<?php echo URL; ?>user" class="btn btn-info">continua</a>
 
         </div>
-        <div class="4u 12u(mobile)">
+        <div class="col-lg-12">
 
-            <!-- Feature -->
-            <section>
+            <div class="wrap">
 
-                <header>
-                    <h3> Register Account</h3>
-                </header>
+                <div class="col-lg-5">
+                    <img class="col-lg-12  img-responsive img-circle" style="backgrund-color:red; margin-left:10px;" src="<?php echo URL . DIR_FILE; ?>Public/images/logo_clinic.jpg" alt="">
 
-                <?php
-                echo Form::open(['method' => 'post', 'action' => URL . 'user/signUp', 'files' => 'enctype=multipart/form-data', 'name' => 'signUp',  'style' => 'margin-left:30%;']);
-                ?>
+                </div>
 
-                    <label class="control-label" for="input-firstname">First Name</label>
-                    <?php
-                    echo Form::input(['type' => 'text', 'name' => 'firstname', 'id' => 'user-name', 'placeholder' => 'First Name']);
-                    ?>
-                    <label class="control-label" for="input-firstname">Last Name</label>
-                    <?php
-                    echo Form::input(['type' => 'text', 'name' => 'lastname', 'id' => 'user-name', 'placeholder' => 'Last Name']);
-                    ?>
-                    <label class="control-label" for="input-firstname">User Name</label>
+
+                <div class="col-lg-5">
+                    <header>
+                        <h3> Registar Conta</h3>
+                    </header>
 
                     <?php
-                    echo Form::input(['type' => 'text', 'name' => 'username', 'id' => 'user-name', 'placeholder' => 'User Name']);
+                    echo Form::open(['method' => 'post', 'action' => URL . 'user/signUp', 'files' => 'enctype=multipart/form-data', 'name' => 'signUp', 'style' => 'margin-left:30%']);
                     ?>
 
-                <select name="sexo" id="">
-                    <option value="f">Feminino</option>
-                    <option value="m">Masculino</option>
-                </select>
+                    <label class="control-label" for="input-firstname">Primeiro Nome</label>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'firstname', 'id' => 'user-name', 'placeholder' => 'Primeiro Nome', 'class' => 'form-control', 'autocomplete' => "off"]);
+                    ?>
+                    <label class="control-label" for="input-firstname">Ultimo Nome</label>
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'lastname', 'id' => 'user-name', 'placeholder' => 'Ultimo Nome', 'class' => 'form-control', 'autocomplete' => "off"]);
+                    ?>
+                    <label class="control-label" for="input-firstname">Nome para Usuario</label>
+
+                    <?php
+                    echo Form::input(['type' => 'text', 'name' => 'username', 'id' => 'user-name', 'placeholder' => 'Usuario', 'class' => 'form-control', 'autocomplete' => "off"]);
+                    ?>
 
                     <label class="control-label" for="input-firstname">Email</label>
 
                     <?php
-                    echo Form::input(['type' => 'email', 'name' => 'email', 'id' => 'user-name', 'placeholder' => 'email']);
+                    echo Form::input(['type' => 'email', 'name' => 'email', 'id' => 'user-name', 'placeholder' => 'email', 'class' => 'form-control', 'autocomplete' => "off"]);
                     ?>
+
+                    <label class="control-label" for="input-firstname">Telefone</label>
+
+                    <?php
+                    echo Form::input(['type' => 'number', 'name' => 'telephone', 'id' => 'user-name', 'placeholder' => 'Telefone', 'class' => 'form-control', 'autocomplete' => "off"]);
+                    ?>
+
+                    <select name="sexo" id="" class="form-control" style="width: 200px;">
+                        <option value="f">Feminino</option>
+                        <option value="m">Masculino</option>
+                    </select>
 
                     <label class="control-label" for="input-firstname">Password</label>
 
                     <?php
-                    echo Form::input(['type' => 'password', 'name' => 'password', 'id' => 'user-name', 'placeholder' => 'Password']);
-//                    echo Form::input(['type' => 'text', 'name' => 'create_time', 'id' => 'user-name', 'value' => new DateTime() ]);
+                    echo Form::input(['type' => 'password', 'name' => 'password', 'id' => 'user-name', 'placeholder' => 'Password', 'class' => 'form-control', 'autocomplete' => "off"]);
+                    //                    echo Form::input(['type' => 'text', 'name' => 'createTime', 'id' => 'user-name', 'value' => new DateTime() ]);
                     ?>
 
-                 <?php
-                    echo Form::button(['type' => 'submit', 'class' => 'form-button-submit button', 'id' => 'send_request', 'value' => 'Cadastrar']);
+                    <hr>
+                    <?php
+                    echo Form::button(['type' => 'submit', 'class' => 'btn btn-primary', 'id' => 'send_request', 'value' => 'Cadastrar']);
                     ?>
 
-                <?php
-                echo Form::close();
-                ?>
+                    <?php
+                    echo Form::close();
+                    ?>
+
+                </div>
+            </div>
 
 
         </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,31 +23,27 @@
 
 namespace Module\Clinic\Lib;
 
-
 use Ballybran\Helpers\Time\Timestamp;
 use Ballybran\Library\fpdf\FPDF;
 
 class Prescricao extends FPDF {
 
-
-private $prontuario;
-    private $id;
     private $info;
     private $footer;
 
-
-    public function getId($info)
-    {
-        $this->info = $info;
-
+    public function __construct($orientation = "P", $unit = "mm", $size = "A4") {
+        parent::__construct($orientation, $unit, $size);
     }
 
-    public function myFooter($footer)
-    {
+    public function getId($info) {
+        $this->info = $info;
+    }
+
+    public function myFooter($footer) {
         $this->footer = $footer;
     }
-    function Header()
-    {
+
+    function Header() {
 
         // Logo
 //        $this->Image('logo.png', 10, 6, 30);
@@ -56,7 +52,7 @@ private $prontuario;
         // Move to the right
         $this->Cell(18, 10, "", 0);
         // Title
-        $this->Image(URL . DIR_FILE . 'Lib/knut7.jpg', 20, 10, 20, 20, 'JPG');
+        $this->Image(URL . DIR_FILE . 'Public/images/logo_clinic.jpg', 20, 10, 20, 20, 'JPG');
         $this->Cell(180, 4, 'Receita:' . "\t" . Timestamp::dataTime(), '', '', 'R');
         $this->Ln(4);
         $this->Cell(180, 10, 'CINICA KNUT7', 0, "", 'C');
@@ -80,7 +76,6 @@ private $prontuario;
         foreach ($this->info as $item => $value) {
 
             // $this->SetXY(10, 40);
-
             // Title
             $this->Ln(8);
             $this->SetFont('Arial', 'B', 8);
@@ -88,7 +83,7 @@ private $prontuario;
             $this->SetFont('Arial', '', 8);
             $this->Cell(140, 8, $value['firstname'] . "\t" . $value['lastname'], 0);
 
-             $this->SetFont('Arial', 'B', 8);
+            $this->SetFont('Arial', 'B', 8);
             $this->Cell(18, 8, "N. Consulta:", 0);
             $this->SetFont('Arial', '', 8);
             $this->Cell(70, 8, $value['id'], 0);
@@ -117,7 +112,6 @@ private $prontuario;
 
 
             // Prescrição Médica
-
             // $this->SetFont("Arial", 'B', 8);
             // $this->Cell(30, 8, 'Nome Generico', 1, 0);
             // $this->Cell(30, 8, '0000000000', 1, 0);
@@ -132,40 +126,32 @@ private $prontuario;
 
 
             $this->SetFont('Arial', 'B', 8);
-            $value['generico'] != "" ? $this->Cell(33, 8, utf8_decode("Prescrição Médica"),  0, 0, '', true) : "";
+            $value['generico'] != "" ? $this->Cell(33, 8, utf8_decode("Prescrição Médica"), 0, 0, '', true) : "";
             $this->Ln(8);
             $this->SetFont('Arial', '', 8);
             $this->Ln(8);
-            $value['generico'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Genérico:"),1,  0) ." ".$this->Cell(40, 8,  utf8_decode($value['generico']),1, 0): "";
+            $value['generico'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Genérico:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['generico']), 1, 0) : "";
             $this->Ln(8);
-            $value['comercial'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Comercial:"), 1, 0) ." ".$this->Cell(40, 8,  utf8_decode($value['comercial']),1, 0): "";
+            $value['comercial'] != "" ? $this->Cell(40, 8, utf8_decode("Nome Comercial:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['comercial']), 1, 0) : "";
+            $value['dose'] != "" ? $this->Cell(40, 8, utf8_decode("Dose:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['dose']), 1, 0) : "";
             $this->Ln(8);
-            $value['dose'] != "" ? $this->Cell(40, 8, utf8_decode("Dose:"),  1,0) ." ".$this->Cell(40, 8,  utf8_decode($value['dose']),1, 0): "";
+            $value['via_admin'] != "" ? $this->Cell(40, 8, utf8_decode("Via de Administração:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['via_admin']), 1, 0) : "";
             $this->Ln(8);
-            $value['via_admin'] != "" ? $this->Cell(40, 8, utf8_decode("Via de Administração:"), 1, 0) ." ".$this->Cell(40, 8,  utf8_decode($value['via_admin']),1, 0): "";
+            $value['interval'] != "" ? $this->Cell(40, 8, utf8_decode("Horario da Medicação:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['interval']), 1, 0) : "";
             $this->Ln(8);
-            $value['interval'] != "" ? $this->Cell(40, 8, utf8_decode("Horario da Medicação:"),1,  0) ." ".$this->Cell(40, 8,  utf8_decode($value['interval']),1, 0): "";
+            $value['inicio'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do Inicio do Tratamento:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['inicio']), 1, 0) : "";
             $this->Ln(8);
-            $value['inicio'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do Inicio do Tratamento:"),  1,0) ." ".$this->Cell(40, 8,  utf8_decode($value['inicio']),1, 0): "";
-            $this->Ln(8);
-            $value['final'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"),1,  0) ." ".$this->Cell(40, 8,  utf8_decode($value['final']),1, 0): "";
+            $value['final'] != "" ? $this->Cell(40, 8, utf8_decode("Data Do fim do Tratamento:"), 1, 0) . " " . $this->Cell(40, 8, utf8_decode($value['final']), 1, 0) : "";
             $this->Ln(15);
 
 
-             $this->Cell(33, 8, "Doutor(a):", 0);
+            $this->Cell(33, 8, "Doutor(a):", 0);
             $this->Ln(8);
             $this->Cell(20, 8, "____________________", 0);
             $this->Ln(8);
             $this->Cell(40, 8, $value['titulo'], 0);
-
-
-
-
-
-
         }
     }
-
 
 // Page footer
     function Footer() {
@@ -174,6 +160,7 @@ private $prontuario;
         // Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         // Page number
-        $this->Cell(10, 10,  "Page " . $this->PageNo() . '/{nb}', 0, 0, 'R');
+        $this->Cell(10, 10, "Page " . $this->PageNo() . '/{nb}', 0, 0, 'R');
     }
+
 }

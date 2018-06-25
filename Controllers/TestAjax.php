@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,82 +23,73 @@
 
 namespace Module\Clinic\Controllers;
 
-
-use Ballybran\Core\{
+use Ballybran\Core\ {
     Controller\AbstractController,
-    REST\Encodes, REST\RestUtilities,  REST\Client\ClientRest
+    REST\Encodes, REST\RestUtilities, REST\Client\ClientRest
 };
-
 
 class TestAjax extends AbstractController {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
-    public function index()
-    {
+    public function index() {
         $this->view->title = " TEXT DE SERACH";
 
-        $this->view->select = $this->model->select( 'events', 'teste', 100, 'NOT NULL');
-        $this->view->render($this, "index" );
+        $this->view->select = $this->model->select('events', 'teste', 100, 'NOT NULL');
+        $this->view->render($this, "index");
     }
 
-    public function insert()
-    {
+    public function insert() {
 
-        if(! empty($_GET['id'])) {
+        if (!empty($_GET['id'])) {
             $data['start'] = $_GET['start'];
             $data['end'] = $_GET['end'];
             $d = $this->model->insert($data, $_GET['id']);
 //            var_dump($data);
         }
-
     }
-
 
     public function getRest() {
-if(!empty($_POST['id'])) {
+        if (!empty($_POST['id'])) {
 
-         $rest = new ClientRest();
+            $rest = new ClientRest();
 
-         $for = $rest->get("http://localhost:8888/CLINIC/testajax/search/32");
+            $for = $rest->get("http://localhost:8888/CLINIC/testajax/search/32");
 
-         var_dump($for); die;
+            var_dump($for);
+            die;
 
-         foreach ($for as $key => $value) {
-             echo $value->password;
-         }
-
-     }else {
-        echo "string";
-     }
+            foreach ($for as $key => $value) {
+                echo $value->password;
+            }
+        } else {
+            echo "string";
+        }
     }
 
-    public function search($id)
-    {
-                // $this->view->render($this, "serach" );
+    public function search($id) {
+        // $this->view->render($this, "serach" );
 
-       $datas =  $this->model->getUser($id);
+        $datas = $this->model->getUser($id);
 
-       $RestUtilities = RestUtilities::processRequest();
+        $RestUtilities = RestUtilities::processRequest();
 
         $c = $RestUtilities->getMethod();
 
 
-switch ($c) {
-    case 'get':
+        switch ($c) {
+            case 'get':
 
-        return RestUtilities::sendResponse(404, Encodes::encodeJson($datas), "application/Json");
- 
-        break;
-    
-    default:
+                return RestUtilities::sendResponse(404, Encodes::encodeJson($datas), "application/Json");
 
-        break;
-}
+                break;
 
+            default:
 
+                break;
+        }
     }
+
 }

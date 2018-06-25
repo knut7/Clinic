@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -23,158 +23,150 @@
 
 namespace Module\Clinic\Controllers\CTrait;
 
-use Module\Clinic\{
+use Module\Clinic\ {
     Controllers\CTrait\Updates, Lib\PacienteAtendido, Lib\PrintListFuncionario, Lib\Prontuario, Lib\PrintListPacient, Lib\PrintListOfAllPacient, Lib\PrintListPacientPayment, Lib\PrintConsult, Lib\AllProntuario, Lib\Prescricao, Lib\ContasPagas, Lib\ContasAPagar, Lib\ContasAReceber
 };
-use Ballybran\Helpers\{
-    Copyright\Copyright,  Security\Session
-    };
-trait Prints
-{
+use Ballybran\Helpers\ {
+    Copyright\Copyright, Http\Hook, Security\Session
+};
 
- public function pacienteAtendido()
-    {
-     $pdf = new PacienteAtendido();
+trait Prints {
+
+    public function pacienteAtendido() {
+        $pdf = new PacienteAtendido("L", "", "A1");
         $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body();
         $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
-
+        $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
     }
 
-    public function printConsulta()
-    {
+    public function printConsulta() {
         $pdf = new PrintConsult();
         $pdf->getList($this->model->getConsultas());
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body();
         $pdf->Output();
     }
 
-    public function printProntuario($id)
-    {
+    public function printProntuario($id) {
 
-        $pdf = new  Prontuario();
-        $pdf->getId($this->model->getAllInfoForPrint($id));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->AddPage();
-        $pdf->Output();
-        $this->model->logPaciente( Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
+        if (Session::exist()) {
+            if (Session::get('role') == 'medico' || Session::get('role') == 'secretaria') {
 
+                $pdf = new Prontuario('P', 'mm', 'A4');
+                $pdf->getId($this->model->getAllInfoForPrint($id));
+                $pdf->AliasNbPages();
+                $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
+                $pdf->AddPage();
+                $pdf->Output();
+                $this->model->logPaciente(Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
+            }
+            Hook::Header("");
+        }
     }
 
-public function printProntuarios()
-    {
+    public function printProntuarios() {
+        if (Session::exist()) {
+            if (Session::get('role') == 'medico' || Session::get('role') == 'secretaria') {
+                $pdf = new AllProntuario('P', 'mm', 'A4');
 
-        $pdf = new  AllProntuario();
-      
-        $pdf->getId($this->model->getAllProntuarioById(Session::get("ID")));
-        $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
-        $pdf->Output();
-        $this->model->logPaciente( Session::get("U_NAME"), ":: Imprimiu todos os Prontuarios.");
-
+                $pdf->getId($this->model->getAllProntuarioById(Session::get("ID")));
+                $pdf->AliasNbPages();
+                $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
+                $pdf->Output();
+                $this->model->logPaciente(Session::get("U_NAME"), ":: Imprimiu todos os Prontuarios.");
+            }
+            Hook::Header("");
+        }
     }
 
     public function printPrescricao($id) {
 
-        $pdf = new  Prescricao();
+        $pdf = new Prescricao('P', 'mm', 'A4');
         $pdf->getId($this->model->getAllPrescricaoForPrint($id));
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->Output();
-        $this->model->logPaciente( Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
+        $this->model->logPaciente(Session::get("U_NAME"), ":: Imprimiu um Prontuario.");
     }
-    public function printListPaciente()
-    {
 
-        $pdf = new  PrintListPacient();
+    public function printListPaciente() {
+
+        $pdf = new PrintListPacient('P', 'mm', 'A4');
 
         $pdf->getList($this->model->getPacientForAtendimento(Session::get("ID")));
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body();
         $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
-
+        $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes consultados ");
     }
 
-    public function printListPacienteForConsult()
-    {
+    public function printListPacienteForConsult() {
 
-        $pdf = new  PrintListPacient();
+        $pdf = new PrintListPacient('P', 'mm', 'A4');
         $pdf->getList($this->model->getPacientForConsulta(Session::get("ID")));
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body($this->model->getUser(Session::get("ID"))[0]);
         $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes sem Consulta Agendadas.");
-
+        $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lista de Pacientes sem Consulta Agendadas.");
     }
 
-    public function printAllPacient()
-    {
-        $pdf = new  PrintListOfAllPacient();
+    public function printAllPacient() {
+        $pdf = new PrintListOfAllPacient('P', 'mm', 'A4');
         $pdf->getList($this->model->getPacienteSemMedico());
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body();
         $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes sem Consulta Agendadas.");
-
-
+        $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes sem Consulta Agendadas.");
     }
 
-    public function printAllPacientPayment()
-    {
-        $pdf = new  PrintListPacientPayment();
+    public function printAllPacientPayment() {
+        $pdf = new PrintListPacientPayment('P', 'mm', 'A4');
         $pdf->getList($this->model->getAllPaciente());
         $pdf->AliasNbPages();
-        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC" ));
+        $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
         $pdf->AddPage();
         $pdf->body();
         $pdf->Output();
-        $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes com a Consulta paga. ");
-
-
+        $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Pacientes com a Consulta paga. ");
     }
 
-    public function printlistFuncionario()
-    {
-        if(Session::exist() ) {
+    public function printlistFuncionario() {
+        if (Session::exist()) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  PrintListFuncionario();
-                $pdf->getList($this->model->getAllUserAdmin());
+                $pdf = new PrintListFuncionario('P', 'mm', 'A4');
+                $pdf->getList($this->model->getAllMedicos());
                 $pdf->AliasNbPages();
                 $pdf->myFooter(Copyright::copyright(2017, "KUNT CLINIC"));
                 $pdf->AddPage();
                 $pdf->body();
                 $pdf->Output();
 
-                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
+                $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("");
         }
     }
 
-    public function printContasPagas()
-    {
-         if(Session::exist() ) {
+    public function printContasPagas() {
+        if (Session::exist()) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasPagas();
+                $pdf = new ContasPagas('P', 'mm', 'A4');
                 $pdf->getAllContasPagas($this->model->getAllContasPagas());
                 $pdf->totatDeAllContasPagas($this->model->sumAllContasPgas()[0]);
                 $pdf->AliasNbPages();
@@ -183,21 +175,19 @@ public function printProntuarios()
                 $pdf->body();
                 $pdf->Output();
 
-                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
+                $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("");
         }
-
     }
 
-        public function printContasAPagar()
-    {
-         if(Session::exist() ) {
+    public function printContasAPagar() {
+        if (Session::exist()) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasAPagar();
+                $pdf = new ContasAPagar('P', 'mm', 'A4');
                 $pdf->getPagamento($this->model->getAllPagamento());
                 $pdf->totalAllPagamentos($this->model->sumAllPagamento()[0]);
                 $pdf->AliasNbPages();
@@ -206,21 +196,19 @@ public function printProntuarios()
                 $pdf->body();
                 $pdf->Output();
 
-                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
+                $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("");
         }
-
     }
 
-    public function printContasAreber()
-    {
-         if(Session::exist() ) {
+    public function printContasAreber() {
+        if (Session::exist()) {
             if (Session::get('role') == 'owner' || Session::get('role') == 'admin') {
-                $pdf = new  ContasAReceber();
+                $pdf = new ContasAReceber('P', 'mm', 'A4');
                 $pdf->receber($this->model->getContaReceber());
                 $pdf->totalCrebito($this->model->sumTotalContaReceber()[0]);
                 $pdf->totalDebito($this->model->sumTotalDebito()[0]);
@@ -230,14 +218,13 @@ public function printProntuarios()
                 $pdf->body();
                 $pdf->Output();
 
-                $this->model->logAccess( Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
+                $this->model->logAccess(Session::get("U_NAME"), ":: Imprimiu uma lsta de Funcionarios.");
             } else {
                 Hook::Header("account/cpanel");
             }
-        }else {
+        } else {
             Hook::Header("");
         }
-
     }
 
 }

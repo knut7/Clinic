@@ -14,6 +14,7 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
+
 namespace Module\Clinic\Controllers;
 
 use Ballybran\Core\Controller\AbstractController;
@@ -43,46 +44,43 @@ class Faq extends AbstractController {
         if (!empty($_POST['quest']) && !empty($_POST['respo'])) {
             $data['quest'] = $_POST['quest'];
             $data['respo'] = $_POST['respo'];
-
             $this->model->insertFaq($data);
         }
-         $this->view->render($this, 'insertFaq');
+        $this->view->title = "POSTAR FAQ";
+        $this->view->render($this, 'insertFaq');
     }
 
-
-    public function delete( $id )
-    {
-        if( Session::exist() && Session::get('role') == 'owner' || Session::get('role') == 'admin' ) {
+    public function delete($id) {
+        if (Session::exist() && Session::get('role') == 'owner' || Session::get('role') == 'admin') {
 
             $this->model->delete($id);
             Hook::Header('faq');
         }
     }
 
-     public function rest()
-    {
-        
+    public function rest() {
+
         $data = RestUtilities::processRequest();
         $property = $this->insertFaq();
 
 
-       switch ($data->getMethod()) {
-           case 'post':
-               
-               $var = RestUtilities::sendResponse(200, json_encode($property), 'application/json');
+        switch ($data->getMethod()) {
+            case 'post':
 
-               break;
-           
-           default:
-               # code...
-               break;
-       }
+                $var = RestUtilities::sendResponse(200, json_encode($property), 'application/json');
+
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
-     public function getRest(){
+
+    public function getRest() {
 
         $new = new ClientRest();
-        echo $new->post('faq/insertFaq', ['quest'=>763, 'respo'=>10]);
+        echo $new->post('faq/insertFaq', ['quest' => 763, 'respo' => 10]);
     }
-
 
 }

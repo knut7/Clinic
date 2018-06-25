@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -13,7 +14,6 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
 /**
  * Created by PhpStorm.
  * User: macbookpro
@@ -22,7 +22,6 @@
  */
 
 namespace Module\Clinic\Models;
-
 
 use Ballybran\Database\Drives\AbstractDatabaseInterface;
 
@@ -33,31 +32,24 @@ class TestAjaxModel {
      */
     private $database;
 
-    public function __construct(AbstractDatabaseInterface $database)
-    {
+    public function __construct(AbstractDatabaseInterface $database) {
         $this->database = $database;
     }
 
-    public function getUser($id)
-    {
+    public function getUser($id) {
         return $this->database->selectManager("SELECT * FROM usuarios where id=$id");
     }
 
-    public function Backup()
-    {
+    public function Backup() {
         return $this->database->Backup("test.sql");
     }
 
-    public function select($table, $column, $varchar, $null)
-    {
+    public function select($table, $column, $varchar, $null) {
         return $this->database->colum($table, $column, $varchar, $null);
     }
 
-
-
-    public function insert($data, $id)
-    {
-         $this->database->update('events', $data, "id=$id");
-
+    public function insert($data, $id) {
+        $this->database->update('events', $data, "id=$id");
     }
+
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * KNUT7 K7F (http://framework.artphoweb.com/)
  * KNUT7 K7F (tm) : Rapid Development Framework (http://framework.artphoweb.com/)
@@ -15,490 +14,516 @@
  * @author    Marcio Zebedeu - artphoweb@artphoweb.com
  * @version   1.0.2
  */
-
-use Ballybran\Helpers\Security\Session;
-
-
 use Ballybran\Library\Form;
 
-Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
-
-
+\Module\Clinic\Lib\menu\Sub_Menu::getSubMenu();
 
 $register = \Ballybran\Database\RegistryDatabase::getInstance();
-$stmt =  $register->get("PDO");
+$stmt = $register->get("PDO");
 $prontuario = "";
 ?>
 
-    <div class="col-lg-12 col-sm-6">
-        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                    <div class="hidden-xs">Painel</div>
-                </div>
-            </div>
-            <div class="btn-group" role="group">
-                <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
-                    <div class="hidden-xs">Contas a Receber</div>
-                </div>
-            </div>
-            <div class="btn-group" role="group">
-                <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <div class="hidden-xs">Contas a Pagar</div>
-                </div>
-            </div>
-            <div class="btn-group" role="group">
-                <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
-                    <div class="hidden-xs">Contas Pagas</div>
-                </div>
-            </div>
-            <div class="btn-group" role="group">
-                <div  id="favorites" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    <div class="hidden-xs">Historico</div>
-                </div>
+<div class="col-lg-12 col-sm-6">
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div class="hidden-xs">Painel</div>
             </div>
         </div>
-
-        <div class="panel panel-info col-lg-12">
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="tab1">
-                    <br><br>
-
-                </div>
-
-                <div class="tab-pane fade in" id="tab2">
-                    <br><br>
-                            <h1>Conta a Receber</h1>
-                                                    <a target="_blanck" class="btn btn-primary" href="<?php echo URL;?>finance/printContasAreber">Relactório</a>
-
-
-                    <table class="table table-hover table-inverse">
-            <thead>
-            <tr class="p-3 mb-2 bg-success text-white">
-                <th>Cliente</th>
-                <!-- <th>Descrição</th> -->
-                <th>T. de Conta</th>
-                <th>Categoria</th>
-                <th>Valor a Pagar</th>
-                <th>Data de Pagamento</th>
-                <!-- <th>Data de vencimento</th> -->
-                <th>Stuacão</th>
-                <th>F. de Pagamento</th>
-                <th>Valor pago</th>
-                <th>Em Falta</th>
-            </tr>
-        
-            </thead>
-            <tbody>
-            <?php
-            foreach ($this->receber as $item => $value) {?>
-                <tr>
-
-                    <td>
-                        <?php echo $value['firstname'] . "\t" .$value['lastname']; ?>
-                    </td>
-               <!--      <td>
-                        <?php echo $value['historico']; ?>
-                    </td> -->
-
-                    <td>
-                        <?php echo $value['Cnome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['TRNome'] . '\\'. \Ballybran\Helpers\Ucfirst::abbreviate($value['espNome']); ?>
-                    </td>
-                    <td>
-                        <?php echo $value['espValor'] ."\t Kz"; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['dtPag']; ?>
-                    </td>
-                  <!--   <td>
-                        <?php echo $value['tdVenc']; ?>
-                    </td> -->
-                    <td>
-                        <?php echo $value['situ_nome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['FPnome']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['CreditoValor']. "\t Kz"; ?>
-                    </td>
-                    <?php
-                    $totaEmFalta =  $value['espValor'] - $value['CreditoValor'];
-                     if($totaEmFalta > 0) {?>
-                    <td class="btn-danger text-white">
-                        <?php echo $totaEmFalta  . "\t Kz";?>
-                    </td>
-                    <?php } else {?>
-                    <td class="btn-success text-white">
-                        <?php echo $totaEmFalta  . "\t Kz";?>
-                    </td>
-                    <?php } ?>
-                </tr>
-               
-
-            <?php }  ?>
-                 <tr class="p-3 mb-2 bg-success text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total Credito</td>
-                     <td><?php echo $this->totalCrebito['total'] . "\t Kz"; ?>     </td>
-                </tr>
-                <tr class="p-3 mb-2 bg-danger text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total Debito</td>
-                     <td>-<?php echo $this->totalDebito['total'] . "\t Kz"; ?>     </td>
-                </tr>
-
-                <?php
-                $totalFinal = $this->totalCrebito['total'] - $this->totalDebito['total'];
-
-                 if($totalFinal >= 0) {?>
-                 <tr class="p-3 mb-2 btn-success text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total </td>
-                     <td><?php echo $totalFinal . "\t Kz"; ?> </td>
-                </tr>
-                <?php } else {?>
-                 <tr class="p-3 mb-2 btn-danger text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total Debito</td>
-                     <td><?php echo $totalFinal . "\t Kz"; ?> </td>
-                </tr>
-                <?php
-
-                 }?>
-            </tbody>
-        </table>
-                    
-
-                  
-                </div><!-- pane-tabe 2 -->
-
-
-              
-                <div class="tab-pane fade in" id="tab3">
-                    <br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Debito</button>
-
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegistrarContaApagar" data-whatever="@fat">Registrar Contas a Pagar</button>
-
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegistrarTipoDespesa" data-whatever="@fat">Registrar Tipo de Despesa</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pagar Serviços / Debito</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="btn-group" role="group">
+            <div  id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="icon icon fa-user" aria-hidden="true"></span>
+                <div class="hidden-xs">Contas a Receber</div>
             </div>
-            <div class="modal-body">
-
-                <?php
-                echo Form::open(['method'=>'post', 'action'=> URL . 'finance/debitar', 'style'=>'float:left; width:100%;' ] );
-                ?>
-                <div class="form-group">
-                <?php
-                echo Form::input(['type'=> 'date', 'name'=>'dtPag', 'id'=> 'datetimepicker', 'placeholder'=>'yyy/mm/dd/', 'class'=>'form-control']);
-                ?>
-                </div>
-              
-                <div class="form-group">
-                <select class="form-control" name="ContaMovimento_id" id="exampleFormControlSelect2">
-                    <?php foreach ($this->moviento as $key => $value) { ?>
-                        <option value="<?php echo $value['id']?>"><?php echo $value['Cnome']?></option>
-                    <?php } ?>
-                </select>
-                </div>
-                <div class="form-group">
-
-                <select class="form-control" name="FormaPagamento_id" id="exampleFormControlSelect1">
-                    <?php foreach ($this->formaPagamento as $key => $value) { ?>
-
-                        <option value="<?php echo $value['id']?>"><?php echo $value['FPnome']?></option>
-                    <?php } ?>
-                </select>
-                </div>
-                <div class="form-group">
-
-                <select class="form-control" name="Pagar_id" id="exampleFormControlSelect1">
-                    <?php foreach ($this->pagar as $key => $value) { ?>
-
-                        <option value="<?php echo $value['id']?>"><?php echo $value['historico']?></option>
-                    <?php } ?>
-                </select>
-                </div>
-                 <div class="form-group">
-
-                <input type="hidden"  class="form-control" name="situacao" value="FECHADO" id="exampleFormControlSelect1">
-                </div>
-                <br>
-
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <div class="hidden-xs">Contas a Pagar</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <?php
-
-                echo Form::button(['type'=> 'submit', 'value'=> 'Debito', 'style'=> 'margin-left:30%;']);
-                echo Form::close();
-                ?>
-
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="stars" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="icon icon fa-cog" aria-hidden="true"></span>
+                <div class="hidden-xs">Contas Pagas</div>
+            </div>
+        </div>
+        <div class="btn-group" role="group">
+            <div  id="favorites" class="btn btn-default" href="#tab5" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <div class="hidden-xs">Historico</div>
             </div>
         </div>
     </div>
+
+    <div class="panel panel-info col-lg-12">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <br><br>
+
+            </div>
+
+            <div class="tab-pane fade in" id="tab2">
+                <br><br>
+                <h1>Conta a Receber</h1>
+                <a target="_blanck" class="btn btn-primary" href="<?php echo URL; ?>finance/printContasAreber">Relactório</a>
+
+
+                <table class="table table-hover table-inverse">
+                    <thead>
+                        <tr class="p-3 mb-2 bg-success text-white">
+                            <th>Cliente</th>
+                            <!-- <th>Descrição</th> -->
+                            <th>T. de Conta</th>
+                            <th>Categoria</th>
+                            <th>Valor a Pagar</th>
+                            <th>Data de Pagamento</th>
+                            <!-- <th>Data de vencimento</th> -->
+                            <th>Stuacão</th>
+                            <th>F. de Pagamento</th>
+                            <th>Valor pago</th>
+                            <th>Em Falta</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->receber as $item => $value) { ?>
+                            <tr>
+
+                                <td>
+                                    <?php echo $value['firstname'] . "\t" . $value['lastname']; ?>
+                                </td>
+                           <!--      <td>
+                                <?php echo $value['historico']; ?>
+                                </td> -->
+
+                                <td>
+                                    <?php echo $value['Cnome']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['TRNome'] . '\\' . \Ballybran\Helpers\Ucfirst::abbreviate($value['espNome']); ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['espValor'] . "\t Kz"; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['dtPag']; ?>
+                                </td>
+                              <!--   <td>
+                                <?php echo $value['tdVenc']; ?>
+                                </td> -->
+                                <td>
+                                    <?php echo $value['situ_nome']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['FPnome']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['CreditoValor'] . "\t Kz"; ?>
+                                </td>
+                                <?php
+                                $totaEmFalta = $value['espValor'] - $value['CreditoValor'];
+                                if ($totaEmFalta > 0) {
+                                    ?>
+                                    <td class="btn-danger text-white">
+                                        <?php echo $totaEmFalta . "\t Kz"; ?>
+                                    </td>
+                                <?php } else { ?>
+                                    <td class="btn-success text-white">
+                                        <?php echo $totaEmFalta . "\t Kz"; ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+
+
+                        <?php } ?>
+                        <tr class="p-3 mb-2 bg-success text-white">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>total Credito</td>
+                            <td><?php echo $this->totalCrebito['total'] . "\t Kz"; ?>     </td>
+                        </tr>
+                        <tr class="p-3 mb-2 bg-danger text-white">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>total Debito</td>
+                            <td>-<?php echo $this->totalDebito['total'] . "\t Kz"; ?>     </td>
+                        </tr>
+
+                        <?php
+                        $totalFinal = $this->totalCrebito['total'] - $this->totalDebito['total'];
+
+                        if ($totalFinal >= 0) {
+                            ?>
+                            <tr class="p-3 mb-2 btn-success text-white">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>total </td>
+                                <td><?php echo $totalFinal . "\t Kz"; ?> </td>
+                            </tr>
+                        <?php } else { ?>
+                            <tr class="p-3 mb-2 btn-danger text-white">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>total Debito</td>
+                                <td><?php echo $totalFinal . "\t Kz"; ?> </td>
+                            </tr>
+                        <?php }
+                        ?>
+                    </tbody>
+                </table>
+
+
+
+            </div><!-- pane-tabe 2 -->
+
+
+
+            <div class="tab-pane fade in" id="tab3">
+                <br>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Debito</button>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegistrarContaApagar" data-whatever="@fat">Registrar Contas a Pagar</button>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegistrarTipoDespesa" data-whatever="@fat">Registrar Tipo de Despesa</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegistrarBanco" data-whatever="@fat">Registrar Banco</button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Pagar Serviços / Debito</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <?php
+                                echo Form::open(['method' => 'post', 'action' => URL . 'finance/debitar', 'style' => 'float:left; width:100%;']);
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'date', 'name' => 'dtPag', 'id' => 'datetimepicker', 'placeholder' => 'yyy/mm/dd/', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="form-control" name="ContaMovimento_id" id="exampleFormControlSelect2">
+                                        <?php foreach ($this->moviento as $key => $value) { ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['Cnome'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <select class="form-control" name="FormaPagamento_id" id="exampleFormControlSelect1">
+                                        <?php foreach ($this->formaPagamento as $key => $value) { ?>
+
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['FPnome'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <select class="form-control" name="Pagar_id" id="exampleFormControlSelect1">
+                                        <?php foreach ($this->pagar as $key => $value) { ?>
+
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['historico'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <input type="hidden"  class="form-control" name="situacao" value="FECHADO" id="exampleFormControlSelect1">
+                                </div>
+                                <br>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <?php
+                                echo Form::button(['type' => 'submit', 'value' => 'Debito', 'style' => 'margin-left:30%;']);
+                                echo Form::close();
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="modal fade" id="RegistrarContaApagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Contas a Pagar </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <?php
+                                echo Form::open(['method' => 'post', 'action' => URL . 'finance/contApagar', 'style' => 'float:left; width:100%;']);
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'date', 'name' => 'dt_Venc', 'id' => 'datetimepicker2', 'placeholder' => 'yyy/mm/dd/', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'text', 'name' => 'historico', 'placeholder' => 'Historico', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'text', 'name' => 'valor', 'placeholder' => 'valor', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="TipoDespesa_id" id="exampleFormControlSelect2">
+                                        <?php foreach ($this->typeDesp as $key => $value) { ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['Dnome'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <select class="form-control" name="situacao" id="exampleFormControlSelect1">
+
+                                        <option value="ABERTO">Aberto</option>
+                                        <option value="FECHADO">Fechado</option>
+                                    </select>
+                                </div>
+
+                                <br>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <?php
+                                echo Form::button(['type' => 'submit', 'value' => 'Debito', 'style' => 'margin-left:30%;']);
+                                echo Form::close();
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="RegistrarTipoDespesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Cadastrar um Tipo de Despesa</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <?php
+                                echo Form::open(['method' => 'post', 'action' => URL . 'finance/tipoDeDespesa', 'style' => 'float:left; width:100%;']);
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'text', 'name' => 'Dnome', 'placeholder' => 'Tipo de Despesa', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+                                <br>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <?php
+                                echo Form::button(['type' => 'submit', 'value' => 'Debito', 'style' => 'margin-left:30%;']);
+                                echo Form::close();
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="RegistrarBanco" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Cadastrar Banco</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <?php
+                                echo Form::open(['method' => 'post', 'action' => URL . 'finance/criarbanco', 'style' => 'float:left; width:100%;']);
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    echo Form::input(['type' => 'text', 'name' => 'Cnome', 'class' => 'form-control']);
+                                    ?>
+                                </div>
+
+                                <br>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <?php
+                                echo Form::button(['type' => 'submit', 'value' => 'Debito', 'style' => 'margin-left:30%;']);
+                                echo Form::close();
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h1>Conta a Pagar</h1>
+                <a target="_blanck"  class="btn btn-primary" href="<?php echo URL; ?>finance/printContasapagar">Relactório</a>
+
+                <table class="table table-responsive ">
+                    <thead>
+                        <tr>
+                            <th>Data De pagamento</th>
+                            <th>Valor</th>
+                            <th>Historico</th>
+                            <th>Stuacão</th>
+                            <th>Tipo de Despesa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->getPagamento as $item => $value) { ?>
+                            <tr>
+
+                                <td>
+                                    <?php echo $value['dt_Venc']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['valor'] . "\t Kz"; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $value['historico']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['situacao']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['Dnome']; ?>
+                                </td>
+                            </tr>
+
+                        <?php } ?>
+
+                        <?php if ($this->totalAllPagamentos['total'] <= 0) { ?>
+                            <tr class="p-3 mb-2 bg-success text-white">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>total</td>
+                                <td><?php echo $this->totalAllPagamentos['total'] . "\t Kz"; ?>     </td>
+                            </tr>
+                        <?php } else { ?>
+                            <tr class="p-3 mb-2 bg-danger text-white">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>total</td>
+                                <td><?php echo $this->totalAllPagamentos['total'] . "\t Kz"; ?>     </td>
+                            <?php } ?>
+                    </tbody>
+
+                </table>
+
+
+            </div><!-- tabe-pane 3 -->
+
+
+            <div class="tab-pane fade in" id="tab4">
+
+                <br>
+
+                <a target="_blanck" class="btn btn-primary" href="<?php echo URL; ?>finance/printcontaspagas">Relactório</a>
+                <h1>Conta Pagas</h1>
+                <table class="table table-responsive ">
+                    <thead>
+                        <tr>
+                            <th>Data De pagamento</th>
+                            <th>Valor</th>
+                            <th>Historico</th>
+                            <th>Stuacão</th>
+                            <th>Tipo de Despesa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->contasPagas as $item => $value) { ?>
+                            <tr>
+
+                                <td>
+                                    <?php echo $value['dt_Venc']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['valor'] . "\t Kz"; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $value['historico']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['situacao']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $value['Dnome']; ?>
+                                </td>
+                            </tr>
+
+                        <?php } ?>
+                        <tr class="p-3 mb-2 bg-danger text-white">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>total</td>
+                            <td><?php echo $this->totatDeAllContasPagas['total'] . "\t Kz"; ?>     </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div><!-- Pane tble 4 -->
+
+            <div class="tab-pane fade in" id="tab5">
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
-
-                   
-
-<div class="modal fade" id="RegistrarContaApagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Contas a Pagar </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <?php
-                echo Form::open(['method'=>'post', 'action'=> URL . 'finance/contApagar', 'style'=>'float:left; width:100%;' ] );
-                ?>
-                <div class="form-group">
-                <?php
-                echo Form::input(['type'=> 'date', 'name'=>'dt_Venc', 'id'=> 'datetimepicker2', 'placeholder'=>'yyy/mm/dd/', 'class'=>'form-control']);
-                ?>
-                </div>
-            
-                  <div class="form-group">
-                    <?php
-                echo Form::input(['type'=> 'text', 'name'=>'historico','placeholder'=>'Historico', 'class'=>'form-control']);
-                ?>
-                </div>
-                  <div class="form-group">
-                    <?php
-                echo Form::input(['type'=> 'text', 'name'=>'valor','placeholder'=>'valor', 'class'=>'form-control']);
-                ?>
-                </div>
-                <div class="form-group">
-                <select class="form-control" name="TipoDespesa_id" id="exampleFormControlSelect2">
-                    <?php foreach ($this->typeDesp as $key => $value) { ?>
-                        <option value="<?php echo $value['id']?>"><?php echo $value['Dnome']?></option>
-                    <?php } ?>
-                </select>
-                </div>
-                <div class="form-group">
-
-                <select class="form-control" name="situacao" id="exampleFormControlSelect1">
-
-                        <option value="ABERTO">Aberto</option>
-                        <option value="FECHADO">Fechado</option>
-                </select>
-                </div>
-            
-                <br>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <?php
-
-                echo Form::button(['type'=> 'submit', 'value'=> 'Debito', 'style'=> 'margin-left:30%;']);
-                echo Form::close();
-                ?>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="RegistrarTipoDespesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cadastrar um Tipo de Despesa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <?php
-                echo Form::open(['method'=>'post', 'action'=> URL . 'finance/tipoDeDespesa', 'style'=>'float:left; width:100%;' ] );
-                ?>
-                <div class="form-group">
-                    <?php
-                echo Form::input(['type'=> 'text', 'name'=>'Dnome','placeholder'=>'Tipo de Despesa', 'class'=>'form-control']);
-                ?>
-                </div>
-                <br>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <?php
-
-                echo Form::button(['type'=> 'submit', 'value'=> 'Debito', 'style'=> 'margin-left:30%;']);
-                echo Form::close();
-                ?>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-        <h1>Conta a Pagar</h1>
-                        <a target="_blanck"  class="btn btn-primary" href="<?php echo URL;?>finance/printContasapagar">Relactório</a>
-
-            <table class="table table-responsive ">
-                <thead>
-                <tr>
-                    <th>Data De pagamento</th>
-                    <th>Valor</th>
-                    <th>Historico</th>
-                    <th>Stuacão</th>
-                    <th>Tipo de Despesa</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($this->getPagamento as $item => $value) {?>
-                <tr>
-
-                    <td>
-                        <?php echo $value['dt_Venc']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['valor'] . "\t Kz";?>
-                    </td>
-                  
-                    <td>
-                        <?php echo $value['historico']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['situacao']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['Dnome']; ?>
-                    </td>
-                </tr>
-
-                <?php }  ?>
-
-                <?php if($this->totalAllPagamentos['total'] <= 0 ){ ?>
-                 <tr class="p-3 mb-2 bg-success text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total</td>
-                     <td><?php echo $this->totalAllPagamentos['total'] . "\t Kz"; ?>     </td>
-                </tr>
-            <?php }else {?>
-              <tr class="p-3 mb-2 bg-danger text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total</td>
-                     <td><?php echo $this->totalAllPagamentos['total'] . "\t Kz"; ?>     </td>
-            <?php } ?>
-                </tbody>
-            
-            </table>
-                   
-                    
-                </div><!-- tabe-pane 3 -->
-
-
-                <div class="tab-pane fade in" id="tab4">
-
-                <br>
-
-                <a target="_blanck" class="btn btn-primary" href="<?php echo URL;?>finance/printcontaspagas">Relactório</a>
-        <h1>Conta Pagas</h1>
-            <table class="table table-responsive ">
-                <thead>
-                <tr>
-                    <th>Data De pagamento</th>
-                    <th>Valor</th>
-                    <th>Historico</th>
-                    <th>Stuacão</th>
-                    <th>Tipo de Despesa</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($this->contasPagas as $item => $value) {?>
-                <tr>
-
-                    <td>
-                        <?php echo $value['dt_Venc']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['valor'] . "\t Kz";?>
-                    </td>
-                   
-                    <td>
-                        <?php echo $value['historico']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['situacao']; ?>
-                    </td>
-                    <td>
-                        <?php echo $value['Dnome']; ?>
-                    </td>
-                </tr>
-
-                <?php }  ?>
-                 <tr class="p-3 mb-2 bg-danger text-white">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>total</td>
-                     <td><?php echo $this->totatDeAllContasPagas['total'] . "\t Kz"; ?>     </td>
-                </tr>
-                </tbody>
-            </table>
-
-                </div><!-- Pane tble 4 -->
-
-                <div class="tab-pane fade in" id="tab5">
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
 </div>
 
 <script>
@@ -506,15 +531,13 @@ $prontuario = "";
     jQuery.datetimepicker.setLocale('pt');
 
     jQuery('#datetimepicker').datetimepicker({
-
     });
     jQuery('#datetimepicker2').datetimepicker({
-
     });
-              </script>
+</script>
 
 
 
 
-        
+
 

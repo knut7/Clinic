@@ -25,12 +25,11 @@ use Ballybran\Database\Drives\AbstractDatabaseInterface;
  * Date: 2016/06/22
  * Time: 3:13 PM
  */
-
 class ProfileModel {
 
     private $entity;
 
-    public function __construct( AbstractDatabaseInterface $entity) {
+    public function __construct(AbstractDatabaseInterface $entity) {
 
         $this->entity = $entity;
     }

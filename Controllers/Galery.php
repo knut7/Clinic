@@ -29,8 +29,6 @@ use Module\Upload\ImageUpload;
  * Date: 2016/02/18
  * Time: 7:20 AM
  */
-
-
 class Galery extends AbstractController {
 
     private $files;
@@ -58,8 +56,7 @@ class Galery extends AbstractController {
         $this->view->render($this, 'index');
     }
 
-    public function getImage()
-    {
+    public function getImage() {
 
         if (!empty($_POST['legenda']) && !empty($_POST['quality']) && !empty($_POST['color']) && !empty($_POST['degree'])) {
 
@@ -88,7 +85,6 @@ class Galery extends AbstractController {
             $data['name'] = $image->getName();
             $data['legenda'] = $_POST['legenda'];
             $this->model->insertImage($data);
-
         }
         $this->view->render($this, 'getImage');
     }
